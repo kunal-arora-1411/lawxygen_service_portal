@@ -1,0 +1,285 @@
+.title {
+  font-size: 23px;
+  font-weight: 650;
+  margin: 0 0 3px;
+  letter-spacing: -0.02em;
+}
+
+.sub {
+  color: var(--ink-soft);
+  font-size: 14px;
+  margin: 0 0 22px;
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(168px, 1fr));
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.tile {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 15px;
+}
+
+.tileValue {
+  font-size: 23px;
+  font-weight: 660;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.tileLabel {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-top: 2px;
+}
+
+.warn {
+  border-color: #f0c9a8;
+  background: #fff8f1;
+}
+
+.warn .tileValue {
+  color: #c05621;
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 12px;
+}
+
+.banner {
+  background: #fff8e8;
+  border: 1px solid #f6e3b8;
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 22px;
+  font-size: 14px;
+  color: #7a5a12;
+}
+
+.banner strong {
+  display: block;
+  margin-bottom: 3px;
+}
+
+/* ------------------------------------------------------------------- table */
+
+.tableWrap {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.table th {
+  text-align: left;
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-faint);
+  font-weight: 600;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+
+.table tr:last-child td {
+  border-bottom: 0;
+}
+
+.table tbody tr:hover {
+  background: var(--canvas);
+}
+
+.numeric {
+  font-variant-numeric: tabular-nums;
+}
+
+.muted {
+  color: var(--ink-faint);
+}
+
+.serviceName {
+  font-weight: 550;
+}
+
+.serviceMeta {
+  font-size: 12px;
+  color: var(--ink-faint);
+  margin-top: 1px;
+}
+
+/* ------------------------------------------------------------------ inputs */
+
+.controls {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+  align-items: center;
+}
+
+.search {
+  flex: 1;
+  min-width: 200px;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  font-size: 14.5px;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.select {
+  padding: 9px 11px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  font-size: 14px;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.button {
+  padding: 9px 16px;
+  border: 0;
+  border-radius: 9px;
+  background: var(--brand);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 550;
+}
+
+.button:hover:not(:disabled) {
+  background: #2568c4;
+}
+
+.button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.ghost {
+  padding: 7px 13px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink-soft);
+  font-size: 13px;
+}
+
+.ghost:hover:not(:disabled) {
+  background: var(--canvas);
+  color: var(--ink);
+}
+
+.ghost:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.danger {
+  color: #c53030;
+  border-color: #f0bcbc;
+}
+
+.danger:hover:not(:disabled) {
+  background: #fdeaea;
+  color: #9b2c2c;
+}
+
+.priceInput {
+  width: 96px;
+  padding: 6px 9px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.dayInput {
+  width: 62px;
+}
+
+.priceInput[aria-invalid="true"] {
+  border-color: #c53030;
+  background: #fdeaea;
+}
+
+/* ------------------------------------------------------------------ badges */
+
+.badge {
+  font-size: 11.5px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  white-space: nowrap;
+  font-weight: 550;
+}
+
+.live {
+  background: var(--done-soft);
+  color: var(--done);
+}
+
+.draft {
+  background: var(--closed-soft);
+  color: var(--closed);
+}
+
+.pending {
+  background: var(--pending-soft);
+  color: var(--pending);
+}
+
+.active {
+  background: var(--active-soft);
+  color: var(--active);
+}
+
+.alert {
+  background: #fdeaea;
+  color: #9b2c2c;
+}
+
+.rowError {
+  font-size: 12px;
+  color: #c53030;
+  margin-top: 3px;
+}
+
+.empty {
+  padding: 34px;
+  text-align: center;
+  color: var(--ink-soft);
+}
+
+.actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.more {
+  margin-top: 18px;
+  text-align: center;
+}

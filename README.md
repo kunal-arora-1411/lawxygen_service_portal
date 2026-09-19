@@ -81,3 +81,36 @@ focus anywhere inside, has an explicit pause control, and does not start at all 
 **ESLint uses the flat configs `eslint-config-next` exports directly.** Routing them
 through `FlatCompat`, which most guides still show, crashes with a circular-structure
 error on v16.
+
+## Admin console
+
+`/admin`, gated on the `admin` role. Its own dark shell, deliberately: someone with an
+admin role can see both surfaces, and "which side am I on" should never be a question
+when the actions change other people's money.
+
+| Route                  |                                                                                 |
+| ---------------------- | ------------------------------------------------------------------------------- |
+| `/admin`               | Overview, and the banner naming whatever is currently blocking the marketplace. |
+| `/admin/services`      | Price, publish, feature. Defaults to the unpriced rows.                         |
+| `/admin/professionals` | Verify, suspend, and why someone is not receiving work.                         |
+| `/admin/orders`        | Internal status, with reassignment.                                             |
+
+**Prices are typed in whole rupees and sent as integer paise.** `rupeesToPaise` converts
+against a digits-only string. A decimal input would put a float between the operator and
+the ledger, and money that has been through a float can be a paisa out.
+
+**Saving and publishing are separate actions.** Setting a price should not silently put
+something on sale.
+
+**The overview names the current blocker rather than only reporting numbers.** Nothing
+priced and nobody available are the two states that stop the platform working at all,
+and each has a link to where it is fixed. They advance: pricing the first service
+replaces "Nothing is on sale" with "No professional is available".
+
+**Admin sees internal statuses, the client sees labels.** `awaiting_assignment` and
+`assignment_escalated` both read as "Matching you with a professional" to a client and
+mean different things to operations.
+
+**The eligibility column restates exactly what the assignment engine checks** — verified,
+available, has a payout identity, has categories — so "why is this person getting no
+work" is answerable without reading the engine.

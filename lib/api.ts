@@ -208,3 +208,81 @@ export function orderTone(status: OrderStatus): "pending" | "active" | "done" | 
       return "active";
   }
 }
+
+// ---------------------------------------------------------------------------
+// Admin resources
+// ---------------------------------------------------------------------------
+
+export type AdminService = {
+  id: string;
+  slug: string;
+  title: string;
+  summary: string | null;
+  categorySlug: string;
+  categoryLabel: string;
+  fulfilmentType: "service" | "consultation";
+  /** Null until priced. The database refuses to publish a service while it is. */
+  pricePaise: number | null;
+  currency: string;
+  turnaroundDays: number | null;
+  active: boolean;
+  featured: boolean;
+};
+
+export type AdminProfessional = {
+  id: string;
+  displayName: string;
+  kind: string;
+  status: "draft" | "pending_review" | "verified" | "suspended" | "rejected";
+  available: boolean;
+  city: string | null;
+  email: string | null;
+  phone: string | null;
+  categories: string[];
+  concurrentCapacity: number;
+  openMatters: number;
+  /** Without one the assignment engine skips them, however verified they are. */
+  hasPayoutIdentity: boolean;
+  createdAt: string;
+};
+
+export type AdminOrder = {
+  reference: string;
+  status: OrderStatus;
+  serviceTitle: string;
+  categorySlug: string;
+  pricePaise: number;
+  currency: string;
+  createdAt: string;
+  clientName: string | null;
+  clientEmail: string | null;
+  professionalName: string | null;
+  acknowledgeBy: string | null;
+  /** Decided by the database's clock, not by comparing against Date.now() in render. */
+  acknowledgeOverdue: boolean;
+};
+
+export type AdminOverview = {
+  orders: { total: number; today: number; awaitingAssignment: number; escalated: number };
+  revenuePaise: { today: number; allTime: number };
+  professionals: { verified: number; pendingReview: number; available: number };
+  catalogue: { total: number; priced: number; live: number; featured: number };
+  queue: { awaiting: number; escalated: number };
+};
+
+/**
+ * Rupees in, paise out.
+ *
+ * Admin types whole rupees; the API only ever accepts integer paise. The conversion
+ * happens here, on a string validated as digits, so no decimal and no float is ever
+ * involved in deciding what something costs.
+ */
+export function rupeesToPaise(input: string): number | null {
+  const trimmed = input.trim().replace(/,/g, "");
+  if (!/^\d+$/.test(trimmed)) return null;
+  return Number(trimmed) * 100;
+}
+
+export function paiseToRupees(paise: number | null): string {
+  return paise === null ? "" : String(Math.floor(paise / 100));
+}
