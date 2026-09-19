@@ -286,3 +286,63 @@ export function rupeesToPaise(input: string): number | null {
 export function paiseToRupees(paise: number | null): string {
   return paise === null ? "" : String(Math.floor(paise / 100));
 }
+
+// ---------------------------------------------------------------------------
+// Professional resources
+// ---------------------------------------------------------------------------
+
+export type MatterStatus =
+  | "assigned"
+  | "acknowledged"
+  | "in_progress"
+  | "awaiting_client"
+  | "completed"
+  | "declined"
+  | "revoked"
+  | "escalated";
+
+export type Matter = {
+  assignmentId: string;
+  status: MatterStatus;
+  reference: string;
+  serviceTitle: string;
+  categorySlug: string;
+  /** Null once acknowledged. Past means the sweep will escalate it. */
+  acknowledgeBy: string | null;
+  acknowledgedAt: string | null;
+  createdAt: string;
+  /** Decided by the database clock, not by comparing against Date.now() in render. */
+  acknowledgeOverdue: boolean;
+  /** Released only once the matter is theirs — contact happens off-platform. */
+  client: { name: string | null; email: string | null; phone: string | null } | null;
+};
+
+export type ProLoad = {
+  open: number;
+  capacity: number;
+  available: boolean;
+  status: "draft" | "pending_review" | "verified" | "suspended" | "rejected";
+};
+
+export type Earnings = {
+  /** Attributed in the ledger and not yet paid out. */
+  pendingPaise: number;
+  paidPaise: number;
+  matters: { completed: number; open: number };
+};
+
+export const MATTER_LABELS: Record<MatterStatus, string> = {
+  assigned: "Needs your confirmation",
+  acknowledged: "Confirmed",
+  in_progress: "In progress",
+  awaiting_client: "Waiting on the client",
+  completed: "Completed",
+  declined: "Declined",
+  revoked: "Taken back by admin",
+  escalated: "Escalated — not confirmed in time",
+};
+
+/** Whether this matter still occupies one of the professional's concurrent slots. */
+export function isOpenMatter(status: MatterStatus): boolean {
+  return ["assigned", "acknowledged", "in_progress", "awaiting_client"].includes(status);
+}

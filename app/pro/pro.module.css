@@ -1,0 +1,345 @@
+.shell {
+  min-height: 100vh;
+}
+
+/* A third identity. Client is light blue, ops is dark, this is teal — somebody who
+   holds more than one role should never have to work out which side they are on. */
+.topbar {
+  background: #0f3b36;
+  color: #d7ece8;
+  height: var(--topbar-height);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 20px;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.mark {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: #15b87a;
+  color: #06231f;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.roleBadge {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: #1b5750;
+  color: #9fd9cd;
+  padding: 2px 7px;
+  border-radius: 5px;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.who {
+  font-size: 13.5px;
+  color: #9fd9cd;
+}
+
+.exit {
+  font-size: 13px;
+  color: #9fd9cd;
+}
+
+.exit:hover {
+  color: #fff;
+}
+
+.main {
+  padding: 26px 28px 64px;
+  max-width: 1080px;
+}
+
+@media (max-width: 720px) {
+  .main {
+    padding: 18px 16px 56px;
+  }
+  .who {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------- availability */
+
+.availability {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 15px 17px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.availabilityBody {
+  flex: 1;
+  min-width: 200px;
+}
+
+.availabilityTitle {
+  font-weight: 570;
+  margin-bottom: 2px;
+}
+
+.availabilityNote {
+  font-size: 13px;
+  color: var(--ink-faint);
+}
+
+.toggle {
+  border: 0;
+  border-radius: 999px;
+  padding: 9px 18px;
+  font-size: 14px;
+  font-weight: 560;
+  color: #fff;
+  background: #15b87a;
+}
+
+.toggle[data-off="true"] {
+  background: var(--ink-faint);
+}
+
+.toggle:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* -------------------------------------------------------------------- tiles */
+
+.title {
+  font-size: 23px;
+  font-weight: 650;
+  margin: 0 0 3px;
+  letter-spacing: -0.02em;
+}
+
+.sub {
+  color: var(--ink-soft);
+  font-size: 14px;
+  margin: 0 0 20px;
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.tile {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 15px;
+}
+
+.tileValue {
+  font-size: 23px;
+  font-weight: 660;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.tileLabel {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-top: 2px;
+}
+
+/* ------------------------------------------------------------------ matters */
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 12px;
+}
+
+.matters {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  margin-bottom: 30px;
+}
+
+.matter {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px 17px;
+}
+
+.needsAction {
+  border-color: #f0c9a8;
+  background: #fffcf7;
+}
+
+.matterHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.matterName {
+  font-size: 15.5px;
+  font-weight: 570;
+  margin: 0 0 2px;
+}
+
+.matterMeta {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.status {
+  font-size: 12px;
+  padding: 4px 11px;
+  border-radius: 999px;
+  font-weight: 550;
+  white-space: nowrap;
+}
+
+.toneNew {
+  background: var(--pending-soft);
+  color: var(--pending);
+}
+
+.toneActive {
+  background: var(--active-soft);
+  color: var(--active);
+}
+
+.toneDone {
+  background: var(--done-soft);
+  color: var(--done);
+}
+
+.toneClosed {
+  background: var(--closed-soft);
+  color: var(--closed);
+}
+
+.deadline {
+  font-size: 12.5px;
+  margin-top: 8px;
+  color: var(--pending);
+}
+
+.overdue {
+  color: #c53030;
+  font-weight: 550;
+}
+
+/* Contact is the whole handoff: v1 has no in-app chat, so this is how the two
+   actually reach each other. */
+.contact {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  font-size: 13.5px;
+}
+
+.contactLabel {
+  color: var(--ink-faint);
+  font-size: 12px;
+  display: block;
+}
+
+.contact a {
+  color: var(--brand);
+}
+
+.contact a:hover {
+  text-decoration: underline;
+}
+
+.matterActions {
+  margin-top: 13px;
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.primary {
+  padding: 8px 16px;
+  border: 0;
+  border-radius: 8px;
+  background: #15b87a;
+  color: #fff;
+  font-size: 13.5px;
+  font-weight: 560;
+}
+
+.primary:hover:not(:disabled) {
+  background: #12a06a;
+}
+
+.secondary {
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink-soft);
+  font-size: 13.5px;
+}
+
+.secondary:hover:not(:disabled) {
+  background: var(--canvas);
+  color: var(--ink);
+}
+
+.primary:disabled,
+.secondary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.error {
+  font-size: 12.5px;
+  color: #c53030;
+  margin-top: 8px;
+}
+
+.empty {
+  background: var(--surface);
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  padding: 32px;
+  text-align: center;
+  color: var(--ink-soft);
+}
+
+.empty strong {
+  display: block;
+  color: var(--ink);
+  margin-bottom: 4px;
+}

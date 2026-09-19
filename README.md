@@ -114,3 +114,30 @@ mean different things to operations.
 **The eligibility column restates exactly what the assignment engine checks** — verified,
 available, has a payout identity, has categories — so "why is this person getting no
 work" is answerable without reading the engine.
+
+## Professional dashboard
+
+`/pro`, for the `professional` role (admins are let through too). A third visual
+identity — teal against the client's light blue and ops' dark — because someone holding
+more than one role should never have to work out which side they are acting on.
+
+One page: availability, four tiles, and matters grouped as **needs your confirmation**,
+**in hand**, **closed**.
+
+**Confirmation is the one state with a clock on it**, so it is separated out and shown
+first. Letting the deadline pass means admin takes the matter back.
+
+**The card is the handoff.** v1 has no in-app messaging, so the client's phone and email
+on this card are how the two actually reach each other; everything after is off-platform.
+An earlier version withheld contact until acknowledgement — both a departure from the
+PRD and, more importantly, not a boundary at all, since a server component's props are
+serialised into the page payload and the address was in the HTML either way. Withholding
+data happens in the API or not at all.
+
+**Earnings come from the ledger**, not from multiplying prices by a commission rate. The
+payout run will read the same ledger, so any other source would eventually disagree in
+front of the person being paid.
+
+**Availability does not release matters in hand.** Stepping back from new work is not
+abandoning current work. Turning it back on drains the queue of orders parked for want
+of supply.
