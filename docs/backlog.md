@@ -3,6 +3,8 @@
 Companion to [`delivery-plan.md`](./delivery-plan.md). That document is the plan; this
 one is what is actually left, surveyed against the code on 19 September 2026.
 
+**Updated 19 September 2026:** item 1 is done. 217 backend tests pass.
+
 **State at the time of writing.** M0–M4 are substantially built: auth, catalogue,
 checkout, payments, ledger, invoicing, assignment, payouts, refunds and reconciliation.
 205 backend tests pass. A real Razorpay test-mode payment has been taken end to end —
@@ -17,30 +19,20 @@ P3 is M5. Nothing here is optional; the ordering is about sequence, not importan
 
 ## P0 — a real user hits a wall
 
-### 1. Professional onboarding
+### 1. Professional onboarding — **done**
 
-**Nothing in the codebase creates a professional.** Every professional that exists got
-there through hand-run SQL in a test or the demo seed. There is no `POST /pro/apply`,
-no profile endpoint, no document upload, no payout identity endpoint.
+Shipped 19 September 2026. A client applies at , fills in registration and
+payout details against a readiness checklist, and submits; admin reviews at
+ and verifies, rejects with a reason, or reinstates.
 
-The consequence is that the payout system cannot pay anybody: a real professional has
-no way to enter a bank account. The admin verification queue reviews applicants who
-cannot apply.
+Two things deliberately left:
 
-- [ ] `POST /pro/apply` — create a professional profile against the signed-in user
-- [ ] Category qualifications: which of the 10 categories they may be assigned from
-- [ ] Credential document upload (Bar Council / ICAI / ICSI) with storage, and a
-      decision on where the bytes live — see item 4
-- [ ] Payout identity: PAN, optional GSTIN, account number, IFSC, holder name.
-      Field-level encryption already exists in `lib/field-encryption.ts`; use it
-- [ ] `GET`/`PATCH /pro/profile` so a professional can see and correct their own record
-- [ ] Wire the existing admin verification queue to real applicants, including reject
-      with a reason (today it only verifies and suspends)
-- [ ] Portal: an application flow, and a profile screen under `/pro`
-
-> The eligibility query already excludes a verified professional with no payout
-> identity by hand, because Drizzle's `one()` relation wrongly infers it non-nullable.
-> That guard becomes load-bearing the moment real people are applying.
+- [ ] **Credential documents.** No upload — the registration number is checked against
+      ICAI's, ICSI's or the Bar Council's public register instead, which is a stronger
+      check than a PDF. Revisit with item 4
+- [ ] **Changing verified details.** Everything except capacity is frozen once verified
+      and has to go through support. A self-service path with re-review is the right
+      answer eventually
 
 ### 2. Notifications — there are none
 
