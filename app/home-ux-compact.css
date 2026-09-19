@@ -1,0 +1,942 @@
+/* Homepage refinement: compact editorial spacing + scroll-led service discovery. */
+.v3-hero h1 {
+  letter-spacing: 0.012em !important;
+  word-spacing: 0.01em;
+}
+
+.v3-hero-content > p {
+  letter-spacing: 0.018em !important;
+}
+
+.lawx-final-links a,
+.lawx-final-links button {
+  font-size: 15px !important;
+  letter-spacing: 0.01em;
+}
+
+.lawx-final-search,
+.lawx-final-login,
+.lawx-final-consult {
+  font-size: 14px !important;
+}
+
+.ux-services-scroll {
+  min-height: 320svh;
+  padding: 0 !important;
+  background: #eef5fa;
+  position: relative;
+}
+
+.ux-services-scroll-sticky {
+  position: sticky;
+  top: 0;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding: 74px 0 34px;
+  background:
+    radial-gradient(circle at 82% 28%, rgba(61, 144, 205, .12), transparent 24rem),
+    linear-gradient(145deg, #ffffff 0%, #eff7fc 100%);
+  overflow: hidden;
+}
+
+.ux-services-scroll-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, .52fr);
+  gap: 48px;
+  align-items: end;
+  margin-bottom: 22px;
+}
+
+.ux-services-scroll-head > div:first-child > span,
+.ux-scroll-categories-label {
+  color: #3b86b8;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
+.ux-services-scroll-head h2 {
+  max-width: 760px;
+  margin: 11px 0 0;
+  color: #0b294b;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(48px, 5.25vw, 82px);
+  line-height: .94;
+  letter-spacing: .008em;
+  font-weight: 500;
+}
+
+.ux-services-scroll-tools {
+  display: grid;
+  gap: 12px;
+  justify-items: end;
+}
+
+.ux-services-scroll-tools > p {
+  margin: 0;
+  max-width: 300px;
+  color: #70869a;
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: right;
+}
+
+.compact-search {
+  width: min(420px, 100%);
+  min-height: 50px !important;
+  border-radius: 12px !important;
+}
+
+.compact-search > span {
+  display: grid;
+  place-items: center;
+  padding-left: 15px;
+  color: #7f97ab;
+}
+
+.compact-search input {
+  font-size: 13px !important;
+}
+
+.compact-search button {
+  min-width: 98px !important;
+  font-size: 12px !important;
+}
+
+.ux-services-scroll-layout {
+  display: grid;
+  grid-template-columns: 212px minmax(0, 1fr);
+  min-height: 57vh;
+  border-top: 1px solid rgba(14, 55, 89, .11);
+  border-bottom: 1px solid rgba(14, 55, 89, .11);
+}
+
+.ux-scroll-categories {
+  padding: 16px 14px 14px 0;
+  border-right: 1px solid rgba(14, 55, 89, .11);
+}
+
+.ux-scroll-categories-label {
+  padding: 0 10px 9px;
+  color: #8196a8;
+  font-size: 9px;
+}
+
+.ux-scroll-categories button {
+  position: relative;
+  width: 100%;
+  min-height: 49px;
+  display: grid;
+  grid-template-columns: 8px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  border: 0;
+  border-bottom: 1px solid rgba(14, 55, 89, .1);
+  background: transparent;
+  color: #72879b;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ux-scroll-categories button .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--category-color);
+  opacity: .46;
+}
+
+.ux-scroll-categories button strong {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .005em;
+}
+
+.ux-scroll-categories button small {
+  color: #9babb9;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.ux-scroll-categories button.active {
+  margin: 5px 0;
+  padding-inline: 10px;
+  border: 1px solid rgba(14, 55, 89, .08);
+  background: rgba(255, 255, 255, .9);
+  box-shadow: 0 10px 26px rgba(24, 72, 106, .07);
+  color: #102f50;
+}
+
+.ux-scroll-categories button.active .dot { opacity: 1; }
+.ux-scroll-categories button.active small { color: var(--category-color); }
+
+.ux-scroll-browse {
+  margin-top: 10px;
+  grid-template-columns: 1fr auto !important;
+  padding-inline: 10px !important;
+  color: #1f6e9f !important;
+  font-size: 12px !important;
+  font-weight: 750;
+}
+
+.ux-scroll-stage {
+  min-width: 0;
+  padding: 25px 0 25px 30px;
+}
+
+.ux-scroll-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.ux-scroll-stage-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 22px;
+  padding: 0 0 16px;
+  border-bottom: 1px solid rgba(14, 55, 89, .1);
+}
+
+.ux-scroll-stage-head span {
+  color: var(--category-color);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .11em;
+}
+
+.ux-scroll-stage-head h3 {
+  margin: 7px 0 5px;
+  color: #0a2646;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(42px, 4.6vw, 69px);
+  line-height: .93;
+  letter-spacing: .006em;
+  font-weight: 500;
+}
+
+.ux-scroll-stage-head p {
+  margin: 0;
+  color: #71879b;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.ux-scroll-stage-head > button {
+  flex: none;
+  border: 0;
+  border-bottom: 1px solid #1a4a71;
+  padding: 0 0 7px;
+  background: transparent;
+  color: #19486f;
+  font-size: 11px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.ux-scroll-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 27px;
+  flex: 1;
+  align-items: stretch;
+  padding-top: 19px;
+}
+
+.ux-scroll-services {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.ux-scroll-services > button {
+  min-height: 54px;
+  display: grid;
+  grid-template-columns: 31px minmax(0, 1fr) 20px;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid rgba(14, 55, 89, .1);
+  background: transparent;
+  color: #294d6b;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ux-scroll-services > button:first-child { border-top: 1px solid rgba(14, 55, 89, .1); }
+
+.ux-scroll-services > button > span {
+  color: var(--category-color);
+  font-size: 9px;
+  font-weight: 850;
+}
+
+.ux-scroll-services > button strong {
+  font-size: 13px;
+  line-height: 1.35;
+  font-weight: 650;
+  letter-spacing: .002em;
+}
+
+.ux-scroll-services > button b {
+  color: var(--category-color);
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.ux-scroll-services > button:not(.ux-scroll-more):hover strong { color: #116b9e; }
+
+.ux-scroll-services .ux-scroll-more {
+  margin-top: 8px;
+  min-height: 38px;
+  grid-template-columns: 1fr auto;
+  border-top: 0;
+  color: #174a73;
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.ux-scroll-image {
+  position: relative;
+  min-height: 360px;
+  overflow: hidden;
+  border: 1px solid rgba(14, 55, 89, .11);
+  background: #dcebf5;
+  box-shadow: 0 18px 48px rgba(31, 77, 112, .08);
+}
+
+.ux-scroll-image img {
+  object-fit: cover;
+  object-position: center;
+}
+
+.ux-scroll-image:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 58%, rgba(5, 31, 52, .58));
+}
+
+.ux-scroll-image-caption {
+  position: absolute;
+  z-index: 1;
+  left: 17px;
+  right: 17px;
+  bottom: 15px;
+  display: grid;
+  gap: 4px;
+  color: #fff;
+}
+
+.ux-scroll-image-caption span {
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .16em;
+}
+
+.ux-scroll-image-caption strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 26px;
+  line-height: 1;
+  font-weight: 500;
+}
+
+.ux-services-scroll-progress {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+  margin-top: 13px;
+}
+
+.ux-services-scroll-progress span {
+  height: 2px;
+  background: rgba(14, 55, 89, .11);
+}
+
+.ux-services-scroll-progress span.active { background: var(--bar-color); }
+
+.ux-video-grid {
+  align-items: center;
+}
+
+.ux-protect {
+  background:
+    radial-gradient(circle at 10% 20%, rgba(56, 143, 207, .1), transparent 22rem),
+    linear-gradient(145deg, #eef8ff 0%, #f8fbfd 55%, #fff5eb 100%);
+}
+
+.ux-video-frame {
+  position: relative;
+  width: min(380px, 35vw);
+  aspect-ratio: 9 / 16;
+  min-height: 0 !important;
+  height: auto !important;
+  overflow: hidden;
+  border: 1px solid rgba(14, 55, 89, .12);
+  background: #dcecf7;
+  box-shadow: 0 28px 70px rgba(20, 61, 92, .14);
+}
+
+.ux-video-frame:before {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  border: 1px solid rgba(255,255,255,.38);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.ux-video-frame video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+.ux-video-label {
+  left: 15px !important;
+  right: 15px !important;
+  bottom: 15px !important;
+  z-index: 2;
+  font-size: 9px !important;
+  letter-spacing: .12em;
+}
+
+.ux-video-copy {
+  max-width: 610px;
+}
+
+.ux-video-copy > span {
+  letter-spacing: .18em;
+}
+
+.ux-video-copy h2 {
+  margin-top: 11px !important;
+  margin-bottom: 15px !important;
+  font-size: clamp(50px, 5.1vw, 78px) !important;
+  letter-spacing: .006em !important;
+}
+
+.ux-video-copy > p {
+  max-width: 560px;
+  font-size: 14px !important;
+  line-height: 1.65 !important;
+}
+
+.ux-protect-points {
+  margin-top: 25px !important;
+}
+
+.ux-protect-points div {
+  min-height: 62px !important;
+  padding-block: 13px !important;
+}
+
+.ux-why {
+  background: #fff;
+  padding-top: 105px !important;
+  padding-bottom: 105px !important;
+}
+
+.ux-why-list {
+  margin-top: 0 !important;
+}
+
+.ux-why-list article {
+  min-height: 105px !important;
+  display: grid !important;
+  grid-template-columns: 34px 58px minmax(0, 1fr) !important;
+  gap: 15px !important;
+  align-items: center;
+  border-top: 1px solid rgba(14, 55, 89, .11);
+}
+
+.ux-why-list article:last-child { border-bottom: 1px solid rgba(14, 55, 89, .11); }
+
+.ux-why-list article > span { align-self: start; padding-top: 18px; }
+
+.ux-why-item-image {
+  width: 58px;
+  height: 58px;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.ux-why-item-image img { width: 100%; height: 100%; object-fit: cover; }
+
+.ux-why-list strong {
+  font-size: 20px !important;
+  letter-spacing: .008em;
+}
+
+.ux-why-list p {
+  margin-top: 5px !important;
+  font-size: 12px !important;
+  line-height: 1.45 !important;
+}
+
+@media (max-width: 900px) {
+  .ux-services-scroll { min-height: auto; }
+  .ux-services-scroll-sticky { position: relative; min-height: auto; padding: 82px 0; }
+  .ux-services-scroll-head { grid-template-columns: 1fr; gap: 18px; }
+  .ux-services-scroll-tools { justify-items: start; }
+  .ux-services-scroll-tools > p { text-align: left; }
+  .ux-services-scroll-layout { grid-template-columns: 1fr; }
+  .ux-scroll-categories { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 7px; padding: 10px 0; border-right: 0; border-bottom: 1px solid rgba(14,55,89,.11); }
+  .ux-scroll-categories-label { grid-column: 1 / -1; padding-inline: 0; }
+  .ux-scroll-categories button { min-height: 45px; padding-inline: 10px; border: 1px solid rgba(14,55,89,.1); }
+  .ux-scroll-browse { display: none !important; }
+  .ux-scroll-stage { padding: 20px 0 0; }
+  .ux-scroll-main { grid-template-columns: 1fr 250px; }
+}
+
+@media (max-width: 680px) {
+  .v3-hero h1 { letter-spacing: .004em !important; }
+  .ux-services-scroll-sticky { padding: 72px 0 58px; }
+  .ux-services-scroll-head h2 { font-size: 48px; }
+  .ux-services-scroll-layout { border-bottom: 0; }
+  .ux-scroll-categories { grid-template-columns: 1fr 1fr; }
+  .ux-scroll-main { grid-template-columns: 1fr; gap: 18px; }
+  .ux-scroll-image { min-height: 300px; }
+  .ux-video-grid { grid-template-columns: 1fr !important; }
+  .ux-video-frame { width: min(310px, 75vw); margin: 0 auto; }
+  .ux-video-copy { max-width: none; }
+  .ux-why { padding-top: 78px !important; padding-bottom: 78px !important; }
+  .ux-why-list article { grid-template-columns: 28px 48px minmax(0,1fr) !important; gap: 10px !important; min-height: 92px !important; }
+  .ux-why-item-image { width: 48px; height: 48px; }
+  .ux-why-list strong { font-size: 17px !important; }
+}
+
+/* UX overhaul: compact typography, one-screen service story, clearer hierarchy. */
+.lawx-final-header {
+  padding: 8px 18px !important;
+}
+
+.lawx-final-nav,
+.lawx-final-header.scrolled .lawx-final-nav {
+  width: min(1380px, calc(100% - 36px));
+  min-height: 58px !important;
+  height: 58px;
+  padding: 0 18px !important;
+  border-radius: 15px !important;
+  background: #fff !important;
+  border: 1px solid rgba(8, 39, 72, .08) !important;
+  box-shadow: 0 12px 34px rgba(8,39,72,.065) !important;
+  backdrop-filter: none !important;
+}
+
+.lawx-final-brand { width: 112px !important; height: 50px !important; }
+.lawx-final-logo { width: 94px !important; height: 46px !important; }
+.lawx-final-links { gap: clamp(25px, 2.15vw, 34px) !important; }
+.lawx-final-links a,
+.lawx-final-links button {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+}
+.lawx-final-actions { gap: 10px !important; }
+.lawx-final-search { width: 42px !important; height: 42px !important; }
+.lawx-final-login,
+.lawx-final-consult {
+  min-height: 42px !important;
+  font-size: 12px !important;
+}
+.lawx-final-login { min-width: 88px !important; }
+.lawx-final-consult { padding-inline: 18px !important; }
+
+.v3-hero {
+  min-height: 100svh !important;
+}
+.v3-hero-sticky {
+  min-height: 100svh !important;
+  padding-top: 72px !important;
+}
+.v3-hero-content {
+  width: min(980px, calc(100% - 40px)) !important;
+  padding-bottom: 38px !important;
+}
+.v3-kicker {
+  font-size: 10px !important;
+  letter-spacing: .11em !important;
+}
+.v3-hero h1 {
+  max-width: 940px !important;
+  margin-top: 13px !important;
+  font-size: clamp(64px, 7.15vw, 104px) !important;
+  line-height: .89 !important;
+  letter-spacing: -.018em !important;
+  font-weight: 540 !important;
+}
+.v3-hero h1 b { letter-spacing: inherit !important; }
+.v3-hero-content > p {
+  max-width: 680px !important;
+  margin-top: 18px !important;
+  font-size: 15px !important;
+  line-height: 1.55 !important;
+  letter-spacing: 0 !important;
+}
+.v3-hero-search {
+  width: min(650px, 76vw) !important;
+  min-height: 56px !important;
+  margin-top: 21px !important;
+  border-radius: 15px !important;
+}
+.v3-hero-search input { font-size: 14px !important; }
+.v3-hero-search button { min-width: 108px !important; font-size: 12px !important; }
+.v3-hero-popular { margin-top: 9px !important; }
+.v3-hero-popular button {
+  padding: 6px 10px !important;
+  font-size: 11px !important;
+  letter-spacing: .002em !important;
+}
+
+/* The services story begins immediately; its oversized editorial heading is intentionally removed. */
+.ux-services-scroll {
+  min-height: 400svh !important;
+  padding: 0 !important;
+  background: linear-gradient(145deg, #f9fcff 0%, #edf6fb 100%) !important;
+}
+.ux-services-scroll-sticky {
+  position: sticky !important;
+  top: 0 !important;
+  height: 100svh !important;
+  min-height: 0 !important;
+  padding: 66px 0 14px !important;
+  display: flex !important;
+  align-items: stretch !important;
+  overflow: hidden !important;
+}
+.ux-services-frame {
+  width: min(1420px, calc(100% - 44px));
+  height: calc(100svh - 80px);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+.ux-services-topline {
+  min-height: 27px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 0 0 8px;
+}
+.ux-services-topline > span {
+  color: #6d8498;
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+.ux-services-topline p {
+  margin: 0;
+  color: #7c91a4;
+  font-size: 11px;
+}
+.ux-services-scroll-layout {
+  flex: 1;
+  min-height: 0 !important;
+  display: grid !important;
+  grid-template-columns: 210px minmax(0, 1fr) !important;
+  border: 1px solid rgba(14,55,89,.11) !important;
+  background: rgba(255,255,255,.82) !important;
+  box-shadow: 0 24px 70px rgba(8,39,72,.08);
+  overflow: hidden;
+}
+.ux-scroll-categories {
+  padding: 15px 12px !important;
+  border-right: 1px solid rgba(14,55,89,.10) !important;
+  background: rgba(248,251,253,.96) !important;
+}
+.ux-scroll-categories-label {
+  padding: 0 8px 8px !important;
+  font-size: 9px !important;
+  letter-spacing: .13em !important;
+}
+.ux-scroll-categories button {
+  min-height: 52px !important;
+  gap: 9px !important;
+  padding-inline: 9px !important;
+  border-bottom: 1px solid rgba(14,55,89,.09) !important;
+}
+.ux-scroll-categories button strong {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+}
+.ux-scroll-categories button small {
+  font-size: 9px !important;
+}
+.ux-scroll-categories button.active {
+  margin: 3px 0 !important;
+  padding-inline: 10px !important;
+  background: #fff !important;
+  box-shadow: 0 8px 24px rgba(24,72,106,.055) !important;
+}
+.ux-scroll-browse {
+  margin-top: 8px !important;
+  min-height: 45px !important;
+  padding-inline: 9px !important;
+  font-size: 11px !important;
+}
+.ux-scroll-stage {
+  padding: 22px 26px 18px !important;
+  min-width: 0;
+  min-height: 0;
+}
+.ux-scroll-content {
+  height: 100% !important;
+}
+.ux-scroll-stage-head {
+  min-height: 93px;
+  align-items: end !important;
+  padding-bottom: 14px !important;
+}
+.ux-scroll-stage-head span {
+  font-size: 9px !important;
+  letter-spacing: .09em !important;
+}
+.ux-scroll-stage-head h3 {
+  margin: 7px 0 5px !important;
+  max-width: 720px;
+  font-family: var(--v3-display), Inter, sans-serif !important;
+  font-size: clamp(38px, 4.4vw, 62px) !important;
+  line-height: .95 !important;
+  font-weight: 610 !important;
+  letter-spacing: -.025em !important;
+}
+.ux-scroll-stage-head p {
+  font-size: 12px !important;
+  line-height: 1.45 !important;
+}
+.ux-scroll-stage-head > button {
+  font-size: 10px !important;
+  padding-bottom: 5px !important;
+}
+.ux-scroll-main {
+  grid-template-columns: minmax(0, 1fr) minmax(245px, .66fr) !important;
+  gap: 22px !important;
+  padding-top: 16px !important;
+  min-height: 0 !important;
+}
+.ux-scroll-services {
+  min-height: 0;
+}
+.ux-scroll-services > button {
+  min-height: 49px !important;
+  grid-template-columns: 28px minmax(0, 1fr) 18px !important;
+  gap: 9px !important;
+}
+.ux-scroll-services > button > span {
+  font-size: 9px !important;
+}
+.ux-scroll-services > button strong {
+  font-size: 13px !important;
+  line-height: 1.28 !important;
+  font-weight: 680 !important;
+  letter-spacing: 0 !important;
+}
+.ux-scroll-services .ux-scroll-more {
+  min-height: 40px !important;
+  font-size: 11px !important;
+}
+.ux-scroll-image {
+  min-height: 0 !important;
+  height: 100% !important;
+  max-height: none !important;
+  border-radius: 0 !important;
+}
+.ux-scroll-image img {
+  object-fit: cover !important;
+  object-position: center !important;
+}
+.ux-scroll-image-caption strong {
+  font-family: var(--v3-display), Inter, sans-serif !important;
+  font-size: 22px !important;
+  letter-spacing: -.015em !important;
+}
+.ux-services-scroll-progress {
+  margin-top: 7px !important;
+  gap: 4px !important;
+}
+.ux-services-scroll-progress span { height: 2px !important; }
+
+/* Homepage-wide heading hierarchy: stronger like modern legal/business platforms, without oversized serif blocks. */
+.ux-journey h2,
+.ux-experts h2,
+.ux-business-choice h2,
+.ux-protect h2,
+.ux-panel h2,
+.ux-why h2,
+.ux-faq h2,
+.ux-end-cta h2,
+.ux-choice-head h2,
+.ux-panel-head h2,
+.ux-sticky-copy h2,
+.ux-video-copy h2 {
+  font-family: var(--v3-display), Inter, sans-serif !important;
+  font-weight: 620 !important;
+  letter-spacing: -.025em !important;
+}
+.ux-journey h2 { font-size: clamp(46px, 4.7vw, 66px) !important; line-height: .98 !important; }
+.ux-sticky-copy h2,
+.ux-video-copy h2 { font-size: clamp(44px, 4.6vw, 64px) !important; line-height: .99 !important; }
+.ux-choice-head h2,
+.ux-panel-head h2 { font-size: clamp(46px, 4.8vw, 68px) !important; line-height: .98 !important; }
+.ux-journey p,
+.ux-experts p,
+.ux-business-choice p,
+.ux-protect p,
+.ux-panel p,
+.ux-why p,
+.ux-faq p { letter-spacing: 0 !important; }
+
+/* Make the image-led protect/video block clearly visible, while preserving the original 9:16 asset. */
+.ux-protect {
+  padding: 92px 0 !important;
+  background:
+    radial-gradient(circle at 18% 30%, rgba(56,143,207,.10), transparent 20rem),
+    linear-gradient(135deg, #f1f8fd 0%, #fbfdff 64%, #fff8f0 100%) !important;
+}
+.ux-video-grid {
+  grid-template-columns: minmax(270px, .72fr) minmax(0, 1.28fr) !important;
+  gap: clamp(48px, 7vw, 100px) !important;
+}
+.ux-video-frame {
+  width: min(330px, 100%) !important;
+  justify-self: center;
+  border-radius: 24px !important;
+  border: 8px solid rgba(255,255,255,.92) !important;
+  box-shadow: 0 28px 70px rgba(20,61,92,.17) !important;
+  background: #d8e9f4 !important;
+}
+.ux-video-frame video {
+  object-fit: contain !important;
+  background: #d8e9f4 !important;
+}
+.ux-video-copy > span { letter-spacing: .12em !important; }
+.ux-video-copy > p { max-width: 620px !important; font-size: 15px !important; line-height: 1.6 !important; }
+.ux-protect-points { margin-top: 22px !important; }
+.ux-protect-points div { min-height: 57px !important; padding-block: 10px !important; }
+
+/* Why section: larger, clearer rows without large empty panels. */
+.ux-why { padding: 90px 0 !important; }
+.ux-why-list article {
+  min-height: 112px !important;
+  grid-template-columns: 34px 70px minmax(0,1fr) !important;
+  gap: 16px !important;
+}
+.ux-why-item-image { width: 70px !important; height: 70px !important; }
+.ux-why-list strong {
+  font-family: var(--v3-display), Inter, sans-serif !important;
+  font-size: 21px !important;
+  font-weight: 640 !important;
+  letter-spacing: -.012em !important;
+}
+.ux-why-list p { font-size: 13px !important; line-height: 1.5 !important; }
+
+@media (max-width: 900px) {
+  .lawx-final-nav { width: calc(100% - 16px); }
+  .lawx-final-links { gap: 15px !important; }
+  .lawx-final-links a,
+  .lawx-final-links button { font-size: 11px !important; }
+  .ux-services-frame { width: min(100% - 24px, 700px); height: calc(100svh - 76px); }
+  .ux-services-scroll-sticky { padding-top: 62px !important; }
+  .ux-services-scroll-layout { grid-template-columns: 170px minmax(0,1fr) !important; }
+  .ux-scroll-main { grid-template-columns: 1fr !important; }
+  .ux-scroll-image { height: 210px !important; }
+  .ux-scroll-stage { padding: 18px !important; }
+  .ux-scroll-stage-head { min-height: 84px; }
+  .ux-scroll-stage-head h3 { font-size: clamp(34px, 7vw, 48px) !important; }
+  .ux-scroll-stage-head p { max-width: 520px; }
+}
+
+@media (max-width: 680px) {
+  .lawx-final-header { padding: 6px !important; }
+  .lawx-final-nav,
+  .lawx-final-header.scrolled .lawx-final-nav { min-height: 54px !important; height: 54px; padding: 0 10px !important; }
+  .lawx-final-brand { width: 96px !important; height: 46px !important; }
+  .lawx-final-logo { width: 84px !important; height: 43px !important; }
+  .lawx-final-actions { gap: 7px !important; }
+  .lawx-final-search { width: 36px !important; height: 36px !important; }
+  .lawx-final-login { min-width: 67px !important; min-height: 36px !important; font-size: 10px !important; }
+
+  .v3-hero-sticky { padding-top: 58px !important; }
+  .v3-hero-content { width: min(100% - 28px, 620px) !important; }
+  .v3-kicker { font-size: 9px !important; letter-spacing: .095em !important; }
+  .v3-hero h1 {
+    font-size: clamp(49px, 14vw, 76px) !important;
+    line-height: .9 !important;
+    letter-spacing: -.022em !important;
+  }
+  .v3-hero-content > p { font-size: 13px !important; line-height: 1.52 !important; }
+  .v3-hero-search { width: 100% !important; min-height: 52px !important; }
+  .v3-hero-search button { min-width: 92px !important; }
+
+  .ux-services-scroll { min-height: 400svh !important; }
+  .ux-services-scroll-sticky { height: 100svh !important; padding: 58px 0 9px !important; }
+  .ux-services-frame { width: calc(100% - 18px); height: calc(100svh - 67px); }
+  .ux-services-topline { min-height: 21px; padding-bottom: 6px; }
+  .ux-services-topline p { font-size: 9px; }
+  .ux-services-scroll-layout { grid-template-columns: 1fr !important; }
+  .ux-scroll-categories {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0,1fr));
+    gap: 4px;
+    padding: 6px !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid rgba(14,55,89,.1) !important;
+  }
+  .ux-scroll-categories-label { display: none; }
+  .ux-scroll-categories button {
+    min-height: 42px !important;
+    border: 1px solid rgba(14,55,89,.08) !important;
+    padding-inline: 7px !important;
+    grid-template-columns: 6px minmax(0,1fr) !important;
+  }
+  .ux-scroll-categories button small { display: none; }
+  .ux-scroll-categories button strong { font-size: 10px !important; line-height: 1.1; }
+  .ux-scroll-categories button.active { margin: 0 !important; padding-inline: 7px !important; box-shadow: inset 0 2px 0 var(--category-color) !important; }
+  .ux-scroll-browse { display: none !important; }
+  .ux-scroll-stage { padding: 13px 13px 10px !important; }
+  .ux-scroll-stage-head { min-height: 79px; padding-bottom: 10px !important; }
+  .ux-scroll-stage-head > button { font-size: 9px !important; }
+  .ux-scroll-stage-head h3 { font-size: clamp(30px, 8vw, 42px) !important; margin: 4px 0 3px !important; }
+  .ux-scroll-stage-head p { font-size: 10px !important; max-width: 280px; }
+  .ux-scroll-main { gap: 10px !important; padding-top: 10px !important; }
+  .ux-scroll-services > button { min-height: 40px !important; grid-template-columns: 24px minmax(0,1fr) 15px !important; }
+  .ux-scroll-services > button strong { font-size: 10.5px !important; }
+  .ux-scroll-services > button > span { font-size: 8px !important; }
+  .ux-scroll-services > button b { font-size: 11px !important; }
+  .ux-scroll-services .ux-scroll-more { min-height: 32px !important; font-size: 9px !important; }
+  .ux-scroll-image { height: 135px !important; }
+  .ux-scroll-image-caption { left: 11px; right: 11px; bottom: 10px; }
+  .ux-scroll-image-caption strong { font-size: 18px !important; }
+  .ux-services-scroll-progress { margin-top: 5px !important; }
+
+  .ux-video-grid { grid-template-columns: 1fr !important; gap: 34px !important; }
+  .ux-protect { padding: 72px 0 !important; }
+  .ux-video-frame { width: min(260px, 70vw) !important; order: 0; }
+  .ux-video-copy h2 { font-size: clamp(39px, 10vw, 54px) !important; }
+  .ux-video-copy > p { font-size: 13px !important; }
+  .ux-protect-points div { min-height: 49px !important; }
+
+  .ux-journey h2,
+  .ux-experts h2,
+  .ux-business-choice h2,
+  .ux-panel h2,
+  .ux-why h2,
+  .ux-faq h2,
+  .ux-end-cta h2,
+  .ux-choice-head h2,
+  .ux-panel-head h2,
+  .ux-sticky-copy h2 { font-size: clamp(39px, 10vw, 54px) !important; }
+  .ux-why { padding: 70px 0 !important; }
+  .ux-why-list article { grid-template-columns: 26px 52px minmax(0,1fr) !important; gap: 10px !important; min-height: 88px !important; }
+  .ux-why-item-image { width: 52px !important; height: 52px !important; }
+  .ux-why-list strong { font-size: 16px !important; }
+  .ux-why-list p { font-size: 11px !important; }
+}

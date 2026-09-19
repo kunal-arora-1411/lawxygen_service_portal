@@ -1,0 +1,430 @@
+/* LAWXYGEN homepage refinement v6 */
+
+body {
+  letter-spacing: .006em;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+a,
+button,
+input,
+textarea,
+select {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.v3-hero h1,
+.v5-services-heading h2,
+.client-services-v4-heading h2,
+.client-services-v4-title-row h3,
+.v5-journey > h2,
+.client-experts-v4-head h2,
+.client-action-rail-head h2,
+.v5-protection-intro h2,
+.v5-why-heading h2,
+.v5-faq h2,
+.client-end-v4-copy h2,
+.v5-footer-cta h2 {
+  letter-spacing: -.022em;
+}
+
+.v3-hero-content > p,
+.client-services-v4-heading-copy p,
+.client-services-v4-list strong,
+.client-journey-v4-body p,
+.client-experts-v4-cardbody p,
+.client-action-rail-cards p,
+.client-protection-v4 .v5-protection-intro p,
+.v5-why-list p,
+.v5-faq-list p,
+.client-end-v4-copy p,
+.v5-footer-about p,
+.v5-footer-links a {
+  letter-spacing: .008em;
+}
+
+.lawx-final-nav {
+  min-height: 70px;
+}
+
+.lawx-final-links a,
+.lawx-final-links button {
+  font-size: 14px;
+  font-weight: 680;
+  letter-spacing: .006em;
+}
+
+.lawx-final-actions {
+  gap: 14px;
+}
+
+.lawx-final-search {
+  width: 40px;
+  height: 42px;
+}
+
+.lawx-final-login {
+  min-width: 92px;
+  min-height: 44px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .006em;
+}
+
+.lawx-final-consult {
+  min-height: 46px;
+  padding-inline: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .006em;
+}
+
+/* Keep the sticky services experience safely below the fixed navbar. */
+.client-services-v4-sticky {
+  box-sizing: border-box;
+  padding-top: 108px !important;
+}
+
+.client-services-v4-layout {
+  height: calc(100% - 285px) !important;
+  min-height: 500px;
+}
+
+.client-services-v4-heading {
+  padding-bottom: 20px;
+}
+
+.client-services-v4-heading span,
+.client-services-v4-meta span,
+.client-end-v4-copy > span,
+.client-form-heading span {
+  font-size: 12px;
+  letter-spacing: .16em;
+}
+
+.client-services-v4-heading h2 {
+  font-size: clamp(58px, 5.7vw, 98px) !important;
+  line-height: .93;
+}
+
+.client-services-v4-heading-copy p {
+  font-size: 14px;
+}
+
+.client-services-v4-heading-copy button {
+  font-size: 14px;
+}
+
+.client-services-v4-categories {
+  height: 500px;
+}
+
+.client-services-v4-categories button {
+  min-height: 52px;
+}
+
+.client-services-v4-categories button span {
+  font-size: 14px;
+  letter-spacing: .004em;
+}
+
+.client-services-v4-categories button b {
+  font-size: 11px;
+}
+
+.client-services-v4-title-row h3 {
+  font-size: clamp(56px, 5.15vw, 86px) !important;
+  line-height: .94;
+}
+
+.client-services-v4-title-row span,
+.client-services-v4-meta b {
+  font-size: 12px;
+  letter-spacing: .04em;
+}
+
+.client-services-v4-list button {
+  min-height: 62px;
+}
+
+.client-services-v4-list button > span {
+  font-size: 12px;
+}
+
+.client-services-v4-list strong {
+  font-size: 15px;
+}
+
+.client-services-v4-list b {
+  font-size: 19px;
+}
+
+.client-services-v4-more {
+  font-size: 14px;
+}
+
+.client-services-v4-image {
+  min-height: 430px;
+  height: 430px;
+}
+
+/* Protection/video: text points on the left, video on the right. */
+.client-protection-v4 .v5-protection-sticky {
+  padding-top: 92px;
+}
+
+.client-protection-v4-video {
+  top: 165px;
+  right: max(24px, calc((100vw - 1600px) / 2));
+  width: min(490px, 35vw);
+  height: 545px;
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 50% 25%, rgba(92, 176, 235, .2), transparent 42%),
+    #123a5d;
+  border: 1px solid rgba(255,255,255,.18);
+  box-shadow: 0 30px 90px rgba(17,55,89,.18);
+}
+
+.client-protection-v4-video-frame {
+  width: 282px;
+  max-width: 66%;
+  height: calc(100% - 42px);
+  margin: 21px auto;
+  border-radius: 14px;
+  box-shadow: 0 18px 50px rgba(0,0,0,.18);
+}
+
+.client-protection-v4-video-frame video {
+  object-fit: contain;
+}
+
+.client-protection-v4 .v5-protection-grid {
+  left: max(24px, calc((100vw - 1600px) / 2));
+  right: auto;
+  bottom: 58px;
+  width: min(55vw, 720px);
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--v3-line);
+  border-bottom: 0;
+}
+
+.client-protection-v4 .v5-protection-grid button,
+.client-protection-v4 .v5-protection-grid a {
+  min-height: 110px;
+  padding: 18px 22px;
+  border-right: 0;
+  border-bottom: 1px solid var(--v3-line);
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 20px;
+  grid-template-rows: auto auto;
+  column-gap: 16px;
+  align-content: center;
+  text-align: left;
+  background: rgba(255,255,255,.22);
+}
+
+.client-protection-v4 .v5-protection-grid a:last-child,
+.client-protection-v4 .v5-protection-grid button:last-child {
+  border-bottom: 0;
+}
+
+.client-protection-v4 .v5-protection-grid span {
+  grid-row: 1 / span 2;
+  align-self: start;
+  padding-top: 4px;
+  font-size: 11px;
+}
+
+.client-protection-v4 .v5-protection-grid strong {
+  margin-top: 0;
+  font-size: 25px;
+  line-height: 1.05;
+  letter-spacing: -.014em;
+}
+
+.client-protection-v4 .v5-protection-grid p {
+  margin: 7px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.client-protection-v4 .v5-protection-grid b {
+  grid-column: 3;
+  grid-row: 1 / span 2;
+  align-self: center;
+  margin: 0;
+  font-size: 19px;
+}
+
+.client-journey-v4-body h3 {
+  letter-spacing: -.018em;
+}
+
+.client-experts-v4-head h2,
+.client-action-rail-head h2,
+.v5-protection-intro h2,
+.client-end-v4-copy h2 {
+  letter-spacing: -.022em;
+}
+
+.client-experts-v4-head p,
+.client-action-rail-head p {
+  font-size: 15px;
+}
+
+.client-experts-v4-cardbody h3 {
+  letter-spacing: -.018em;
+}
+
+.client-action-rail-cards strong {
+  letter-spacing: -.016em;
+}
+
+.client-end-v4-form label {
+  font-size: 12px;
+  letter-spacing: .01em;
+}
+
+.client-end-v4-form input,
+.client-end-v4-form textarea {
+  font-size: 14px;
+  letter-spacing: .006em;
+}
+
+.client-connect-form input,
+.client-connect-form textarea {
+  font-size: 14px;
+  letter-spacing: .006em;
+}
+
+@media (max-width: 1100px) and (min-width: 851px) {
+  .lawx-final-links a,
+  .lawx-final-links button {
+    font-size: 12px;
+  }
+
+  .lawx-final-login,
+  .lawx-final-consult {
+    font-size: 12px;
+  }
+
+  .client-services-v4-sticky {
+    padding-top: 100px !important;
+  }
+
+  .client-services-v4-layout {
+    height: calc(100% - 255px) !important;
+    min-height: 500px;
+  }
+
+  .client-services-v4-scene {
+    grid-template-columns: minmax(0, 1fr) 330px;
+  }
+
+  .client-services-v4-image {
+    height: 405px;
+    min-height: 405px;
+  }
+
+  .client-protection-v4-video {
+    width: min(420px, 39vw);
+    height: 500px;
+  }
+
+  .client-protection-v4-video-frame {
+    width: 250px;
+  }
+
+  .client-protection-v4 .v5-protection-grid {
+    width: min(54vw, 610px);
+  }
+}
+
+@media (max-width: 850px) {
+  .lawx-final-links a,
+  .lawx-final-links button {
+    font-size: 13px;
+  }
+
+  .lawx-final-login {
+    min-width: 82px;
+    min-height: 40px;
+    font-size: 12px;
+  }
+
+  .lawx-final-search {
+    width: 36px;
+  }
+
+  .client-services-v4-sticky {
+    padding-top: 88px !important;
+  }
+
+  .client-services-v4-layout {
+    height: auto !important;
+  }
+
+  .client-services-v4-heading h2 {
+    font-size: clamp(50px, 13vw, 68px) !important;
+  }
+
+  .client-services-v4-title-row h3 {
+    font-size: clamp(46px, 12.5vw, 64px) !important;
+  }
+
+  .client-services-v4-list strong {
+    font-size: 14px;
+  }
+
+  .client-protection-v4 .v5-protection-sticky {
+    padding-top: 88px;
+  }
+
+  .client-protection-v4-video {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: min(100%, 430px);
+    height: 560px;
+    margin: 30px 0 0 auto;
+  }
+
+  .client-protection-v4-video-frame {
+    width: min(250px, 64%);
+    max-width: none;
+    height: calc(100% - 34px);
+    margin: 17px auto;
+  }
+
+  .client-protection-v4 .v5-protection-grid {
+    left: auto;
+    right: auto;
+    width: 100%;
+    margin-top: 28px;
+  }
+
+  .client-protection-v4 .v5-protection-grid a,
+  .client-protection-v4 .v5-protection-grid button {
+    min-height: 104px;
+    padding: 17px 15px;
+  }
+}
+
+@media (max-width: 600px) {
+  .lawx-final-nav {
+    min-height: 60px;
+  }
+
+  .lawx-final-login {
+    min-width: 76px;
+    min-height: 38px;
+    font-size: 11px;
+  }
+}

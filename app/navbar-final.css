@@ -1,0 +1,518 @@
+html.lawx-mobile-nav-open,
+html.lawx-mobile-nav-open body {
+  overflow: hidden !important;
+}
+
+.lawx-final-header {
+  position: fixed;
+  z-index: 3000;
+  inset: 0 0 auto;
+  padding: 14px 22px;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.lawx-final-nav {
+  overflow: hidden;
+  width: min(1380px, 100%);
+  min-height: 66px;
+  margin-inline: auto;
+  padding: 0 22px;
+  border: 1px solid rgba(12, 54, 99, 0.12);
+  border-radius: 17px;
+  background: rgba(247, 251, 255, 0.93);
+  box-shadow: 0 16px 52px rgba(16, 67, 111, 0.09);
+  backdrop-filter: blur(18px);
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  pointer-events: auto;
+  transition: min-height .25s ease, background .25s ease, box-shadow .25s ease;
+}
+
+.lawx-final-header.scrolled .lawx-final-nav {
+  min-height: 60px;
+  background: rgba(250, 253, 255, 0.97);
+  box-shadow: 0 16px 48px rgba(12, 54, 99, 0.12);
+}
+
+.lawx-final-brand {
+  width: 116px;
+  height: 54px;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.lawx-final-logo {
+  width: 94px;
+  height: 52px;
+  object-fit: contain;
+}
+
+.lawx-final-links {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(20px, 2.25vw, 38px);
+}
+
+.lawx-final-links a,
+.lawx-final-links button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #38506c;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 620;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color .18s ease;
+}
+
+.lawx-final-links button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.lawx-final-links a:hover,
+.lawx-final-links button:hover {
+  color: #126fbd;
+}
+
+.lawx-final-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.lawx-final-search {
+  width: 28px;
+  height: 38px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #0c3158;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.lawx-final-login {
+  min-width: 72px;
+  min-height: 39px;
+  padding: 0 15px;
+  border: 1px solid rgba(16, 65, 109, 0.17);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.5);
+  color: #0c3158;
+  font: inherit;
+  font-size: 10.5px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.lawx-final-consult {
+  min-height: 41px;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: #092d57;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  gap: 17px;
+  font-size: 10.5px;
+  font-weight: 650;
+}
+
+.lawx-final-consult span {
+  color: #79c9ff;
+}
+
+.lawx-final-menu {
+  display: none;
+}
+
+.lawx-mobile-drawer {
+  display: none;
+}
+
+@media (max-width: 980px) {
+  .lawx-final-links {
+    gap: 17px;
+  }
+
+  .lawx-final-links a,
+  .lawx-final-links button {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 850px) {
+  .lawx-final-header {
+    padding: 8px;
+  }
+
+  .lawx-final-nav {
+    min-height: 60px;
+    padding: 0 12px;
+    border-radius: 14px;
+    gap: 10px;
+  }
+
+  .lawx-final-brand {
+    width: 92px;
+    height: 48px;
+  }
+
+  .lawx-final-logo {
+    width: 82px;
+    height: 46px;
+  }
+
+  .lawx-final-links,
+  .lawx-final-consult {
+    display: none;
+  }
+
+  .lawx-final-actions {
+    margin-left: auto;
+    gap: 10px;
+  }
+
+  .lawx-final-search {
+    width: 31px;
+    height: 36px;
+  }
+
+  .lawx-final-login {
+    min-width: 69px;
+    min-height: 37px;
+    padding: 0 13px;
+    font-size: 10px;
+  }
+
+  .lawx-final-menu {
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border: 1px solid rgba(14, 55, 94, 0.14);
+    border-radius: 50%;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .lawx-final-menu span {
+    width: 16px;
+    height: 1.5px;
+    background: #0c3158;
+    transition: transform .22s ease;
+  }
+
+  .lawx-final-menu.active span:first-child {
+    transform: translateY(3.75px) rotate(45deg);
+  }
+
+  .lawx-final-menu.active span:last-child {
+    transform: translateY(-3.75px) rotate(-45deg);
+  }
+
+  .lawx-mobile-drawer {
+    position: fixed;
+    z-index: 3200;
+    inset: 0;
+    padding: 10px 13px 104px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: #f9fcff;
+    display: block;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-14px);
+    transition: opacity .25s ease, visibility .25s ease, transform .3s cubic-bezier(.22, 1, .36, 1);
+  }
+
+  .lawx-mobile-drawer.active {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  .lawx-mobile-drawer-head {
+    min-height: 66px;
+    padding: 0 6px 9px;
+    border-bottom: 1px solid #dfe8f0;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+
+  .lawx-mobile-brand {
+    width: 96px;
+    height: 50px;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+  }
+
+  .lawx-mobile-logo {
+    width: 86px;
+    height: 48px;
+    object-fit: contain;
+  }
+
+  .lawx-mobile-login {
+    min-width: 72px;
+    min-height: 38px;
+    padding: 0 13px;
+    border: 1px solid #87add2;
+    border-radius: 5px;
+    background: white;
+    color: #1766b2;
+    font: inherit;
+    font-size: 10px;
+    font-weight: 650;
+  }
+
+  .lawx-mobile-close {
+    width: 35px;
+    height: 35px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #718197;
+    font-size: 24px;
+    line-height: 1;
+  }
+
+  .lawx-mobile-location {
+    width: 100%;
+    min-height: 72px;
+    padding: 0 7px;
+    border: 0;
+    border-bottom: 1px solid #e2eaf1;
+    background: transparent;
+    color: #17314f;
+    display: grid;
+    grid-template-columns: 28px 1fr auto;
+    gap: 10px;
+    align-items: center;
+    text-align: left;
+    font: inherit;
+  }
+
+  .lawx-mobile-location > span:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .lawx-mobile-location strong {
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .lawx-mobile-location small {
+    color: #8a96a6;
+    font-size: 8px;
+  }
+
+  .lawx-mobile-location b,
+  .lawx-mobile-group b {
+    color: #287fc4;
+    font-size: 17px;
+    font-weight: 400;
+  }
+
+  .lawx-mobile-group {
+    margin-top: 22px;
+  }
+
+  .lawx-mobile-group.compact {
+    margin-top: 18px;
+  }
+
+  .lawx-mobile-label {
+    display: block;
+    margin: 0 7px 8px;
+    color: #8a96a6;
+    font-size: 7px;
+    font-weight: 650;
+    letter-spacing: .14em;
+  }
+
+  .lawx-mobile-group > a,
+  .lawx-mobile-group > button {
+    width: 100%;
+    min-height: 50px;
+    padding: 0 7px;
+    border: 0;
+    background: transparent;
+    color: #17314f;
+    display: grid;
+    grid-template-columns: 28px 1fr auto;
+    gap: 9px;
+    align-items: center;
+    text-align: left;
+    font: inherit;
+  }
+
+  .lawx-mobile-group.compact > a {
+    grid-template-columns: 1fr auto;
+  }
+
+  .lawx-mobile-group > a i,
+  .lawx-mobile-group > button i {
+    color: #246edb;
+    display: grid;
+    place-items: center;
+    font-style: normal;
+  }
+
+  .lawx-mobile-group > a > span,
+  .lawx-mobile-group > button > span {
+    font-size: 11px;
+    font-weight: 540;
+  }
+
+  .lawx-mobile-rule {
+    height: 1px;
+    margin: 17px 7px 0;
+    background: #dfe8ef;
+  }
+
+  .lawx-mobile-bottom {
+    position: fixed;
+    z-index: 5;
+    left: 13px;
+    right: 13px;
+    bottom: 10px;
+    padding-top: 10px;
+    background: linear-gradient(to top, #f9fcff 80%, transparent);
+    display: grid;
+    grid-template-columns: 1fr 1.08fr;
+    gap: 7px;
+  }
+
+  .lawx-mobile-bottom > button,
+  .lawx-mobile-bottom > a {
+    min-height: 49px;
+    padding: 0 13px;
+    border-radius: 5px;
+    font: inherit;
+    font-size: 9px;
+    font-weight: 650;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .lawx-mobile-ai {
+    border: 1px solid #75c8b7;
+    background: white;
+    color: #217665;
+  }
+
+  .lawx-mobile-ai i {
+    display: grid;
+    place-items: center;
+  }
+
+  .lawx-mobile-bottom > a {
+    background: #2461e8;
+    color: white;
+  }
+}
+
+@media (min-width: 851px) {
+  .lawx-final-actions {
+    min-height: 44px;
+    padding-left: 15px;
+    border-left: 1px solid rgba(20, 65, 106, .09);
+    gap: 8px;
+  }
+
+  .lawx-final-search,
+  .lawx-final-login,
+  .lawx-final-consult {
+    min-height: 40px;
+    height: 40px;
+  }
+
+  .lawx-final-search {
+    width: 40px;
+    border: 1px solid rgba(17, 67, 112, .11);
+    border-radius: 12px;
+    background: rgba(255,255,255,.46);
+  }
+
+  .lawx-final-login {
+    width: 86px;
+    min-width: 86px;
+    padding: 0 12px;
+    border-radius: 12px;
+    background: rgba(255,255,255,.56);
+  }
+
+  .lawx-final-consult {
+    width: 96px;
+    padding: 0 13px;
+    border-radius: 12px;
+    justify-content: space-between;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 850px) {
+  .lawx-mobile-find {
+    border: 1px solid rgba(38, 111, 191, .22) !important;
+    background: rgba(255,255,255,.94) !important;
+    color: #155f9e !important;
+  }
+
+  .lawx-mobile-find i {
+    display: grid;
+    place-items: center;
+  }
+}
+
+/* LAWXYGEN white navigation + readable type */
+.lawx-final-nav {
+  background: #ffffff !important;
+  border-color: rgba(12, 54, 99, .11);
+  box-shadow: 0 16px 50px rgba(16, 67, 111, .10);
+}
+
+.lawx-final-header.scrolled .lawx-final-nav {
+  background: #ffffff !important;
+}
+
+.lawx-final-links a,
+.lawx-final-links button {
+  color: #294a69;
+  font-size: 14px !important;
+  font-weight: 690;
+  letter-spacing: .005em;
+}
+
+.lawx-final-brand { min-width: 170px; }
+.lawx-final-logo { width: 154px; height: 62px; }
+.lawx-final-actions { gap: 18px; }
+.lawx-final-search { width: 46px; height: 46px; }
+.lawx-final-login,
+.lawx-final-consult { font-size: 13px !important; }
+
+@media (max-width: 980px) and (min-width: 851px) {
+  .lawx-final-links { gap: 18px; }
+  .lawx-final-links a,
+  .lawx-final-links button { font-size: 12px !important; }
+}

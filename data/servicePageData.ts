@@ -1,0 +1,20 @@
+export type ServicePageData = {
+  title: string;
+  category: string;
+  categorySlug: string;
+  accent: string;
+  variant: number;
+  archetype: string;
+  summary: string;
+  audience: string;
+  overview: string[];
+  highlights: string[];
+  checklist: { label: string; detail: string }[];
+  benefits: { title: string; body: string }[];
+  documents: { title: string; body: string }[];
+  process: { title: string; body: string }[];
+  faqs: { q: string; a: string }[];
+  related: { title: string; href: string }[];
+  cta: string;
+  note: string;
+};

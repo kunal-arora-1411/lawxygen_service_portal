@@ -1,0 +1,236 @@
+.v3-mega-backdrop {
+  background: rgba(21, 58, 96, .18);
+  backdrop-filter: blur(12px) saturate(115%);
+}
+
+.v3-mega {
+  top: 104px;
+  width: min(1040px, calc(100% - 56px));
+  height: min(610px, calc(100svh - 132px));
+  border: 1px solid rgba(255,255,255,.82);
+  border-radius: 24px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.92), rgba(233,245,255,.82));
+  box-shadow:
+    0 34px 100px rgba(29, 72, 113, .22),
+    inset 0 1px 0 rgba(255,255,255,.92);
+  backdrop-filter: blur(28px) saturate(140%);
+}
+
+.v3-mega::before {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  width: 390px;
+  height: 390px;
+  right: -160px;
+  top: -190px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(69, 146, 238, .20), transparent 68%);
+}
+
+.v3-mega-top {
+  height: 64px;
+  padding: 0 22px;
+  border-bottom: 1px solid rgba(26, 69, 112, .10);
+}
+
+.v3-mega-top span {
+  color: #3d79ba;
+}
+
+.v3-mega-top strong {
+  color: #0a294c;
+  font-size: 19px;
+  font-weight: 590;
+}
+
+.v3-mega-close {
+  border-color: rgba(17, 67, 112, .14);
+  background: rgba(255,255,255,.58);
+  color: #294d72;
+  box-shadow: 0 8px 22px rgba(35, 78, 116, .08);
+}
+
+.v3-mega-search {
+  height: 54px;
+  padding: 0 22px;
+  border-bottom: 1px solid rgba(26, 69, 112, .09);
+  background: rgba(255,255,255,.28);
+}
+
+.v3-mega-search > span {
+  color: #337fd0;
+}
+
+.v3-mega-search input {
+  color: #173a5f;
+  font-size: 11.5px;
+}
+
+.v3-mega-search input::placeholder {
+  color: #8395a9;
+}
+
+.v3-mega-search button {
+  color: #2c71bb;
+}
+
+.v3-mega-layout {
+  height: calc(100% - 118px);
+  grid-template-columns: 220px 1fr;
+}
+
+.v3-mega-categories {
+  padding: 13px 11px;
+  border-right: 1px solid rgba(25, 68, 111, .09);
+  background: rgba(239, 247, 255, .54);
+}
+
+.v3-mega-categories button {
+  min-height: 42px;
+  color: #71849a;
+}
+
+.v3-mega-categories button.active {
+  background: rgba(255,255,255,.84);
+  color: #0d345c;
+  box-shadow: 0 8px 24px rgba(36, 82, 124, .08);
+}
+
+.v3-mega-services {
+  padding: 20px 24px 28px;
+  background: rgba(255,255,255,.24);
+}
+
+.v3-mega-heading {
+  top: -20px;
+  margin: -20px -24px 12px;
+  padding: 19px 24px 14px;
+  background: rgba(247, 252, 255, .88);
+  border-bottom: 1px solid rgba(25, 68, 111, .055);
+  backdrop-filter: blur(18px);
+}
+
+.v3-mega-heading h2 {
+  color: #0a294b;
+  font-size: 29px;
+}
+
+.v3-mega-service-list {
+  gap: 0 22px;
+}
+
+.v3-mega-service-list a {
+  min-height: 49px;
+  border-bottom-color: rgba(26, 69, 112, .10);
+}
+
+.v3-mega-service-list a > span {
+  color: #3979c4;
+  font-size: 8.5px;
+  font-weight: 760;
+  opacity: 1;
+}
+
+.v3-mega-service-list strong {
+  color: #53667d;
+  font-size: 10.2px;
+}
+
+.v3-mega-service-list a:hover strong {
+  color: #0b3158;
+}
+
+.v3-mega-service-list b {
+  color: var(--mega-accent);
+}
+
+.v3-mega-results {
+  height: calc(100% - 118px);
+  background: rgba(255,255,255,.25);
+}
+
+.v3-search-result {
+  border-bottom-color: rgba(26, 69, 112, .10);
+}
+
+.v3-search-result strong {
+  color: #173b60;
+}
+
+.v3-search-result span,
+.v3-no-result {
+  color: #7a8da3;
+}
+
+.v3-search-result b {
+  color: #2b80d2;
+}
+
+.v3-mega-categories,
+.v3-mega-services,
+.v3-mega-results,
+.v3-mega-layout {
+  scrollbar-color: rgba(73, 118, 160, .42) transparent;
+}
+
+@media (max-width: 850px) {
+  .v3-mega {
+    top: 76px;
+    width: calc(100% - 16px);
+    height: min(78svh, 650px);
+    max-height: calc(100svh - 92px);
+    border-radius: 20px;
+  }
+
+  .v3-mega-top {
+    height: 58px;
+    padding: 0 14px;
+  }
+
+  .v3-mega-search {
+    height: 48px;
+    padding: 0 14px;
+  }
+
+  .v3-mega-layout {
+    height: calc(100% - 106px);
+  }
+
+  .v3-mega-categories {
+    padding: 7px 8px;
+    border-bottom: 1px solid rgba(25, 68, 111, .09);
+    background: rgba(241, 248, 255, .88);
+  }
+
+  .v3-mega-categories button {
+    min-width: 128px;
+    min-height: 36px;
+    background: rgba(255,255,255,.56);
+  }
+
+  .v3-mega-services {
+    padding: 15px;
+    background: transparent;
+  }
+
+  .v3-mega-heading {
+    margin: 0 0 10px;
+    padding: 0 0 12px;
+    background: transparent;
+    border-bottom: 1px solid rgba(25, 68, 111, .08);
+  }
+
+  .v3-mega-heading h2 {
+    font-size: 25px;
+  }
+
+  .v3-mega-service-list a > span {
+    color: #2e74c5;
+  }
+
+  .v3-mega-results {
+    height: calc(100% - 106px);
+  }
+}
