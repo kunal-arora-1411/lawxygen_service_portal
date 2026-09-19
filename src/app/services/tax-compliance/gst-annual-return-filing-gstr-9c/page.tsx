@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "GST Annual Return Filing (GSTR-9C) | LAWXYGEN",
-  description: "Keep gst annual return filing (gstr-9c) organised around records, review points and the next filing or response.",
-};
 
 const data = {
   "title": "GST Annual Return Filing (GSTR-9C)",

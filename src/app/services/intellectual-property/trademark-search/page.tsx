@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Trademark Search | LAWXYGEN",
-  description: "A specialist workflow for trademark search, from asset preparation through filing, response and record keeping.",
-};
 
 const data = {
   "title": "Trademark Search",

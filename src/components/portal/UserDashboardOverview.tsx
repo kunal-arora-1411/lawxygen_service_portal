@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { PortalIcon } from "./PortalIcons";
 import styles from "./PortalOverview.module.css";
 
@@ -17,8 +17,8 @@ export function UserDashboardOverview() {
           <h1>Your legal work, in one calm place.</h1>
           <p>Track services, deadlines, documents and consultations without switching between emails, chats and separate portals.</p>
           <div className={styles.heroActions}>
-            <Link href="/services" className={styles.primaryButton}>Explore services <PortalIcon name="arrow" size={15} /></Link>
-            <Link href="/services/talk-lawyer" className={styles.secondaryButton}>Talk to an expert <PortalIcon name="arrow" size={15} /></Link>
+            <Link to="/services" className={styles.primaryButton}>Explore services <PortalIcon name="arrow" size={15} /></Link>
+            <Link to="/services/talk-lawyer" className={styles.secondaryButton}>Talk to an expert <PortalIcon name="arrow" size={15} /></Link>
           </div>
         </div>
         <div className={styles.heroOrb}><div><PortalIcon name="shield" size={30} /></div></div>
@@ -41,7 +41,7 @@ export function UserDashboardOverview() {
 
       <section className={styles.twoCol}>
         <article className={styles.panel}>
-          <div className={styles.panelHead}><div className={styles.panelTitle}><strong>My active matters</strong><span>Every service with its current status and next action.</span></div><Link href="/dashboard/services" className={styles.textLink}>View all <PortalIcon name="arrow" size={14}/></Link></div>
+          <div className={styles.panelHead}><div className={styles.panelTitle}><strong>My active matters</strong><span>Every service with its current status and next action.</span></div><Link to="/dashboard/services" className={styles.textLink}>View all <PortalIcon name="arrow" size={14}/></Link></div>
           <div className={styles.matterList}>
             {matters.map((matter) => <div key={matter.name} className={styles.matter}>
               <span className={styles.matterIndex}>{matter.index}</span>
@@ -63,7 +63,7 @@ export function UserDashboardOverview() {
 
       <section className={styles.bottomGrid}>
         <article className={styles.panel}>
-          <div className={styles.panelHead}><div className={styles.panelTitle}><strong>Compliance calendar</strong><span>Deadlines that need visibility.</span></div><Link href="/dashboard/compliance" className={styles.textLink}>Full calendar <PortalIcon name="arrow" size={14}/></Link></div>
+          <div className={styles.panelHead}><div className={styles.panelTitle}><strong>Compliance calendar</strong><span>Deadlines that need visibility.</span></div><Link to="/dashboard/compliance" className={styles.textLink}>Full calendar <PortalIcon name="arrow" size={14}/></Link></div>
           <div className={styles.deadlineList}>
             {[
               ["GST return filing", "GSTR-3B · July period", "23 Aug"],

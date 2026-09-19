@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Hindu Undivided Family (HUF) Registration | LAWXYGEN",
-  description: "A guided path for hindu undivided family (huf) registration that keeps preparation, filing and follow-up easy to understand.",
-};
 
 const data = {
   "title": "Hindu Undivided Family (HUF) Registration",

@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "ROC Annual Filing Advisory | LAWXYGEN",
-  description: "Keep roc annual filing advisory organised around records, review points and the next filing or response.",
-};
 
 const data = {
   "title": "ROC Annual Filing Advisory",

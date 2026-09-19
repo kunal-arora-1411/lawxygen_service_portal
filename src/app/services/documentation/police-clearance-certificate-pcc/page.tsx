@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Police Clearance Certificate (PCC) | LAWXYGEN",
-  description: "Build police clearance certificate (pcc) around the right parties, commercial terms, clauses and review points.",
-};
 
 const data = {
   "title": "Police Clearance Certificate (PCC)",

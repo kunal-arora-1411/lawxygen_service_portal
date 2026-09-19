@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "HSN Code Finder Tool | LAWXYGEN",
-  description: "A practical LAWXYGEN tool for hsn code finder tool with straightforward inputs, a clear result and guidance on what the result means.",
-};
 
 const data = {
   "title": "HSN Code Finder Tool",

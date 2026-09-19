@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "TDS Return Filing | LAWXYGEN",
-  description: "Keep tds return filing organised around records, review points and the next filing or response.",
-};
 
 const data = {
   "title": "TDS Return Filing",

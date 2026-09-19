@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Gratuity Planning | LAWXYGEN",
-  description: "A clear LAWXYGEN workflow for gratuity planning, with concise guidance, preparation and an obvious next action.",
-};
 
 const data = {
   "title": "Gratuity Planning",

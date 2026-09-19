@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { PortalIcon } from "./PortalIcons";
 import styles from "./PortalOverview.module.css";
 
@@ -16,7 +16,7 @@ export function AdminDashboardOverview() {
         <span className={styles.eyebrow}>LAWXYGEN OPERATIONS</span>
         <h1>Run the platform without losing the details.</h1>
         <p>Requests, users, professionals, appointments and the service catalogue stay visible in one operational workspace.</p>
-        <div className={styles.heroActions}><Link href="/admin/requests" className={styles.primaryButton}>Open request queue <PortalIcon name="arrow" size={15}/></Link><Link href="/admin/services" className={styles.secondaryButton}>Manage 259 services <PortalIcon name="arrow" size={15}/></Link></div>
+        <div className={styles.heroActions}><Link to="/admin/requests" className={styles.primaryButton}>Open request queue <PortalIcon name="arrow" size={15}/></Link><Link to="/admin/services" className={styles.secondaryButton}>Manage 259 services <PortalIcon name="arrow" size={15}/></Link></div>
       </div>
       <div className={styles.heroOrb}><div><PortalIcon name="activity" size={30}/></div></div>
     </section>
@@ -32,7 +32,7 @@ export function AdminDashboardOverview() {
 
     <section className={styles.twoCol}>
       <article className={styles.panel}>
-        <div className={styles.panelHead}><div className={styles.panelTitle}><strong>Request operations</strong><span>Latest service activity across LAWXYGEN.</span></div><Link href="/admin/requests" className={styles.textLink}>Open queue <PortalIcon name="arrow" size={14}/></Link></div>
+        <div className={styles.panelHead}><div className={styles.panelTitle}><strong>Request operations</strong><span>Latest service activity across LAWXYGEN.</span></div><Link to="/admin/requests" className={styles.textLink}>Open queue <PortalIcon name="arrow" size={14}/></Link></div>
         <div className={styles.tableWrap}><table className={styles.table}><thead><tr><th>Request</th><th>Service</th><th>Client</th><th>Status</th><th>Updated</th></tr></thead><tbody>{requestRows.map((row,index)=><tr key={row[0]}><td><strong>{row[0]}</strong></td><td>{row[1]}</td><td>{row[2]}</td><td><span className={`${styles.dotStatus} ${index===1?styles.dotAmber:""}`}>{row[3]}</span></td><td>{row[4]}</td></tr>)}</tbody></table></div>
       </article>
 

@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Conversion of Business Structure | LAWXYGEN",
-  description: "A clear LAWXYGEN workflow for conversion of business structure, with concise guidance, preparation and an obvious next action.",
-};
 
 const data = {
   "title": "Conversion of Business Structure",

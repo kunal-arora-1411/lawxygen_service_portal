@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Increase in Authorized Share Capital | LAWXYGEN",
-  description: "A clear LAWXYGEN workflow for increase in authorized share capital, with concise guidance, preparation and an obvious next action.",
-};
 
 const data = {
   "title": "Increase in Authorized Share Capital",

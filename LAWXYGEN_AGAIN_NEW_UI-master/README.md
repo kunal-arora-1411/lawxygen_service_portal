@@ -1,1 +1,0 @@
-LAWXYGEN recovered stable source.

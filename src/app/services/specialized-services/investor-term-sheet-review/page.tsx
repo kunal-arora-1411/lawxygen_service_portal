@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Investor Term Sheet Review | LAWXYGEN",
-  description: "Bring the facts, documents and decision points together before taking the next step on investor term sheet review.",
-};
 
 const data = {
   "title": "Investor Term Sheet Review",

@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Angel / Seed Investment Legal Support | LAWXYGEN",
-  description: "Bring the facts, documents and decision points together before taking the next step on angel / seed investment legal support.",
-};
 
 const data = {
   "title": "Angel / Seed Investment Legal Support",

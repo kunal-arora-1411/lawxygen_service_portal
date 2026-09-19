@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "International Business Setup & Incorporation | LAWXYGEN",
-  description: "A guided path for international business setup & incorporation that keeps preparation, filing and follow-up easy to understand.",
-};
 
 const data = {
   "title": "International Business Setup & Incorporation",

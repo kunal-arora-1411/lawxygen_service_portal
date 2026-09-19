@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import styles from "./ServiceDetail.module.css";
@@ -70,7 +70,7 @@ export function ServiceDetail({ title, category, categorySlug, slug, kind, index
         <div className={styles.ambient} />
         <div className={styles.container}>
           <div className={styles.breadcrumb}>
-            <Link href="/">Home</Link><span>/</span><Link href="/services">Services</Link><span>/</span><Link href={`/services/${categorySlug}`}>{category}</Link><span>/</span><span>{title}</span>
+            <Link to="/">Home</Link><span>/</span><Link to="/services">Services</Link><span>/</span><Link to={`/services/${categorySlug}`}>{category}</Link><span>/</span><span>{title}</span>
           </div>
 
           <section className={styles.hero} aria-labelledby="service-title">
@@ -80,7 +80,7 @@ export function ServiceDetail({ title, category, categorySlug, slug, kind, index
               <h1 id="service-title">{title}</h1>
               <p className={styles.heroIntro}>{intro}</p>
               <div className={styles.heroActions}>
-                <Link href="/login" className={styles.primaryAction}>Start this service <span>↗</span></Link>
+                <Link to="/login" className={styles.primaryAction}>Start this service <span>↗</span></Link>
                 <a href="#process" className={styles.secondaryAction}>See how it works</a>
               </div>
               <div className={styles.heroSignals}>
@@ -97,7 +97,7 @@ export function ServiceDetail({ title, category, categorySlug, slug, kind, index
                 <div><span>Best for</span><strong>{bestFor}</strong></div>
                 <div><span>Starting point</span><strong>{startingPoint}</strong></div>
               </div>
-              <Link href="/login" className={styles.cardCta}>Sign in to save progress <span>→</span></Link>
+              <Link to="/login" className={styles.cardCta}>Sign in to save progress <span>→</span></Link>
             </aside>
           </section>
 
@@ -145,17 +145,17 @@ export function ServiceDetail({ title, category, categorySlug, slug, kind, index
 
           <section id="pricing" className={styles.pricingSection}>
             <div><p className={styles.kicker}>PRICING</p><h2>See the right price for your requirement.</h2><p>Publish LAWXYGEN's approved service fee, applicable government charges and any optional professional work here. Until those figures are final, users can request a quote without seeing invented prices.</p></div>
-            <Link href="/login" className={styles.priceCta}>Request a quote <span>↗</span></Link>
+            <Link to="/login" className={styles.priceCta}>Request a quote <span>↗</span></Link>
           </section>
 
           <section className={styles.relatedSection}>
             <div className={styles.sectionMini}><p className={styles.kicker}>KEEP EXPLORING</p><h2>Related LAWXYGEN services</h2></div>
-            <div className={styles.relatedGrid}>{related.slice(0, 6).map((item) => <Link key={item.href} href={item.href}><span>{item.title}</span><b>↗</b></Link>)}</div>
+            <div className={styles.relatedGrid}>{related.slice(0, 6).map((item) => <Link key={item.href} to={item.href}><span>{item.title}</span><b>↗</b></Link>)}</div>
           </section>
 
           <section className={styles.helpSection}>
             <div><p className={styles.kicker}>NEED HELP?</p><h2>Not sure what to do next?</h2><p>Start with the guided information above. When the issue involves a document review, negotiation, objection, dispute or another case-specific decision, move to a LAWXYGEN professional.</p></div>
-            <div className={styles.helpActions}><Link href="/login" className={styles.primaryAction}>Talk to an expert <span>↗</span></Link><Link href="/login" className={styles.ghostAction}>Save this service</Link></div>
+            <div className={styles.helpActions}><Link to="/login" className={styles.primaryAction}>Talk to an expert <span>↗</span></Link><Link to="/login" className={styles.ghostAction}>Save this service</Link></div>
           </section>
 
           <section id="faq" className={styles.section}>
@@ -163,7 +163,7 @@ export function ServiceDetail({ title, category, categorySlug, slug, kind, index
             <div className={styles.faq}>{faq.map((question) => <details key={question}><summary>{question}<span>+</span></summary><p>{getFaqAnswer(question, title, kind, startingPoint)}</p></details>)}</div>
           </section>
 
-          <div className={styles.footerBar}><span>LAWXYGEN · {category}</span><Link href="/services">Browse all services ↗</Link></div>
+          <div className={styles.footerBar}><span>LAWXYGEN · {category}</span><Link to="/services">Browse all services ↗</Link></div>
         </div>
       </main>
       <Footer />

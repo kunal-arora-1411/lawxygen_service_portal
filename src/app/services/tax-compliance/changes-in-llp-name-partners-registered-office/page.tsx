@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Changes in LLP (Name, Partners, Registered Office) | LAWXYGEN",
-  description: "A clear LAWXYGEN workflow for changes in llp (name, partners, registered office), with concise guidance, preparation and an obvious next action.",
-};
 
 const data = {
   "title": "Changes in LLP (Name, Partners, Registered Office)",

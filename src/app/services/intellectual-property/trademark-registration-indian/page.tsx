@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Trademark Registration (Indian) | LAWXYGEN",
-  description: "A guided path for trademark registration (indian) that keeps preparation, filing and follow-up easy to understand.",
-};
 
 const data = {
   "title": "Trademark Registration (Indian)",

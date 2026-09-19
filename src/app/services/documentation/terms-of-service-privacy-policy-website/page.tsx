@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Terms of Service / Privacy Policy (Website) | LAWXYGEN",
-  description: "Build terms of service / privacy policy (website) around the right parties, commercial terms, clauses and review points.",
-};
 
 const data = {
   "title": "Terms of Service / Privacy Policy (Website)",

@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "FSSAI Food License Registration (Basic / State / Central) | LAWXYGEN",
-  description: "A guided path for fssai food license registration (basic / state / central) that keeps preparation, filing and follow-up easy to understand.",
-};
 
 const data = {
   "title": "FSSAI Food License Registration (Basic / State / Central)",

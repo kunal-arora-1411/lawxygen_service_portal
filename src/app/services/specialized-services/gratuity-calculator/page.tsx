@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Gratuity Calculator | LAWXYGEN",
-  description: "A practical LAWXYGEN tool for gratuity calculator with straightforward inputs, a clear result and guidance on what the result means.",
-};
 
 const data = {
   "title": "Gratuity Calculator",

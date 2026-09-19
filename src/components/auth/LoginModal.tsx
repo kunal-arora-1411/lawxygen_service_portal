@@ -1,6 +1,3 @@
-"use client";
-
-import Image from "next/image";
 import { FormEvent, useEffect, useState } from "react";
 
 type Props = {
@@ -122,7 +119,7 @@ export function LoginModal({ open, onClose }: Props) {
         <div className="lawx-auth-glow" />
 
         <div className="lawx-auth-brand-row">
-          <Image
+          <img
             src="/lawxygen-logo-clean.png"
             alt="LAWXYGEN"
             width={112}

@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Cheque Bounce / Dishonour Cases | LAWXYGEN",
-  description: "A focused consultation path for cheque bounce / dishonour cases, designed to make the issue easy for the right professional to assess.",
-};
 
 const data = {
   "title": "Cheque Bounce / Dishonour Cases",

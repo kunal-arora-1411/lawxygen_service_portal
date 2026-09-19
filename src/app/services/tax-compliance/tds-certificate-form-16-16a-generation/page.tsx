@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "TDS Certificate (Form 16 / 16A) Generation | LAWXYGEN",
-  description: "Keep tds certificate (form 16 / 16a) generation organised around records, review points and the next filing or response.",
-};
 
 const data = {
   "title": "TDS Certificate (Form 16 / 16A) Generation",

@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Consumer Complaint Drafting | LAWXYGEN",
-  description: "Build consumer complaint drafting around the right parties, commercial terms, clauses and review points.",
-};
 
 const data = {
   "title": "Consumer Complaint Drafting",

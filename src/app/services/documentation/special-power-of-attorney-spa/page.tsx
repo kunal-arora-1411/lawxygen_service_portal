@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Special Power of Attorney (SPA) | LAWXYGEN",
-  description: "Build special power of attorney (spa) around the right parties, commercial terms, clauses and review points.",
-};
 
 const data = {
   "title": "Special Power of Attorney (SPA)",

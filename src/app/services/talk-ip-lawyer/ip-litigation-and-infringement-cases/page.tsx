@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "IP Litigation & Infringement Cases | LAWXYGEN",
-  description: "A specialist workflow for ip litigation & infringement cases, from asset preparation through filing, response and record keeping.",
-};
 
 const data = {
   "title": "IP Litigation & Infringement Cases",

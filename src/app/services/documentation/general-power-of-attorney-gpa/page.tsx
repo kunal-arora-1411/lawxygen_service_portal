@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "General Power of Attorney (GPA) | LAWXYGEN",
-  description: "Build general power of attorney (gpa) around the right parties, commercial terms, clauses and review points.",
-};
 
 const data = {
   "title": "General Power of Attorney (GPA)",

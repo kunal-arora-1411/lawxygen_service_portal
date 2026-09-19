@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Employment Agreement / Offer Letter | LAWXYGEN",
-  description: "Build employment agreement / offer letter around the right parties, commercial terms, clauses and review points.",
-};
 
 const data = {
   "title": "Employment Agreement / Offer Letter",

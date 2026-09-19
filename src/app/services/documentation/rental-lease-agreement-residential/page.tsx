@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Rental / Lease Agreement (Residential) | LAWXYGEN",
-  description: "Build rental / lease agreement (residential) around the right parties, commercial terms, clauses and review points.",
-};
 
 const data = {
   "title": "Rental / Lease Agreement (Residential)",

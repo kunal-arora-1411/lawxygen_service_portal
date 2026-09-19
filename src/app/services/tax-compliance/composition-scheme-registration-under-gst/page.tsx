@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Composition Scheme Registration under GST | LAWXYGEN",
-  description: "A guided path for composition scheme registration under gst that keeps preparation, filing and follow-up easy to understand.",
-};
 
 const data = {
   "title": "Composition Scheme Registration under GST",

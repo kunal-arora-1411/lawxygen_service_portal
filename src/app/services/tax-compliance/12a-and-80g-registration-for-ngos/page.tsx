@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "12A & 80G Registration for NGOs | LAWXYGEN",
-  description: "A guided path for 12a & 80g registration for ngos that keeps preparation, filing and follow-up easy to understand.",
-};
 
 const data = {
   "title": "12A & 80G Registration for NGOs",

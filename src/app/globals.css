@@ -1,3 +1,8 @@
+:root {
+  --v3-body: "Inter", sans-serif;
+  --v3-display: "Inter Tight", sans-serif;
+}
+
 * {
   box-sizing: border-box;
 }

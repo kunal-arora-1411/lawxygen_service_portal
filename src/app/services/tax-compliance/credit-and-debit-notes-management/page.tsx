@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Credit & Debit Notes Management | LAWXYGEN",
-  description: "A structured transaction workflow for credit & debit notes management, keeping the deal context, documents and review milestones together.",
-};
 
 const data = {
   "title": "Credit & Debit Notes Management",

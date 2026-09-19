@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Family Law – Divorce, Alimony, Child Custody | LAWXYGEN",
-  description: "A focused consultation path for family law – divorce, alimony, child custody, designed to make the issue easy for the right professional to assess.",
-};
 
 const data = {
   "title": "Family Law – Divorce, Alimony, Child Custody",

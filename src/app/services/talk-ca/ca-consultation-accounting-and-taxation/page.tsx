@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "CA Consultation – Accounting & Taxation | LAWXYGEN",
-  description: "Keep ca consultation – accounting & taxation organised around records, review points and the next filing or response.",
-};
 
 const data = {
   "title": "CA Consultation – Accounting & Taxation",

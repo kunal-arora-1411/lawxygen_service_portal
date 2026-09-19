@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Investment Pitch Deck Creation | LAWXYGEN",
-  description: "A clear LAWXYGEN workflow for investment pitch deck creation, with concise guidance, preparation and an obvious next action.",
-};
 
 const data = {
   "title": "Investment Pitch Deck Creation",

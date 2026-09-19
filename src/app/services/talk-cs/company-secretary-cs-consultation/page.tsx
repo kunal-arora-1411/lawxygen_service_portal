@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Company Secretary (CS) Consultation | LAWXYGEN",
-  description: "Bring the facts, documents and decision points together before taking the next step on company secretary (cs) consultation.",
-};
 
 const data = {
   "title": "Company Secretary (CS) Consultation",

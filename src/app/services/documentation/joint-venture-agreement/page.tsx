@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Joint Venture Agreement | LAWXYGEN",
-  description: "Build joint venture agreement around the right parties, commercial terms, clauses and review points.",
-};
 
 const data = {
   "title": "Joint Venture Agreement",

@@ -1,4 +1,3 @@
-import Image from "next/image";
 
 export function Footer() {
   return (
@@ -35,7 +34,7 @@ export function Footer() {
       <div className="v5-footer-main">
         <div className="v5-footer-about">
           <div className="v5-footer-logo">
-            <Image
+            <img
               src="/lawxygen-logo-clean.png"
               alt="LAWXYGEN"
               width={220}

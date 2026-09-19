@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import type { CSSProperties } from "react";
 import { serviceCatalog } from "@/data/serviceCatalog";
 import styles from "./ServicePageExperience.module.css";
@@ -91,7 +91,7 @@ export function ServicePageExperience({ category, categorySlug, accent, title, s
   return <main className={`${styles.page} ${styles[mode]}`} style={{ ["--accent" as string]: accent } as CSSProperties}>
     <div className={styles.ambient} />
     <div className={styles.shell}>
-      <div className={styles.breadcrumb}><Link href="/">Home</Link><span>/</span><Link href="/services">Services</Link><span>/</span><span>{category}</span></div>
+      <div className={styles.breadcrumb}><Link to="/">Home</Link><span>/</span><Link to="/services">Services</Link><span>/</span><span>{category}</span></div>
 
       <section className={styles.hero}>
         <div className={styles.heroCopy}>
@@ -99,8 +99,8 @@ export function ServicePageExperience({ category, categorySlug, accent, title, s
           <h1>{title}</h1>
           <p>{intro}</p>
           <div className={styles.heroActions}>
-            <Link className={styles.primary} href="#start">Get started <span>↗</span></Link>
-            <Link className={styles.secondary} href="#process">See process</Link>
+            <Link className={styles.primary} to="#start">Get started <span>↗</span></Link>
+            <Link className={styles.secondary} to="#process">See process</Link>
           </div>
           <div className={styles.metaLine}><span>LAWXYGEN SERVICE DESK</span><span>Online support</span><span>Expert assistance available</span></div>
         </div>
@@ -155,16 +155,16 @@ export function ServicePageExperience({ category, categorySlug, accent, title, s
 
       <section className={styles.section}>
         <div className={styles.sectionLead}><span>07</span><h2>Pricing & next step</h2></div>
-        <div className={styles.pricing}><div><span>LAWXYGEN SERVICE</span><h3>Simple start. Clear scope.</h3><p>Final professional fees, government charges and case-specific costs should be confirmed against the approved LAWXYGEN pricing for this service.</p></div><div className={styles.priceCard}><small>Quote</small><strong>Request pricing</strong><Link href="#start">Get a service quote ↗</Link></div></div>
+        <div className={styles.pricing}><div><span>LAWXYGEN SERVICE</span><h3>Simple start. Clear scope.</h3><p>Final professional fees, government charges and case-specific costs should be confirmed against the approved LAWXYGEN pricing for this service.</p></div><div className={styles.priceCard}><small>Quote</small><strong>Request pricing</strong><Link to="#start">Get a service quote ↗</Link></div></div>
       </section>
 
-      <section className={styles.relatedSection}><div><span className={styles.kicker}>EXPLORE MORE</span><h2>Related LAWXYGEN services</h2></div><div className={styles.relatedRow}>{relatedItems.map((item)=><Link key={item.title} href={item.href}><span>{item.title}</span><b>↗</b></Link>)}</div></section>
+      <section className={styles.relatedSection}><div><span className={styles.kicker}>EXPLORE MORE</span><h2>Related LAWXYGEN services</h2></div><div className={styles.relatedRow}>{relatedItems.map((item)=><Link key={item.title} to={item.href}><span>{item.title}</span><b>↗</b></Link>)}</div></section>
 
-      <section className={styles.help}><div><span className={styles.kicker}>NEED HELP?</span><h2>Talk to the right expert before you proceed.</h2><p>Tell us what you need and LAWXYGEN can guide you to the appropriate service or professional.</p></div><Link className={styles.primary} href="/services/talk-lawyer">Talk to an expert <span>↗</span></Link></section>
+      <section className={styles.help}><div><span className={styles.kicker}>NEED HELP?</span><h2>Talk to the right expert before you proceed.</h2><p>Tell us what you need and LAWXYGEN can guide you to the appropriate service or professional.</p></div><Link className={styles.primary} to="/services/talk-lawyer">Talk to an expert <span>↗</span></Link></section>
 
       <section className={styles.section} id="faq"><div className={styles.sectionLead}><span>08</span><h2>Frequently asked questions</h2></div><FAQ title={title}/></section>
 
-      <footer className={styles.serviceFooter}><div><strong>LAWXYGEN</strong><span>Legal, tax & business services</span></div><Link href="/services">Browse all services ↗</Link></footer>
+      <footer className={styles.serviceFooter}><div><strong>LAWXYGEN</strong><span>Legal, tax & business services</span></div><Link to="/services">Browse all services ↗</Link></footer>
     </div>
   </main>;
 }

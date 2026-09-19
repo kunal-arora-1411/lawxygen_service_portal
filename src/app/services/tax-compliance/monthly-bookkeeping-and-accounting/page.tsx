@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Monthly Bookkeeping & Accounting | LAWXYGEN",
-  description: "Keep monthly bookkeeping & accounting organised around records, review points and the next filing or response.",
-};
 
 const data = {
   "title": "Monthly Bookkeeping & Accounting",

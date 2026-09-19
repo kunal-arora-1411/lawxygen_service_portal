@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "MOU (Memorandum of Understanding) | LAWXYGEN",
-  description: "A clear LAWXYGEN workflow for mou (memorandum of understanding), with concise guidance, preparation and an obvious next action.",
-};
 
 const data = {
   "title": "MOU (Memorandum of Understanding)",

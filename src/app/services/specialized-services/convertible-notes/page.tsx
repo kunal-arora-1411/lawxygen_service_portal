@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Convertible Notes | LAWXYGEN",
-  description: "A structured transaction workflow for convertible notes, keeping the deal context, documents and review milestones together.",
-};
 
 const data = {
   "title": "Convertible Notes",

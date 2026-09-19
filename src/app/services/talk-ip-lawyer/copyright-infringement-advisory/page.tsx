@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Copyright Infringement Advisory | LAWXYGEN",
-  description: "A specialist workflow for copyright infringement advisory, from asset preparation through filing, response and record keeping.",
-};
 
 const data = {
   "title": "Copyright Infringement Advisory",

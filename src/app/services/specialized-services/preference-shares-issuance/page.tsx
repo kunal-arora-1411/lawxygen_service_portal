@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Preference Shares Issuance | LAWXYGEN",
-  description: "A structured transaction workflow for preference shares issuance, keeping the deal context, documents and review milestones together.",
-};
 
 const data = {
   "title": "Preference Shares Issuance",

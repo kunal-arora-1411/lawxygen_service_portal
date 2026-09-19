@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "DPIIT Recognition for Startups | LAWXYGEN",
-  description: "A guided path for dpiit recognition for startups that keeps preparation, filing and follow-up easy to understand.",
-};
 
 const data = {
   "title": "DPIIT Recognition for Startups",

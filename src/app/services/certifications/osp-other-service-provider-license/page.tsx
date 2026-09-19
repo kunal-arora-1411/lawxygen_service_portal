@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "OSP (Other Service Provider) License | LAWXYGEN",
-  description: "A clear LAWXYGEN workflow for osp (other service provider) license, with concise guidance, preparation and an obvious next action.",
-};
 
 const data = {
   "title": "OSP (Other Service Provider) License",

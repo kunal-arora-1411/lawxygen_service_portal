@@ -1,6 +1,3 @@
-"use client";
-
-import Image from "next/image";
 import { motion, useReducedMotion } from "motion/react";
 import { FormEvent, useEffect, useState } from "react";
 
@@ -164,7 +161,7 @@ export function HomeExperience() {
                 transition={{ duration: 0.55, delay: index * 0.06 }}
               >
                 <div className="ux-card-image">
-                  <Image src={item.image} alt="" fill sizes="(max-width: 850px) 100vw, 25vw" />
+                  <img src={item.image} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} sizes="(max-width: 850px) 100vw, 25vw" />
                 </div>
                 <div className="ux-card-meta">
                   <span>{item.number}</span>
@@ -204,7 +201,7 @@ export function HomeExperience() {
                 transition={{ duration: 0.5, delay: index * 0.05 }}
               >
                 <div className="ux-expert-image">
-                  <Image src={expert.image} alt="" fill sizes="96px" />
+                  <img src={expert.image} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} sizes="96px" />
                 </div>
                 <div className="ux-expert-copy">
                   <span>{expert.tag}</span>
@@ -229,7 +226,7 @@ export function HomeExperience() {
           <div className="ux-choice-grid">
             <a href="/services/business-setup" className="ux-choice-card ux-choice-large">
               <div className="ux-choice-image">
-                <Image src="/client-assets/BUSINESS SETUP.png" alt="Business setup" fill sizes="(max-width: 850px) 100vw, 50vw" />
+                <img src="/client-assets/BUSINESS SETUP.png" alt="Business setup" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} sizes="(max-width: 850px) 100vw, 50vw" />
               </div>
               <div className="ux-choice-content">
                 <span>01 · BUSINESS SETUP</span>
@@ -241,7 +238,7 @@ export function HomeExperience() {
 
             <button type="button" className="ux-choice-card" onClick={() => openModal("expert")}>
               <div className="ux-choice-image">
-                <Image src="/client-assets/TALK TO A LAWYER.png" alt="Talk to an expert" fill sizes="(max-width: 850px) 100vw, 25vw" />
+                <img src="/client-assets/TALK TO A LAWYER.png" alt="Talk to an expert" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} sizes="(max-width: 850px) 100vw, 25vw" />
               </div>
               <div className="ux-choice-content">
                 <span>02 · EXPERT</span>
@@ -253,7 +250,7 @@ export function HomeExperience() {
 
             <button type="button" className="ux-choice-card" onClick={() => openModal("team")}>
               <div className="ux-choice-image ux-choice-soft">
-                <Image src="/client-assets/DOCUMENTATION.png" alt="Connect with the team" fill sizes="(max-width: 850px) 100vw, 25vw" />
+                <img src="/client-assets/DOCUMENTATION.png" alt="Connect with the team" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} sizes="(max-width: 850px) 100vw, 25vw" />
               </div>
               <div className="ux-choice-content">
                 <span>03 · STILL CONFUSED?</span>
@@ -302,7 +299,7 @@ export function HomeExperience() {
             {panel.map((item) => (
               <article key={item.role}>
                 <div className="ux-panel-image">
-                  <Image src={item.image} alt="" fill sizes="(max-width: 850px) 100vw, 33vw" />
+                  <img src={item.image} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} sizes="(max-width: 850px) 100vw, 33vw" />
                 </div>
                 <span>{item.role}</span>
                 <h3>{item.title}</h3>
@@ -328,17 +325,17 @@ export function HomeExperience() {
           <div className="ux-why-list">
             <article>
               <span>01</span>
-              <div className="ux-why-item-image"><Image src="/client-assets/BUSINESS SETUP.png" alt="Business setup" fill sizes="58px" /></div>
+              <div className="ux-why-item-image"><img src="/client-assets/BUSINESS SETUP.png" alt="Business setup" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} sizes="58px" /></div>
               <div><strong>Find what you need faster</strong><p>Search, category navigation and focused CTAs keep the route visible.</p></div>
             </article>
             <article>
               <span>02</span>
-              <div className="ux-why-item-image"><Image src="/client-assets/TAX & COMPLAINCE.png" alt="Tax and compliance" fill sizes="58px" /></div>
+              <div className="ux-why-item-image"><img src="/client-assets/TAX & COMPLAINCE.png" alt="Tax and compliance" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} sizes="58px" /></div>
               <div><strong>Choose the right kind of help</strong><p>Service discovery and expert consultation sit beside each other instead of competing.</p></div>
             </article>
             <article>
               <span>03</span>
-              <div className="ux-why-item-image"><Image src="/client-assets/IP.png" alt="Intellectual property" fill sizes="58px" /></div>
+              <div className="ux-why-item-image"><img src="/client-assets/IP.png" alt="Intellectual property" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} sizes="58px" /></div>
               <div><strong>Know the next action</strong><p>Each section leads naturally to a service, a professional or a simple contact form.</p></div>
             </article>
           </div>

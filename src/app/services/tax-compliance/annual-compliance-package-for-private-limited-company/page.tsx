@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Annual Compliance Package for Private Limited Company | LAWXYGEN",
-  description: "Keep annual compliance package for private limited company organised around records, review points and the next filing or response.",
-};
 
 const data = {
   "title": "Annual Compliance Package for Private Limited Company",

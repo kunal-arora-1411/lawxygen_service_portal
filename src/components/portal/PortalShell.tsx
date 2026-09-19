@@ -1,8 +1,4 @@
-"use client";
-
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link, useLocation } from "react-router-dom";
 import { ReactNode, useEffect, useMemo, useState } from "react";
 import { PortalIcon, PortalIconName } from "./PortalIcons";
 import styles from "./PortalShell.module.css";
@@ -41,7 +37,7 @@ function isRouteActive(pathname: string, href: string) {
 }
 
 export function PortalShell({ mode, children }: Props) {
-  const pathname = usePathname();
+  const pathname = useLocation().pathname;
   const [mobileNav, setMobileNav] = useState(false);
   const nav = mode === "admin" ? adminNav : userNav;
   const title = mode === "admin" ? "LAWXYGEN Control" : "Client workspace";
@@ -65,8 +61,8 @@ export function PortalShell({ mode, children }: Props) {
     <div className={`${styles.shell} ${mode === "admin" ? styles.adminShell : ""}`}>
       <aside className={`${styles.sidebar} ${mobileNav ? styles.sidebarOpen : ""}`}>
         <div className={styles.brandRow}>
-          <Link href="/" className={styles.brand} aria-label="LAWXYGEN home">
-            <Image src="/lawxygen-logo-clean.png" alt="LAWXYGEN" width={150} height={105} priority />
+          <Link to="/" className={styles.brand} aria-label="LAWXYGEN home">
+            <img src="/lawxygen-logo-clean.png" alt="LAWXYGEN" width={150} height={105} />
           </Link>
           <button className={styles.mobileClose} type="button" onClick={() => setMobileNav(false)}>×</button>
         </div>
@@ -80,7 +76,7 @@ export function PortalShell({ mode, children }: Props) {
           {nav.map((item) => {
             const active = isRouteActive(pathname, item.href);
             return (
-              <Link key={item.href} href={item.href} className={`${styles.navItem} ${active ? styles.navItemActive : ""}`}>
+              <Link key={item.href} to={item.href} className={`${styles.navItem} ${active ? styles.navItemActive : ""}`}>
                 <i><PortalIcon name={item.icon} /></i>
                 <span>{item.label}</span>
                 {item.badge ? <b>{item.badge}</b> : null}
@@ -98,7 +94,7 @@ export function PortalShell({ mode, children }: Props) {
             </div>
             <PortalIcon name="arrow" size={16} />
           </div>
-          <Link href="/" className={styles.exitLink}><PortalIcon name="logout" /><span>Back to website</span></Link>
+          <Link to="/" className={styles.exitLink}><PortalIcon name="logout" /><span>Back to website</span></Link>
         </div>
       </aside>
 

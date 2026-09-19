@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "360 Degree Protection – ROC Compliance + Accounting + Legal | LAWXYGEN",
-  description: "Keep 360 degree protection – roc compliance + accounting + legal organised around records, review points and the next filing or response.",
-};
 
 const data = {
   "title": "360 Degree Protection – ROC Compliance + Accounting + Legal",

@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "ISI Certification | LAWXYGEN",
-  description: "A clear LAWXYGEN workflow for isi certification, with concise guidance, preparation and an obvious next action.",
-};
 
 const data = {
   "title": "ISI Certification",

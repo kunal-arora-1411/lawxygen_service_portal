@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Real Estate Legal Advisory | LAWXYGEN",
-  description: "Bring the facts, documents and decision points together before taking the next step on real estate legal advisory.",
-};
 
 const data = {
   "title": "Real Estate Legal Advisory",

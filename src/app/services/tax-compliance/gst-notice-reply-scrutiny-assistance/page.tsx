@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "GST Notice Reply / Scrutiny Assistance | LAWXYGEN",
-  description: "Keep gst notice reply / scrutiny assistance organised around records, review points and the next filing or response.",
-};
 
 const data = {
   "title": "GST Notice Reply / Scrutiny Assistance",

@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Adoption Legal Support | LAWXYGEN",
-  description: "Bring the facts, documents and decision points together before taking the next step on adoption legal support.",
-};
 
 const data = {
   "title": "Adoption Legal Support",

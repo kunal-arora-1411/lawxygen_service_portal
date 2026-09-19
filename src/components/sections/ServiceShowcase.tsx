@@ -1,6 +1,3 @@
-"use client";
-
-import Image from "next/image";
 import { motion, useMotionValueEvent, useReducedMotion, useScroll } from "motion/react";
 import { useMemo, useRef, useState } from "react";
 import { serviceCatalog } from "@/data/serviceCatalog";
@@ -136,12 +133,11 @@ export function ServiceShowcase() {
                   </div>
 
                   <div className="ux-scroll-image">
-                    <Image
+                    <img
                       src={serviceImages[activeGroup.slug]}
                       alt={activeGroup.label}
-                      fill
+                      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
                       sizes="(max-width: 860px) 100vw, 32vw"
-                      priority={activeIndex === 0}
                     />
                     <div className="ux-scroll-image-caption">
                       <span>LAWXYGEN</span>

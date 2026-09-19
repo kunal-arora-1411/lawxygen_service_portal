@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Director KYC (DIR-3 KYC) | LAWXYGEN",
-  description: "Keep director kyc (dir-3 kyc) organised around records, review points and the next filing or response.",
-};
 
 const data = {
   "title": "Director KYC (DIR-3 KYC)",

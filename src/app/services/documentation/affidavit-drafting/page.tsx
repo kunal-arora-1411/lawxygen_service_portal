@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Affidavit Drafting | LAWXYGEN",
-  description: "Build affidavit drafting around the right parties, commercial terms, clauses and review points.",
-};
 
 const data = {
   "title": "Affidavit Drafting",

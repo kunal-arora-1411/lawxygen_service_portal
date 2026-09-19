@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Changes in Private Limited Company (Name, Address, Directors, MOA/AOA) | LAWXYGEN",
-  description: "A clear LAWXYGEN workflow for changes in private limited company (name, address, directors, moa/aoa), with concise guidance, preparation and an obvious next action.",
-};
 
 const data = {
   "title": "Changes in Private Limited Company (Name, Address, Directors, MOA/AOA)",

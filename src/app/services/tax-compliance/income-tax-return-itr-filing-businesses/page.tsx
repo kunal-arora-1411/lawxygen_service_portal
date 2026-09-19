@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Income Tax Return (ITR) Filing – Businesses | LAWXYGEN",
-  description: "Keep income tax return (itr) filing – businesses organised around records, review points and the next filing or response.",
-};
 
 const data = {
   "title": "Income Tax Return (ITR) Filing – Businesses",

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { PortalIcon, PortalIconName } from "./PortalIcons";
 import styles from "./PortalSectionPage.module.css";
 
@@ -19,7 +19,7 @@ export function PortalSectionPage({ eyebrow, title, description, metrics, rows, 
   return <div className={styles.page}>
     <section className={styles.head}>
       <div><span>{eyebrow}</span><h1>{title}</h1><p>{description}</p></div>
-      {primaryLabel && primaryHref ? <Link href={primaryHref} className={styles.primary}>{primaryLabel}<PortalIcon name="arrow" size={15}/></Link> : null}
+      {primaryLabel && primaryHref ? <Link to={primaryHref} className={styles.primary}>{primaryLabel}<PortalIcon name="arrow" size={15}/></Link> : null}
     </section>
     <section className={styles.metrics}>{metrics.map((item)=><article key={item.label}><i><PortalIcon name={item.icon}/></i><div><strong>{item.value}</strong><span>{item.label}</span><small>{item.note}</small></div></article>)}</section>
     <section className={styles.panel}>

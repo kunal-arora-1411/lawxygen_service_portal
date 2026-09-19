@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Complete Patent Application | LAWXYGEN",
-  description: "A guided path for complete patent application that keeps preparation, filing and follow-up easy to understand.",
-};
 
 const data = {
   "title": "Complete Patent Application",

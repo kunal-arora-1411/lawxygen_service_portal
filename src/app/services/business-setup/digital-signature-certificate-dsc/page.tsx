@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Digital Signature Certificate (DSC) | LAWXYGEN",
-  description: "Build digital signature certificate (dsc) around the right parties, commercial terms, clauses and review points.",
-};
 
 const data = {
   "title": "Digital Signature Certificate (DSC)",

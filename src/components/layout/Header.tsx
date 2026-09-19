@@ -1,9 +1,6 @@
-"use client";
-
-import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { ServiceMegaMenu } from "./ServiceMegaMenu";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { LoginModal } from "@/components/auth/LoginModal";
 
 type MobileIconName =
@@ -154,12 +151,11 @@ export function Header() {
       <header className={`lawx-final-header ${scrolled ? "scrolled" : ""}`}>
         <div className="lawx-final-nav">
           <a href="/" className="lawx-final-brand" aria-label="LAWXYGEN home">
-            <Image
+            <img
               src="/lawxygen-logo-transparent.png"
               alt="LAWXYGEN"
               width={180}
               height={130}
-              priority
               className="lawx-final-logo"
             />
           </a>
@@ -168,10 +164,10 @@ export function Header() {
             <button type="button" onClick={() => openServices()}>
               Services <span>+</span>
             </button>
-            <Link href="/services/business-setup">Business</Link>
-            <Link href="/services/tax-compliance">Compliance</Link>
-            <Link href="/services/talk-lawyer">Find a Lawyer</Link>
-            <Link href="/services">Resources</Link>
+            <Link to="/services/business-setup">Business</Link>
+            <Link to="/services/tax-compliance">Compliance</Link>
+            <Link to="/services/talk-lawyer">Find a Lawyer</Link>
+            <Link to="/services">Resources</Link>
           </nav>
 
           <div className="lawx-final-actions">
@@ -192,7 +188,7 @@ export function Header() {
               Login
             </button>
 
-            <Link href="/services/talk-lawyer/online-lawyer-consultation" className="lawx-final-consult">
+            <Link to="/services/talk-lawyer/online-lawyer-consultation" className="lawx-final-consult">
               Consult <span>↗</span>
             </Link>
 
@@ -217,7 +213,7 @@ export function Header() {
       >
         <div className="lawx-mobile-drawer-head">
           <a href="/" className="lawx-mobile-brand" onClick={() => setMobileOpen(false)}>
-            <Image
+            <img
               src="/lawxygen-logo-transparent.png"
               alt="LAWXYGEN"
               width={155}
@@ -265,13 +261,13 @@ export function Header() {
             <b>›</b>
           </button>
 
-          <Link href="/services/business-setup" onClick={() => setMobileOpen(false)}>
+          <Link to="/services/business-setup" onClick={() => setMobileOpen(false)}>
             <i><MobileIcon name="business" /></i>
             <span>Start a Business</span>
             <b>›</b>
           </Link>
 
-          <Link href="/services/tax-compliance" onClick={() => setMobileOpen(false)}>
+          <Link to="/services/tax-compliance" onClick={() => setMobileOpen(false)}>
             <i><MobileIcon name="compliance" /></i>
             <span>Tax & Compliance</span>
             <b>›</b>
@@ -283,13 +279,13 @@ export function Header() {
             <b>›</b>
           </button>
 
-          <Link href="/services/talk-lawyer" onClick={() => setMobileOpen(false)}>
+          <Link to="/services/talk-lawyer" onClick={() => setMobileOpen(false)}>
             <i><MobileIcon name="lawyer" /></i>
             <span>Find a Lawyer</span>
             <b>›</b>
           </Link>
 
-          <Link href="/services/talk-lawyer" onClick={() => setMobileOpen(false)}>
+          <Link to="/services/talk-lawyer" onClick={() => setMobileOpen(false)}>
             <i><MobileIcon name="expert" /></i>
             <span>Find a Lawyer</span>
             <b>›</b>
@@ -300,23 +296,23 @@ export function Header() {
 
         <div className="lawx-mobile-group compact">
           <span className="lawx-mobile-label">LAWXYGEN</span>
-          <Link href="/services" onClick={() => setMobileOpen(false)}>
+          <Link to="/services" onClick={() => setMobileOpen(false)}>
             <span>Resources</span>
             <b>›</b>
           </Link>
-          <Link href="/services/talk-lawyer/online-lawyer-consultation" onClick={() => setMobileOpen(false)}>
+          <Link to="/services/talk-lawyer/online-lawyer-consultation" onClick={() => setMobileOpen(false)}>
             <span>Contact</span>
             <b>›</b>
           </Link>
         </div>
 
         <div className="lawx-mobile-bottom">
-          <Link href="/services/talk-lawyer" className="lawx-mobile-find" onClick={() => setMobileOpen(false)}>
+          <Link to="/services/talk-lawyer" className="lawx-mobile-find" onClick={() => setMobileOpen(false)}>
             <i><MobileIcon name="lawyer" /></i>
             Find a Lawyer
           </Link>
 
-          <Link href="/services/talk-lawyer/online-lawyer-consultation" onClick={() => setMobileOpen(false)}>
+          <Link to="/services/talk-lawyer/online-lawyer-consultation" onClick={() => setMobileOpen(false)}>
             Get Started <span>→</span>
           </Link>
         </div>

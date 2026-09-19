@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Cheque Dishonour (Legal Notice u/s 138) | LAWXYGEN",
-  description: "Keep cheque dishonour (legal notice u/s 138) organised around records, review points and the next filing or response.",
-};
 
 const data = {
   "title": "Cheque Dishonour (Legal Notice u/s 138)",

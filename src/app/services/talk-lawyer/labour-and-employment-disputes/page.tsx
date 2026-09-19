@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Labour & Employment Disputes | LAWXYGEN",
-  description: "A focused consultation path for labour & employment disputes, designed to make the issue easy for the right professional to assess.",
-};
 
 const data = {
   "title": "Labour & Employment Disputes",

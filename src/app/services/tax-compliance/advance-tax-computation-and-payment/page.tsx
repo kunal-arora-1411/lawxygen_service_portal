@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Advance Tax Computation & Payment | LAWXYGEN",
-  description: "Keep advance tax computation & payment organised around records, review points and the next filing or response.",
-};
 
 const data = {
   "title": "Advance Tax Computation & Payment",

@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "UK Company Registration | LAWXYGEN",
-  description: "A guided path for uk company registration that keeps preparation, filing and follow-up easy to understand.",
-};
 
 const data = {
   "title": "UK Company Registration",

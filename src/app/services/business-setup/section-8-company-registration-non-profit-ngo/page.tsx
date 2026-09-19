@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Section 8 Company Registration (Non-Profit / NGO) | LAWXYGEN",
-  description: "A guided path for section 8 company registration (non-profit / ngo) that keeps preparation, filing and follow-up easy to understand.",
-};
 
 const data = {
   "title": "Section 8 Company Registration (Non-Profit / NGO)",

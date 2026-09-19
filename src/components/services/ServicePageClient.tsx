@@ -1,6 +1,4 @@
-"use client";
-
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { useMemo, useState } from "react";
 import styles from "./ServicePageClient.module.css";
 import { serviceHref } from "@/lib/serviceRoutes";
@@ -37,7 +35,7 @@ export function ServicePageClient({ data }: { data: ServiceData }) {
     <div className={`${styles.page} ${styles[variant.layout]} ${styles[variant.tone]}`} style={{ "--accent": data.accent } as React.CSSProperties}>
       <header className={styles.utilityBar}>
         <div className={styles.container}>
-          <Link href="/services">All services</Link>
+          <Link to="/services">All services</Link>
           <span>{data.category}</span>
           <span className={styles.route}>{data.routeLabel}</span>
         </div>
@@ -47,14 +45,14 @@ export function ServicePageClient({ data }: { data: ServiceData }) {
         <section className={styles.hero}>
           <div className={styles.heroGlow} />
           <div className={styles.container}>
-            <div className={styles.breadcrumbs}><Link href="/">Home</Link><span>/</span><Link href="/services">Services</Link><span>/</span><span>{data.category}</span></div>
+            <div className={styles.breadcrumbs}><Link to="/">Home</Link><span>/</span><Link to="/services">Services</Link><span>/</span><span>{data.category}</span></div>
             <div className={styles.heroGrid}>
               <div className={styles.heroCopy}>
                 <span className={styles.kicker}>{data.category}</span>
                 <h1>{data.title}</h1>
                 <p>{data.intro}</p>
                 <div className={styles.heroActions}>
-                  <Link className={styles.primary} href={`/login?service=${encodeURIComponent(data.title)}`}>Start this service <span>↗</span></Link>
+                  <Link className={styles.primary} to={`/login?service=${encodeURIComponent(data.title)}`}>Start this service <span>↗</span></Link>
                   <a className={styles.secondary} href="#process">See process <span>↓</span></a>
                 </div>
               </div>
@@ -64,7 +62,7 @@ export function ServicePageClient({ data }: { data: ServiceData }) {
                 <div className={styles.stat}><span>Service</span><b>{data.title}</b></div>
                 <div className={styles.stat}><span>Status</span><b>Ready to begin</b></div>
                 <div className={styles.stat}><span>Next step</span><b>Review requirements</b></div>
-                <Link className={styles.workspaceCta} href={`/login?service=${encodeURIComponent(data.title)}`}>Log in / sign up <span>→</span></Link>
+                <Link className={styles.workspaceCta} to={`/login?service=${encodeURIComponent(data.title)}`}>Log in / sign up <span>→</span></Link>
               </aside>
             </div>
           </div>
@@ -123,20 +121,20 @@ export function ServicePageClient({ data }: { data: ServiceData }) {
 
         <section className={styles.section} id="pricing">
           <div className={styles.container}>
-            <div className={styles.pricingCard}><div><span className={styles.sectionEyebrow}>07 · PRICING</span><h2>Clear pricing, without the clutter.</h2><p>{data.pricing}</p></div><Link className={styles.primary} href={`/login?service=${encodeURIComponent(data.title)}`}>Get started <span>↗</span></Link></div>
+            <div className={styles.pricingCard}><div><span className={styles.sectionEyebrow}>07 · PRICING</span><h2>Clear pricing, without the clutter.</h2><p>{data.pricing}</p></div><Link className={styles.primary} to={`/login?service=${encodeURIComponent(data.title)}`}>Get started <span>↗</span></Link></div>
           </div>
         </section>
 
         <section className={styles.section} id="related">
           <div className={styles.container}>
             <div className={styles.sectionLead}><span>08 · RELATED SERVICES</span><h2>Keep the rest of the journey nearby.</h2></div>
-            <div className={styles.relatedRail}>{data.related.map((item) => <Link key={item} href={serviceHref(data.categorySlug, item)}><small>{data.category}</small><strong>{item}</strong><span>View service →</span></Link>)}</div>
+            <div className={styles.relatedRail}>{data.related.map((item) => <Link key={item} to={serviceHref(data.categorySlug, item)}><small>{data.category}</small><strong>{item}</strong><span>View service →</span></Link>)}</div>
           </div>
         </section>
 
         <section className={styles.section} id="expert">
           <div className={styles.container}>
-            <div className={styles.expertCard}><div><span className={styles.sectionEyebrow}>09 · TALK TO AN EXPERT</span><h2>Need a human opinion?</h2><p>Connect with the relevant LAWXYGEN professional when your requirement needs personal guidance.</p></div><Link className={styles.primary} href="/services/talk-lawyer/online-lawyer-consultation">Talk to an expert <span>→</span></Link></div>
+            <div className={styles.expertCard}><div><span className={styles.sectionEyebrow}>09 · TALK TO AN EXPERT</span><h2>Need a human opinion?</h2><p>Connect with the relevant LAWXYGEN professional when your requirement needs personal guidance.</p></div><Link className={styles.primary} to="/services/talk-lawyer/online-lawyer-consultation">Talk to an expert <span>→</span></Link></div>
           </div>
         </section>
 
@@ -148,7 +146,7 @@ export function ServicePageClient({ data }: { data: ServiceData }) {
         </section>
       </main>
 
-      <footer className={styles.miniFooter}><div className={styles.container}><span>LAWXYGEN</span><span>Professional legal, tax & business services</span><Link href="/">Back to home ↗</Link></div></footer>
+      <footer className={styles.miniFooter}><div className={styles.container}><span>LAWXYGEN</span><span>Professional legal, tax & business services</span><Link to="/">Back to home ↗</Link></div></footer>
     </div>
   );
 }

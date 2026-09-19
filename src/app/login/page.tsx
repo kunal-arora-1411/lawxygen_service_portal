@@ -1,7 +1,5 @@
-"use client";
-
 import { useState } from "react";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import styles from "./login.module.css";
 
 export default function LoginPage() {
@@ -10,7 +8,7 @@ export default function LoginPage() {
     <main className={styles.page}>
       <div className={styles.glow} />
       <section className={styles.card}>
-        <Link href="/" className={styles.logo}><img src="/lawxygen-logo-clean.png" alt="LAWXYGEN" /></Link>
+        <Link to="/" className={styles.logo}><img src="/lawxygen-logo-clean.png" alt="LAWXYGEN" /></Link>
         <div className={styles.eyebrow}>SECURE CLIENT ACCESS</div>
         <h1>Log in or sign up.</h1>
         <p className={styles.lead}>Manage consultations, appointments, service requests and your LAWXYGEN account.</p>

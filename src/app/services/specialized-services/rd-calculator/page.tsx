@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "RD Calculator | LAWXYGEN",
-  description: "A practical LAWXYGEN tool for rd calculator with straightforward inputs, a clear result and guidance on what the result means.",
-};
 
 const data = {
   "title": "RD Calculator",

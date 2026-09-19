@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Valuation Report for Share Issuance | LAWXYGEN",
-  description: "Bring the facts, documents and decision points together before taking the next step on valuation report for share issuance.",
-};
 
 const data = {
   "title": "Valuation Report for Share Issuance",

@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
 import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Minutes of Meetings (AGM / EGM) | LAWXYGEN",
-  description: "A focused consultation path for minutes of meetings (agm / egm), designed to make the issue easy for the right professional to assess.",
-};
 
 const data = {
   "title": "Minutes of Meetings (AGM / EGM)",
