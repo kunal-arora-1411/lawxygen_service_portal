@@ -3,11 +3,9 @@
 Companion to [`delivery-plan.md`](./delivery-plan.md). That document is the plan; this
 one is what is actually left, surveyed against the code on 19 September 2026.
 
-**Updated 19 September 2026:** item 1 is done. 217 backend tests pass.
-
-**State at the time of writing.** M0–M4 are substantially built: auth, catalogue,
-checkout, payments, ledger, invoicing, assignment, payouts, refunds and reconciliation.
-205 backend tests pass. A real Razorpay test-mode payment has been taken end to end —
+**State.** M0–M4 are substantially built: auth, catalogue, checkout, payments, ledger,
+invoicing, assignment, payouts, refunds, reconciliation and professional onboarding.
+217 backend tests pass. A real Razorpay test-mode payment has been taken end to end —
 order `LX-001654`, invoice `LX/2026-27/001191`, ledger balanced, assigned automatically.
 
 **How to read the priorities.** P0 items are ones where a real client or a real
@@ -21,9 +19,11 @@ P3 is M5. Nothing here is optional; the ordering is about sequence, not importan
 
 ### 1. Professional onboarding — **done**
 
-Shipped 19 September 2026. A client applies at , fills in registration and
+Shipped 19 September 2026. A client applies at `/apply`, fills in registration and
 payout details against a readiness checklist, and submits; admin reviews at
- and verifies, rejects with a reason, or reinstates.
+`/admin/professionals/:id` and verifies, rejects with a reason, or reinstates.
+Bank details are frozen while a payout batch is drafted against them, and neither PAN
+nor account number is ever decrypted into a response.
 
 Two things deliberately left:
 
