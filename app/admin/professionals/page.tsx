@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { api, type AdminProfessional } from "@/lib/api";
 import { forwardedCookie } from "@/lib/session";
 import { ProfessionalActions } from "./ProfessionalActions";
@@ -120,6 +121,14 @@ export default async function AdminProfessionalsPage({
                       )}
                     </td>
                     <td>
+                      {/* The list decides; the detail page is where you check the
+                          registration number against the register before deciding. */}
+                      <Link
+                        href={`/admin/professionals/${professional.id}`}
+                        className={styles.ghost}
+                      >
+                        Review
+                      </Link>
                       <ProfessionalActions professional={professional} />
                     </td>
                   </tr>

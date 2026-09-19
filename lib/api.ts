@@ -405,3 +405,47 @@ export type ReconciliationRun = {
   startedAt: string;
   finishedAt: string | null;
 };
+
+/** A professional's application, as both they and admin see it. */
+export type ReadinessCheck = {
+  key: "categories" | "credential" | "payout";
+  done: boolean;
+  label: string;
+};
+
+export type ProfessionalApplication = {
+  id: string;
+  kind: "chartered_accountant" | "company_secretary" | "advocate";
+  displayName: string;
+  headline: string | null;
+  city: string | null;
+  status: "draft" | "pending_review" | "verified" | "suspended" | "rejected";
+  available: boolean;
+  concurrentCapacity: number;
+  categories: { slug: string; label: string }[];
+  credentials: {
+    id: string;
+    body: string;
+    registrationNumber: string;
+    status: string;
+    reviewNote: string | null;
+  }[];
+  /** Never the numbers themselves — a masked PAN and the last four of the account. */
+  payout: {
+    panMasked: string;
+    gstinSet: boolean;
+    accountLast4: string;
+    ifsc: string;
+    accountHolderName: string;
+  } | null;
+  readiness: ReadinessCheck[];
+  submittable: boolean;
+  verifiedAt: string | null;
+  createdAt: string;
+};
+
+export const PROFESSIONAL_KINDS = [
+  { value: "chartered_accountant", label: "Chartered Accountant" },
+  { value: "company_secretary", label: "Company Secretary" },
+  { value: "advocate", label: "Advocate" },
+] as const;

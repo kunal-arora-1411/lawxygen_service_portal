@@ -26,7 +26,12 @@ const NAV = [
   },
   {
     group: "Your account",
-    items: [{ href: "/orders", label: "My orders", icon: "❏" }],
+    items: [
+      { href: "/orders", label: "My orders", icon: "❏" },
+      // The supply side has to be findable from the demand side, or the only
+      // professionals who ever apply are the ones sent a direct link.
+      { href: "/apply", label: "Work with us", icon: "◈" },
+    ],
   },
   // Invoices and Profile are deliberately absent until those pages exist. A nav that
   // links to a 404 is worse than one that is short.

@@ -25,6 +25,9 @@ export default async function ProLayout({ children }: { children: React.ReactNod
           <span className={styles.roleBadge}>Professional</span>
         </Link>
         <div className={styles.spacer} />
+        <Link href="/pro/application" className={styles.exit}>
+          My application
+        </Link>
         <span className={styles.who}>{user.name ?? user.email}</span>
         <Link href="/dashboard" className={styles.exit}>
           Client portal →
