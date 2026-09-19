@@ -1,0 +1,144 @@
+.section {
+  margin-bottom: 34px;
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.title {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: var(--ink-faint);
+  margin: 2px 0 0;
+}
+
+/* "See all" sits above the row, per the agreed layout. */
+.seeAll {
+  font-size: 13px;
+  color: var(--brand);
+  font-weight: 550;
+  white-space: nowrap;
+}
+
+.seeAll:hover {
+  text-decoration: underline;
+}
+
+.scroller {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(248px, 1fr);
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+}
+
+.scroller > * {
+  scroll-snap-align: start;
+}
+
+@media (max-width: 620px) {
+  .scroller {
+    grid-auto-columns: minmax(78%, 1fr);
+  }
+}
+
+/* ---------------------------------------------------------------- card */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  min-height: 146px;
+  transition:
+    border-color 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.card:hover {
+  border-color: #cdd5e4;
+  box-shadow: var(--shadow);
+}
+
+.cardTop {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: var(--canvas);
+  color: var(--ink-soft);
+  border: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+.consultation {
+  background: #f3efff;
+  border-color: #e1d7ff;
+  color: #6b46c1;
+}
+
+.cardTitle {
+  font-size: 14.5px;
+  font-weight: 570;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.cardFoot {
+  margin-top: auto;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.price {
+  font-size: 16px;
+  font-weight: 640;
+}
+
+.turnaround {
+  font-size: 12px;
+  color: var(--ink-faint);
+}
+
+/* ---------------------------------------------------------- empty state */
+
+.empty {
+  background: var(--surface);
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  padding: 22px;
+  color: var(--ink-soft);
+  font-size: 14px;
+}
+
+.empty strong {
+  display: block;
+  color: var(--ink);
+  font-weight: 570;
+  margin-bottom: 4px;
+}

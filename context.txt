@@ -1,0 +1,136 @@
+---
+
+# Why this upgrade
+
+lawxygen.in already lists 259 services across 10 categories, but every path ends the same way today: a page of information with no way to actually start the work. This upgrade closes that gap. lawxygen.in stays the discovery and trust-building surface — SEO, service explanations, category browsing. app.lawxygen.in becomes the transaction surface: login, categorized checkout, payment, professional assignment, and the three dashboards (client, professional, admin) that keep the engagement moving after payment.
+
+# Roles in the marketplace
+
+**CLIENT** — Buys a service
+
+Browses lawxygen.in, logs in when ready to act, picks a service on app.lawxygen.in, pays, and is handed a matched professional — tracked from their own dashboard.
+
+**PROFESSIONAL** — Fulfils a service
+
+Independent CA / CS / lawyer onboarded onto the platform. Receives assignments in their dashboard, reaches out to the client, and carries the matter to completion.
+
+**ADMIN** — Runs the marketplace
+
+Onboards and approves professionals, watches assignment & revenue analytics, and keeps the service catalogue, pricing, and queue healthy.
+
+# End-to-end client flow
+
+One continuous handoff from marketing site to platform to professional. The payment moment is the hinge: everything before it is discovery, everything after it is fulfilment.
+
+!image.png
+
+> Seven handoffs, two systems. The auto-assignment step is the one automated decision in the chain — the assignment engine matches a paid request to an available professional with no manual step in between.
+> 
+
+# How admin keeps the marketplace running
+
+Admin doesn't sit in the client's path — it maintains the two things that path depends on: a supply of approved professionals, and a catalogue that's priced and current.
+
+!image.png
+
+> The professional pool this diagram feeds is the same pool the matching engine draws from in the client flow above.
+> 
+
+# Functional requirements
+
+### Marketing site (lawxygen.in) — discovery
+
+| Requirement | Detail |
+| --- | --- |
+| Service pages carry a clear conversion action | Every one of the 259 service pages gets a single primary CTA ("Get started with this service") that starts login, replacing today's dead-end pages. |
+| Authenticated visitors skip login | A returning, already-authenticated user clicking a service CTA goes straight to the matching service on app.lawxygen.in, not through login again. |
+| Deep link carries intent | The redirect to app.lawxygen.in passes which service the client came from, so checkout can pre-select it instead of dropping them at a blank catalogue. |
+
+### Login & handoff — auth
+
+| Requirement | Detail |
+| --- | --- |
+| Single account across both domains | One login identity works on both lawxygen.in and app.lawxygen.in; session state travels with the redirect. |
+| New vs. returning client | New clients register (name, phone, email, OTP/verification); returning clients sign in. Both land on app.lawxygen.in afterward. |
+
+### Platform catalogue & checkout (app.lawxygen.in) — transaction
+
+| Requirement | Detail |
+| --- | --- |
+| Categorized browsing | Services are presented grouped by the same categories used on the marketing site, so the mental model carries over. |
+| Service detail & pricing | Each service shows what's included, turnaround expectation, and price before the client commits to paying. |
+| Checkout | Client reviews the selected service and moves directly to payment — no separate "request a quote" detour in v1. |
+
+### Payments — money
+
+| Requirement | Detail |
+| --- | --- |
+| Online payment, in-flow | Client pays inside the app.lawxygen.in checkout; payment success is what triggers assignment — nothing is assigned before money clears. |
+| Invoice on success | A GST-compliant invoice is issued to the client automatically once payment confirms. |
+| Failure handling | A failed or abandoned payment leaves the request unassigned and visible to the client as "payment pending," with a retry path. |
+
+### Assignment engine — matching
+
+| Requirement | Detail |
+| --- | --- |
+| Automatic, not manual | On confirmed payment, the system assigns one approved, active professional qualified for that service category — no admin has to pick one for every order. |
+| Availability-aware | Assignment only considers professionals marked active/available, so paid work never lands on someone unreachable. |
+| Escalation on non-response | If an assigned professional hasn't acknowledged the request within a set window, admin sees it flagged for reassignment. |
+
+### Client  — app.lawxygen.in
+
+| Requirement | Detail |
+| --- | --- |
+| Order & matter tracking | Every paid service appears with its status: assigned, in progress, awaiting documents, completed. |
+| Assigned professional's details | Once matched, the client sees who's handling their matter and how to reach them. |
+| Documents & invoices | Uploads/downloads tied to the matter, plus access to past invoices, live in one place. |
+
+### Professional dashboard — app.lawxygen.in
+
+| Requirement | Detail |
+| --- | --- |
+| Assignment notifications | A newly assigned matter appears immediately, with client contact details and service scope. |
+| Accept / acknowledge | Professional confirms receipt so admin and client both know the matter is actively picked up. |
+| Status updates & earnings | Professional moves the matter through status stages and can see what they've earned and what's pending payout. |
+
+### Admin dashboard — operations
+
+| Requirement | Detail |
+| --- | --- |
+| Professional onboarding | Review applications, verify credentials, and approve or reject professionals before they enter the assignment pool. |
+| Catalogue & pricing control | Add, edit, price, or retire services across the 10 categories without an engineering change. |
+| Analytics | Orders, revenue, category demand, assignment turnaround, and professional performance, visible at a glance. |
+| Manual override | Admin can reassign a matter or intervene on a stuck order — the automatic engine is the default path, not the only path. |
+
+# Scope for this release
+
+<aside>
+⚠️
+
+**OUT OF SCOPE (V1)**
+
+- In-app chat or video between client and professional — contact happens off-platform after assignment
+- Client choosing their own professional
+- Multi-professional collaboration on one matter
+- Marketplace mobile apps (web-responsive only)
+</aside>
+
+<aside>
+💰
+
+**DEPENDS ON**
+
+- Payment gateway marketplace/route account set up for professional payouts
+- A minimum seeded pool of approved professionals per category before launch
+- GST invoicing and TDS-on-payout handling defined with counsel/CA before go-live
+</aside>
+
+# How we'll know this worked
+
+- A client can go from reading a service page to a paid, assigned matter without contacting anyone by phone or email first.
+- Every paid order gets an assigned professional automatically, and the professional sees it in their dashboard within seconds of payment.
+- Admin can onboard a new professional and have them eligible for assignment without any code or manual database change.
+
+---
+
+*LAWXYGEN · Marketplace Activation PRD · Draft*

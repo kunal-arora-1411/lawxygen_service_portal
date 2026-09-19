@@ -1,0 +1,139 @@
+.wrap {
+  margin-bottom: 34px;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.title {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dots {
+  display: flex;
+  gap: 5px;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--line);
+}
+
+.dot[aria-current="true"] {
+  background: var(--brand);
+  width: 18px;
+  border-radius: 999px;
+}
+
+.pause {
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink-soft);
+  font-size: 12px;
+  padding: 3px 9px;
+}
+
+.pause:hover {
+  background: var(--canvas);
+}
+
+.viewport {
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+
+.track {
+  display: flex;
+  transition: transform 420ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Respect the system setting. An un-pausable, un-stoppable moving element is both a
+   WCAG 2.2.2 failure and actively unpleasant for anyone with vestibular sensitivity. */
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    transition: none;
+  }
+}
+
+.slide {
+  min-width: 100%;
+  padding: 0 1px;
+}
+
+.panel {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: linear-gradient(120deg, #eaf2fe, #f3efff);
+  border: 1px solid #dbe6fb;
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  min-height: 118px;
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
+}
+
+.eyebrow {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--brand);
+  font-weight: 650;
+  margin-bottom: 5px;
+}
+
+.name {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 0 0 4px;
+  letter-spacing: -0.01em;
+}
+
+.meta {
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.cta {
+  background: var(--brand);
+  color: #fff;
+  border-radius: 9px;
+  padding: 9px 16px;
+  font-size: 14px;
+  font-weight: 550;
+  white-space: nowrap;
+}
+
+.cta:hover {
+  background: #2568c4;
+}
+
+@media (max-width: 620px) {
+  .panel {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}

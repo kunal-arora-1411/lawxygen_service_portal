@@ -1,0 +1,5 @@
+# Normalise line endings to LF, so a Windows checkout does not rewrite every file to
+# CRLF and make Prettier report the whole tree as unformatted in CI.
+* text=auto eol=lf
+
+package-lock.json linguist-generated=true -diff

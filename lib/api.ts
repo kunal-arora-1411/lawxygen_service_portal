@@ -1,0 +1,210 @@
+/**
+ * The only place this app talks to the API.
+ *
+ * Every response uses one envelope, and the portal switches on `code` — never on
+ * message text and never on HTTP status alone. Keeping that in one module means a
+ * change to the contract is a change to one file rather than a hunt through call sites.
+ *
+ * **Known gap.** These types are hand-written to mirror the backend's Zod schemas, so
+ * nothing structurally prevents them drifting — and drift surfaces as a runtime bug in
+ * production rather than a compile error. The fix is the one named in the delivery
+ * plan: emit an OpenAPI document from those schemas and generate this file. Doing that
+ * before the first screen existed would have been the wrong order; doing it before real
+ * traffic would not be.
+ */
+
+export type ErrorCode =
+  | "unauthenticated"
+  | "forbidden"
+  | "not_found"
+  | "invalid_input"
+  | "conflict"
+  | "rate_limited"
+  | "upstream_failure"
+  | "internal";
+
+export type ApiFailure = {
+  ok: false;
+  code: ErrorCode;
+  message: string;
+  fieldErrors?: Record<string, string[]>;
+};
+
+export type ApiResult<T> = { ok: true; data: T } | ApiFailure;
+
+export type Page<T> = { items: T[]; nextCursor: string | null };
+
+export class ApiClientError extends Error {
+  readonly code: ErrorCode;
+  readonly fieldErrors?: Record<string, string[]>;
+
+  constructor(failure: ApiFailure) {
+    super(failure.message);
+    this.name = "ApiClientError";
+    this.code = failure.code;
+    this.fieldErrors = failure.fieldErrors;
+  }
+}
+
+export const API_ORIGIN = process.env.NEXT_PUBLIC_API_ORIGIN ?? "http://localhost:4000";
+
+type RequestOptions = {
+  method?: string;
+  body?: unknown;
+  /** Server components pass the incoming Cookie header; the browser sends it itself. */
+  cookie?: string;
+  /** Most portal data is per-user and must never be cached across requests. */
+  cache?: RequestCache;
+};
+
+async function call<T>(path: string, options: RequestOptions = {}): Promise<ApiResult<T>> {
+  const headers: Record<string, string> = {};
+  if (options.body !== undefined) headers["content-type"] = "application/json";
+  if (options.cookie) headers.cookie = options.cookie;
+
+  let response: Response;
+  try {
+    response = await fetch(`${API_ORIGIN}${path}`, {
+      method: options.method ?? "GET",
+      headers,
+      body: options.body === undefined ? undefined : JSON.stringify(options.body),
+      // The session is an httpOnly cookie on a sibling host, so it only travels when
+      // credentials are included. Without this every request is anonymous.
+      credentials: "include",
+      cache: options.cache ?? "no-store",
+    });
+  } catch {
+    // The API being unreachable is not a contract failure; it still has to arrive as
+    // one so callers have a single shape to handle.
+    return {
+      ok: false,
+      code: "upstream_failure",
+      message: "Could not reach Lawxygen. Check your connection and try again.",
+    } satisfies ApiFailure;
+  }
+
+  let parsed: unknown;
+  try {
+    parsed = await response.json();
+  } catch {
+    return { ok: false, code: "internal", message: "The server sent an unreadable response." };
+  }
+
+  return parsed as ApiResult<T>;
+}
+
+/** Throws on failure. For call sites where an error should bubble to an error boundary. */
+export async function apiOrThrow<T>(path: string, options: RequestOptions = {}): Promise<T> {
+  const result = await call<T>(path, options);
+  if (!result.ok) throw new ApiClientError(result);
+  return result.data;
+}
+
+export const api = { call };
+
+// ---------------------------------------------------------------------------
+// Resource shapes
+// ---------------------------------------------------------------------------
+
+export type SessionUser = {
+  id: string;
+  name: string | null;
+  email: string | null;
+  phone: string | null;
+  role: "client" | "professional" | "admin" | "superadmin";
+};
+
+export type Category = {
+  slug: string;
+  label: string;
+  accent: string | null;
+  serviceCount: number;
+};
+
+export type Service = {
+  id: string;
+  slug: string;
+  title: string;
+  summary: string | null;
+  categorySlug: string;
+  categoryLabel: string;
+  fulfilmentType: "service" | "consultation";
+  pricePaise: number;
+  currency: string;
+  turnaroundDays: number | null;
+  featured: boolean;
+};
+
+export type OrderStatus =
+  | "payment_pending"
+  | "payment_failed"
+  | "paid"
+  | "awaiting_assignment"
+  | "assigned"
+  | "assignment_escalated"
+  | "in_progress"
+  | "awaiting_client"
+  | "completed"
+  | "cancelled"
+  | "refunded";
+
+export type Order = {
+  reference: string;
+  status: OrderStatus;
+  serviceTitle: string;
+  serviceSlug: string;
+  categorySlug: string;
+  fulfilmentType: "service" | "consultation";
+  pricePaise: number;
+  currency: string;
+  turnaroundDays: number | null;
+  createdAt: string;
+};
+
+// ---------------------------------------------------------------------------
+// Presentation helpers
+// ---------------------------------------------------------------------------
+
+/** Integer paise in, Indian-grouped rupees out. Display only — never arithmetic. */
+export function formatPrice(paise: number, currency = "INR"): string {
+  const rupees = Math.floor(paise / 100);
+  const symbol = currency === "INR" ? "₹" : `${currency} `;
+  return `${symbol}${rupees.toLocaleString("en-IN")}`;
+}
+
+/**
+ * What the client is told, which is deliberately not the internal status.
+ *
+ * `payment_failed` reads as "Payment pending" — support needs the distinction, the
+ * client needs a retry. And every flavour of "we have not staffed this yet" reads the
+ * same: the platform's difficulty finding a professional is not the client's problem
+ * to interpret.
+ */
+export const ORDER_LABELS: Record<OrderStatus, string> = {
+  payment_pending: "Payment pending",
+  payment_failed: "Payment pending",
+  paid: "Matching you with a professional",
+  awaiting_assignment: "Matching you with a professional",
+  assignment_escalated: "Matching you with a professional",
+  assigned: "Assigned — awaiting confirmation",
+  in_progress: "In progress",
+  awaiting_client: "Awaiting your documents",
+  completed: "Completed",
+  cancelled: "Cancelled",
+  refunded: "Refunded",
+};
+
+export function orderTone(status: OrderStatus): "pending" | "active" | "done" | "closed" {
+  switch (status) {
+    case "payment_pending":
+    case "payment_failed":
+      return "pending";
+    case "completed":
+      return "done";
+    case "cancelled":
+    case "refunded":
+      return "closed";
+    default:
+      return "active";
+  }
+}

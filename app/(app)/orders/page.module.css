@@ -1,0 +1,124 @@
+.title {
+  font-size: 23px;
+  font-weight: 650;
+  margin: 0 0 3px;
+  letter-spacing: -0.02em;
+}
+
+.sub {
+  color: var(--ink-soft);
+  font-size: 14px;
+  margin: 0 0 22px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.row {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 15px 17px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.main {
+  flex: 1;
+  min-width: 190px;
+}
+
+.name {
+  font-size: 15px;
+  font-weight: 570;
+  margin: 0 0 3px;
+}
+
+.meta {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+}
+
+.reference {
+  font-variant-numeric: tabular-nums;
+}
+
+.price {
+  font-size: 15.5px;
+  font-weight: 620;
+  font-variant-numeric: tabular-nums;
+}
+
+.status {
+  font-size: 12.5px;
+  padding: 4px 11px;
+  border-radius: 999px;
+  white-space: nowrap;
+  font-weight: 550;
+}
+
+.pending {
+  background: var(--pending-soft);
+  color: var(--pending);
+}
+
+.active {
+  background: var(--active-soft);
+  color: var(--active);
+}
+
+.done {
+  background: var(--done-soft);
+  color: var(--done);
+}
+
+.closed {
+  background: var(--closed-soft);
+  color: var(--closed);
+}
+
+.pay {
+  padding: 8px 15px;
+  background: var(--brand);
+  color: #fff;
+  border-radius: 9px;
+  font-size: 13.5px;
+  font-weight: 550;
+  white-space: nowrap;
+}
+
+.pay:hover {
+  background: #2568c4;
+}
+
+.empty {
+  background: var(--surface);
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  padding: 34px;
+  text-align: center;
+  color: var(--ink-soft);
+}
+
+.empty strong {
+  display: block;
+  color: var(--ink);
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+
+.browse {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 9px 18px;
+  background: var(--brand);
+  color: #fff;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 550;
+}
