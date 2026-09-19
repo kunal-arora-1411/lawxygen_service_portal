@@ -5,7 +5,7 @@ one is what is actually left, surveyed against the code on 19 September 2026.
 
 **State.** M0–M4 are substantially built: auth, catalogue, checkout, payments, ledger,
 invoicing, assignment, payouts, refunds, reconciliation and professional onboarding.
-225 backend tests pass. A real Razorpay test-mode payment has been taken end to end —
+235 backend tests pass. A real Razorpay test-mode payment has been taken end to end —
 order `LX-001654`, invoice `LX/2026-27/001191`, ledger balanced, assigned automatically.
 
 **How to read the priorities.** P0 items are ones where a real client or a real
@@ -89,16 +89,17 @@ outside the platform means the matter has no record.
 - [ ] Client profile and account settings. No endpoint, no page. A client cannot change
       their own name, phone or password
 
-### 6. Password reset and email verification
+### 6. Password reset — **done**. Email verification — **not started**
 
-Both tables were ported in M0 and **no code uses either of them**.
-`password_reset_tokens` and `verification_tokens` are dead schema.
+Shipped 20 September 2026. `POST /auth/password/forgot` and `/auth/password/reset`,
+with `/forgot` and `/reset` in the portal and a link on the sign-in form. Requesting
+never reveals whether an address exists (the throttle is silent for the same reason),
+the token is stored hashed, using one signs out every session and kills every other
+outstanding link, and all failures return one message.
 
-- [ ] Forgot-password request, token email, reset form, and session invalidation on
-      reset — "sign out everywhere" already exists to build on
-- [ ] Email verification on registration, and a decision on what an unverified account
-      may do (recommend: browse and pay, but not receive payouts)
-
+- [ ] **Email verification is still untouched.** `verification_tokens` remains dead
+      schema. Needs a decision on what an unverified account may do — recommend browse
+      and pay, but not receive payouts
 ### 7. Money settings are constants
 
 `src/lib/money.ts` hardcodes `commissionBps: 3000`, `gstBps: 1800`, `tdsBps: 10`,
