@@ -198,3 +198,16 @@
   margin: 12px 0 4px;
   line-height: 1.45;
 }
+
+/* A quiet link under the password field — needed, but never the main action. */
+.forgot {
+  display: inline-block;
+  margin-top: 7px;
+  font-size: 12.5px;
+  color: var(--ink-faint);
+}
+
+.forgot:hover {
+  color: var(--brand);
+  text-decoration: underline;
+}

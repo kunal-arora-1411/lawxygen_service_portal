@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { API_ORIGIN, type ApiResult, type SessionUser } from "@/lib/api";
@@ -213,6 +214,14 @@ export function LoginForm() {
               {e}
             </div>
           ))}
+          {/* Only when signing in. Offering it mid-registration reads as a warning
+              that you already have an account, which is confusing and, for somebody
+              who does not, meaningless. */}
+          {mode === "signin" && (
+            <Link href="/forgot" className={styles.forgot}>
+              Forgotten your password?
+            </Link>
+          )}
         </div>
 
         {mode === "register" && (
