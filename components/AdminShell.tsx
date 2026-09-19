@@ -27,6 +27,7 @@ export function AdminShell({
     { href: "/admin/services", label: "Catalogue", badge: 0 },
     { href: "/admin/professionals", label: "Professionals", badge: pending },
     { href: "/admin/orders", label: "Orders", badge: escalated },
+    { href: "/admin/payouts", label: "Payouts", badge: 0 },
   ];
 
   return (

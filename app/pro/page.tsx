@@ -4,11 +4,13 @@ import {
   isOpenMatter,
   type Earnings,
   type Matter,
+  type PayoutHistoryRow,
   type ProLoad,
 } from "@/lib/api";
 import { forwardedCookie } from "@/lib/session";
 import { AvailabilityToggle } from "./AvailabilityToggle";
 import { MatterCard } from "./MatterCard";
+import { PayoutHistory } from "./PayoutHistory";
 import styles from "./pro.module.css";
 
 /**
@@ -24,10 +26,11 @@ export const dynamic = "force-dynamic";
 export default async function ProPage() {
   const cookie = await forwardedCookie();
 
-  const [mattersResult, loadResult, earningsResult] = await Promise.all([
+  const [mattersResult, loadResult, earningsResult, payoutsResult] = await Promise.all([
     api.call<Matter[]>("/pro/matters", { cookie }),
     api.call<ProLoad>("/pro/load", { cookie }),
     api.call<Earnings>("/pro/earnings", { cookie }),
+    api.call<PayoutHistoryRow[]>("/pro/payouts", { cookie }),
   ]);
 
   // An account with the professional role but no professional record — an admin
@@ -48,6 +51,8 @@ export default async function ProPage() {
   const earnings = earningsResult.ok
     ? earningsResult.data
     : { pendingPaise: 0, paidPaise: 0, matters: { completed: 0, open: 0 } };
+
+  const payoutRows = payoutsResult.ok ? payoutsResult.data : [];
 
   const needsConfirming = matters.filter((m) => m.status === "assigned");
   const active = matters.filter((m) => isOpenMatter(m.status) && m.status !== "assigned");
@@ -103,6 +108,8 @@ export default async function ProPage() {
           </div>
         </>
       )}
+
+      <PayoutHistory payouts={payoutRows} />
 
       {closed.length > 0 && (
         <>

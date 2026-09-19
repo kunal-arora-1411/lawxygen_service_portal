@@ -141,3 +141,26 @@ front of the person being paid.
 **Availability does not release matters in hand.** Stepping back from new work is not
 abandoning current work. Turning it back on drains the queue of orders parked for want
 of supply.
+
+## Payouts
+
+`/admin/payouts` drafts and releases; `/pro` shows a professional their own history.
+
+**Drafting and releasing are separate actions.** Release is the only control in this
+application that sends money out of the business, so it asks first and names the figure
+in the question — a confirmation that does not state the amount is not a confirmation.
+
+**Amounts are already net of withholding.** TDS is deducted at capture, not at payout,
+so `LIABILITY:PRO_PAYABLE` has never included it. The section and rate are shown per
+payout because each row records what was applied at the time, not what settings say
+today — that is what a TDS certificate has to reflect.
+
+**Accounts are identified by their last four digits.** The number itself is encrypted
+at rest and never needs decrypting to tell two accounts apart.
+
+**A partial release is reported as such.** Some transfers succeeding and others failing
+is the normal shape of a bank problem; the failed ones are still owed and say so.
+
+**Transfers are not wired up.** RazorpayX needs an account that does not exist. Locally
+a release is simulated and logged; anywhere else it refuses rather than marking payouts
+paid with no money moving. The page says this rather than leaving an operator to find out.

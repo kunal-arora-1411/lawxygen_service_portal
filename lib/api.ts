@@ -346,3 +346,38 @@ export const MATTER_LABELS: Record<MatterStatus, string> = {
 export function isOpenMatter(status: MatterStatus): boolean {
   return ["assigned", "acknowledged", "in_progress", "awaiting_client"].includes(status);
 }
+
+// ---------------------------------------------------------------------------
+// Payouts
+// ---------------------------------------------------------------------------
+
+export type PayableBalance = {
+  professionalId: string;
+  displayName: string;
+  /** Already net of withholding — TDS was deducted at capture, not at payout. */
+  amountPaise: number;
+  tdsPaise: number;
+  accountLast4: string;
+};
+
+export type PayoutBatch = {
+  reference: string;
+  status: "draft" | "releasing" | "released" | "cancelled";
+  totalPaise: number;
+  payoutCount: number;
+  createdAt: string;
+  releasedAt: string | null;
+  note: string | null;
+};
+
+export type PayoutHistoryRow = {
+  reference: string;
+  amountPaise: number;
+  tdsPaise: number;
+  /** Which section the withholding was under, as applied at the time. */
+  tdsSection: string | null;
+  status: "pending" | "paid" | "failed" | "skipped";
+  accountLast4: string | null;
+  paidAt: string | null;
+  createdAt: string;
+};
