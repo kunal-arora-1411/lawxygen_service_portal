@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { api, formatPrice, type Order, type Service } from "@/lib/api";
-import { forwardedCookie } from "@/lib/session";
+import { currentUser, forwardedCookie } from "@/lib/session";
 import { PayButton } from "./PayButton";
 import styles from "./page.module.css";
 
@@ -27,7 +27,7 @@ export default async function CheckoutPage({ searchParams }: { searchParams: Pro
   if (order) {
     const result = await api.call<Order>(`/orders/${order}`, { cookie });
     if (!result.ok) return <NotAvailable message="That order could not be found." />;
-    return <Checkout order={result.data} />;
+    return <Checkout order={result.data} prefill={await prefillFor()} />;
   }
 
   if (!category || !service) {
@@ -39,10 +39,31 @@ export default async function CheckoutPage({ searchParams }: { searchParams: Pro
     return <NotAvailable message="That service is not available to buy right now." />;
   }
 
-  return <Checkout service={result.data} />;
+  return <Checkout service={result.data} prefill={await prefillFor()} />;
 }
 
-function Checkout({ service, order }: { service?: Service; order?: Order }) {
+/**
+ * Razorpay prefills name, email and phone into its own form. Worth passing: a client
+ * retyping a number they already gave us is a step at which some of them stop.
+ */
+async function prefillFor(): Promise<{ name?: string; email?: string; contact?: string }> {
+  const user = await currentUser();
+  return {
+    ...(user?.name ? { name: user.name } : {}),
+    ...(user?.email ? { email: user.email } : {}),
+    ...(user?.phone ? { contact: user.phone } : {}),
+  };
+}
+
+function Checkout({
+  service,
+  order,
+  prefill,
+}: {
+  service?: Service;
+  order?: Order;
+  prefill?: { name?: string; email?: string; contact?: string };
+}) {
   const title = service?.title ?? order?.serviceTitle ?? "";
   const price = service?.pricePaise ?? order?.pricePaise ?? 0;
   const currency = service?.currency ?? order?.currency ?? "INR";
@@ -99,7 +120,9 @@ function Checkout({ service, order }: { service?: Service; order?: Order }) {
         <PayButton
           category={service?.categorySlug}
           service={service?.slug}
+          serviceTitle={title}
           existingReference={order?.reference}
+          prefill={prefill}
         />
       </div>
     </div>
