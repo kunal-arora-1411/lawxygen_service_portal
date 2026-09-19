@@ -5,7 +5,7 @@ one is what is actually left, surveyed against the code on 19 September 2026.
 
 **State.** M0–M4 are substantially built: auth, catalogue, checkout, payments, ledger,
 invoicing, assignment, payouts, refunds, reconciliation and professional onboarding.
-217 backend tests pass. A real Razorpay test-mode payment has been taken end to end —
+225 backend tests pass. A real Razorpay test-mode payment has been taken end to end —
 order `LX-001654`, invoice `LX/2026-27/001191`, ledger balanced, assigned automatically.
 
 **How to read the priorities.** P0 items are ones where a real client or a real
@@ -34,29 +34,25 @@ Two things deliberately left:
       and has to go through support. A self-service path with re-review is the right
       answer eventually
 
-### 2. Notifications — there are none
+### 2. Notifications — **mostly done**
 
-`src/modules/events/subscribers.ts` registers exactly two subscribers, both for
-assignment. **No email or SMS is ever sent by this system.** There is no mailer
-dependency in `package.json` at all.
+Shipped 20 September 2026. Six messages, all outbox subscribers in
+`src/modules/notifications/`: payment receipt, assignment notice with the
+acknowledgement deadline, matter status changes, refund confirmation, professional
+verified, and payout released. The `notifications` table makes delivery exactly-once;
+`retryFailedNotifications` re-drives failures every five minutes.
 
-So today: a client who pays gets no receipt and never receives their invoice. A
-professional assigned a matter is not told — they find out by happening to load the
-dashboard. The PRD's core promise is that a professional *gets notified*.
+Remaining:
 
-- [ ] Choose and wire an email provider; add it as an outbox subscriber, not as a call
-      from the emitting code
-- [ ] Payment receipt to the client, with the GST invoice attached or linked
-- [ ] Assignment notice to the professional, with the acknowledgement deadline
-- [ ] Acknowledgement-overdue nudge before escalation, not only after
-- [ ] Matter status changes to the client
-- [ ] Refund confirmation to the client
-- [ ] Payout released notice to the professional
-- [ ] Decide the SMS/email split for each of the above; `src/modules/auth/sms.ts`
-      already exists and refuses when unconfigured, so OTP is the pattern to follow
-
-> Handlers must be idempotent — a partial failure re-runs every subscriber for the
-> event. An email subscriber that is not idempotent sends twice.
+- [ ] **Pick a provider and set `MAIL_PROVIDER_KEY` / `MAIL_FROM`.** The adapter
+      targets Resend, which is one POST; any HTTP provider drops in unchanged. Local
+      logs the message, anything else refuses to send — so this is a launch blocker,
+      not a nicety
+- [ ] **Acknowledgement-overdue nudge before escalation.** Needs a new event from the
+      escalation sweep; today the professional only hears after the matter is taken
+- [ ] **SMS split.** Everything is email. `src/modules/auth/sms.ts` is the pattern, and
+      the assignment notice is the obvious first candidate for a text
+- [ ] **Attach or link the invoice** on the payment receipt — blocked on item 3
 
 ### 3. Invoices are issued but never delivered
 
