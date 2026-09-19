@@ -283,3 +283,26 @@
   margin-top: 18px;
   text-align: center;
 }
+
+/* ----------------------------------------------------- reconciliation notes */
+
+/* Exceptions read as sentences rather than table rows: each one is a different
+   shape of problem and needs saying, not tabulating. */
+.list {
+  list-style: none;
+  margin: 0 0 4px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.listItem {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid #d98324;
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  font-size: 13.5px;
+  line-height: 1.5;
+}

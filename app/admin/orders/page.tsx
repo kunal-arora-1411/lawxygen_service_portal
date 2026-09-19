@@ -2,6 +2,7 @@ import Link from "next/link";
 import { api, formatPrice, type AdminOrder, type Page } from "@/lib/api";
 import { forwardedCookie } from "@/lib/session";
 import { ReassignButton } from "./ReassignButton";
+import { RefundButton } from "./RefundButton";
 import styles from "../admin.module.css";
 
 export const dynamic = "force-dynamic";
@@ -14,6 +15,18 @@ export const dynamic = "force-dynamic";
  * `assignment_escalated` mean different things and call for different action.
  */
 const NEEDS_ATTENTION = new Set(["awaiting_assignment", "assignment_escalated"]);
+
+/** Mirrors the backend's list. An order outside it has nothing to give back. */
+const REFUNDABLE = new Set([
+  "paid",
+  "awaiting_assignment",
+  "assigned",
+  "assignment_escalated",
+  "in_progress",
+  "awaiting_client",
+  "completed",
+  "cancelled",
+]);
 
 export default async function AdminOrdersPage({
   searchParams,
@@ -53,6 +66,7 @@ export default async function AdminOrdersPage({
           <option value="payment_pending">Payment pending</option>
           <option value="payment_failed">Payment failed</option>
           <option value="completed">Completed</option>
+          <option value="refunded">Refunded</option>
         </select>
         <button type="submit" className={styles.button}>
           Filter
@@ -107,6 +121,14 @@ export default async function AdminOrdersPage({
                   </td>
                   <td>
                     {order.professionalName && <ReassignButton reference={order.reference} />}
+                    {REFUNDABLE.has(order.status) && (
+                      <RefundButton
+                        reference={order.reference}
+                        pricePaise={order.pricePaise}
+                        currency={order.currency}
+                        professionalName={order.professionalName}
+                      />
+                    )}
                   </td>
                 </tr>
               ))}

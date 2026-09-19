@@ -381,3 +381,27 @@ export type PayoutHistoryRow = {
   paidAt: string | null;
   createdAt: string;
 };
+
+/**
+ * A reconciliation run.
+ *
+ * `exceptions` is deliberately loose: the shape differs per kind, nothing filters on
+ * the inner fields, and the screen renders a sentence per kind. Mirroring the backend's
+ * discriminated union here would be six more types to keep in sync by hand for no gain.
+ */
+export type ReconciliationException = { kind: string } & Record<string, unknown>;
+
+export type ReconciliationRun = {
+  id: string;
+  windowStart: string;
+  windowEnd: string;
+  gatewayCount: number;
+  matchedCount: number;
+  repairedCount: number;
+  ledgerImbalancePaise: number;
+  status: "clean" | "exceptions" | "failed";
+  exceptions: ReconciliationException[];
+  failureReason: string | null;
+  startedAt: string;
+  finishedAt: string | null;
+};
