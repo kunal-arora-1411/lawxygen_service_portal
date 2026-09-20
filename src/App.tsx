@@ -20,6 +20,8 @@ const routes = Object.entries(pageModules)
   }))
   .filter((route) => Boolean(route.Component));
 
+  console.log("routes", routes)
+
 function NotFound() {
   return (
     <main style={{ minHeight: "60vh", display: "grid", placeItems: "center", padding: "80px 24px" }}>
