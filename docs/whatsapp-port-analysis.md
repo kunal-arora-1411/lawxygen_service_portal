@@ -95,7 +95,7 @@ number-access checks you do not need.
 
 ---
 
-## The four decisions that actually matter
+## The four decisions that matter
 
 ### 1. Do not add MongoDB and Redis to Lawxygen
 
@@ -114,27 +114,37 @@ You do not need them:
 - **Throttle cooldowns.** PingMe keeps these in Redis. A small Postgres table with an
   expiry does the same job at your volume.
 
-### 2. One conversation per client, not per matter
+### 2. Conversations key on (number, client) — **decided**
 
-This is the modelling decision, and PingMe cannot answer it because it has no concept of
-a matter.
+PingMe already keys a conversation on `(org_id, phone_number_id, contact_id)` — the
+number *and* the contact, not the contact alone. Adopt that key.
 
-WhatsApp gives you **one thread per phone number**, full stop. A client with three open
-matters has one WhatsApp conversation. So:
+It matters because of where this is going. Today there is one number, so one client has
+one thread. The agreed plan is a **pool of five or six numbers**, with a number allocated
+when a client enrols in a service, so each matter gets its own thread and its own
+professional. Keying on the number from day one means that future needs **no migration** —
+the same schema serves one number and twenty.
 
-- `conversations` keys on the **client**, not the order
-- individual messages may carry an optional `order_id` for context
-- the professional's dashboard shows the thread *filtered to their matter's context*,
-  but the underlying thread is shared
+It also dissolves the problem that made this a hard question. With a number per matter,
+two professionals never share a thread, so there is no need to hide part of a
+conversation from one of them.
 
-The consequence is uncomfortable and needs deciding: **if a client has two matters with
-two different professionals, both professionals are looking at the same WhatsApp
-thread.** Options are to show each professional only messages after their assignment, to
-show everything and accept it, or to route each matter to a different WhatsApp number
-(expensive, and confusing for the client).
+Until the pool exists, with a single number, a client with two matters does share one
+thread. For that interim: **each professional sees only from their assignment onwards,
+admin sees everything.**
 
-My recommendation: one thread, and each professional sees only the window from their
-assignment onwards. Admin sees everything.
+What the pool brings with it, to plan for:
+
+- **Business verification is a prerequisite.** Unverified allows **2** phone numbers;
+  verified allows 20. Five or six needs the verification through.
+- **Each number needs its own Meta registration and display name approval**, and carries
+  its own Plivo rental.
+- **An allocation rule is needed.** Allocate a number per *active* matter and release it
+  when the matter closes. If a client has more active matters than there are numbers, two
+  matters land on one number — fall back to the least recently used, and accept the
+  shared thread for that case with the assignment-window rule above.
+- **The client sees several Lawxygen numbers.** Normal enough — delivery and fintech apps
+  do it — but each display name should make the association obvious.
 
 ### 3. The 24-hour window shapes the whole UI
 
@@ -147,24 +157,40 @@ state, count down, and swap to a template picker when the window closes. That is
 requirement, not a nicety — otherwise every professional's first out-of-window message
 fails and they conclude the product is broken.
 
-### 4. The cost model just changed — check the date
+### 4. The cost model, and the part that catches people
 
-You said ₹0.11. That is right, and it is **per message, not per day**:
+Rates, per **message**, not per day:
 
-- **Utility / authentication templates: ₹0.115** each
-- **Marketing templates: ₹0.8631** each — 7.5× more
-- **From 1 October 2026** — ten days away — messages sent *inside* the 24-hour service
-  window also cost about ₹0.115, where they used to be free
+- **Utility / authentication templates: ₹0.115**
+- **Marketing templates: ₹0.8631** — 7.5× more
+- **From 1 October 2026**, free-form messages sent *inside* the 24-hour window also cost
+  about ₹0.115. They used to be free.
 
-Two things follow. Your transactional messages (receipt, assignment, status) are utility
-and cheap, so triggering them liberally from the dashboards is genuinely affordable.
-But **agent chat is no longer free**, so a professional having a long back-and-forth now
-has a per-message cost. Worth knowing before you make chat the primary channel.
+Two rules decide what you actually pay, and the first one surprises people:
 
-Keep every template you create in the **utility** category. A template written like
-marketing copy gets categorised as marketing by Meta and costs 7.5× forever.
+**A template does not open the window.** The 24-hour window opens only when the **client
+replies**. Send a receipt and get no answer, and the professional cannot free-text at
+all — every further outreach must be another template.
 
----
+**Inside the window, replies are now billed.** Before 1 October a ten-message support
+exchange was free. After it, that is ten charges.
+
+A typical matter therefore looks like:
+
+```
+template out                ₹0.115    window still closed
+client replies              free      window opens, 24h
+professional replies × 10   ₹1.15     from 1 Oct; was free
+24h of silence                        window closes
+template out again          ₹0.115
+```
+
+**Keep this in proportion.** A chatty matter of 30 messages costs roughly ₹3.45. Against
+a ₹12,999 order that is 0.03%. Not free, but not remotely a reason to avoid chat — it is
+a reason not to build anything that sends on a loop.
+
+**Every template must be written in the utility category.** A template phrased like
+marketing copy gets categorised as marketing by Meta and costs 7.5× for its whole life.
 
 ## Suggested build order
 
@@ -232,12 +258,18 @@ PingMe's tenants use.** Two systems writing to one thread would be a genuine mes
 
 ---
 
-## What I need from you before starting
+## Decisions taken
 
-1. **Confirm no MongoDB and no Redis** in Lawxygen — I build on Postgres and the
-   existing outbox.
-2. **One thread per client, professional sees from their assignment onwards** — confirm
-   or redirect.
-3. **Which phase to start with.** My recommendation is A, because it delivers the
-   original promise and nothing in it is wasted by the later phases.
-4. **Where templates get authored** — PingMe's UI for now, or build Phase E early.
+- **Postgres only.** No MongoDB, no Redis. Queueing rides the existing outbox.
+- **Conversations key on (number, client)**, ready for the number pool.
+- **A pool of 5–6 numbers**, a number per active matter, once verification allows it.
+- **PingMe's code, never PingMe's service.** PingMe was built for a client, so depending
+  on it as a running service is not available; reusing the code is. This closes off the
+  FireReach-integration option rather than leaving it open.
+
+## Still open
+
+1. **Which phase to start with.** Recommendation: A. It delivers the original Phase 2
+   promise, and nothing in it is wasted by the later phases.
+2. **Where templates get authored** — PingMe's UI for now and reference them by name, or
+   build Phase E early and author them inside Lawxygen.
