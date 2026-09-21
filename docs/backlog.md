@@ -4,8 +4,9 @@ Companion to [`delivery-plan.md`](./delivery-plan.md). That document is the plan
 one is what is actually left, surveyed against the code on 19 September 2026.
 
 **State.** M0–M4 are substantially built: auth, catalogue, checkout, payments, ledger,
-invoicing, assignment, payouts, refunds, reconciliation and professional onboarding.
-235 backend tests pass. A real Razorpay test-mode payment has been taken end to end —
+invoicing, assignment, payouts, refunds, reconciliation, professional onboarding and
+WhatsApp.
+263 backend tests pass. A real Razorpay test-mode payment has been taken end to end —
 order `LX-001654`, invoice `LX/2026-27/001191`, ledger balanced, assigned automatically.
 
 **How to read the priorities.** P0 items are ones where a real client or a real
@@ -100,6 +101,7 @@ outstanding link, and all failures return one message.
 - [ ] **Email verification is still untouched.** `verification_tokens` remains dead
       schema. Needs a decision on what an unverified account may do — recommend browse
       and pay, but not receive payouts
+
 ### 7. Money settings are constants
 
 `src/lib/money.ts` hardcodes `commissionBps: 3000`, `gstBps: 1800`, `tdsBps: 10`,
@@ -329,14 +331,46 @@ been issued.
 
 ---
 
+## WhatsApp — **code-complete**, waiting on credentials
+
+Built 21–22 September 2026 against Meta's Cloud API directly. See
+[`whatsapp-port-analysis.md`](./whatsapp-port-analysis.md) for what was ported from
+PingMe and why.
+
+Done: template authoring and submission, outbound templates off the outbox, the
+idempotent send machinery, inbound webhooks, conversations, the 24-hour window, free
+replies, assignment and handoff, and screens for all of it on both dashboards.
+
+Remaining, and all of it is yours rather than mine:
+
+- [ ] **Connect the Plivo number to a WhatsApp Business Account** and set
+      `WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_WABA_ID`, `WHATSAPP_ACCESS_TOKEN` and
+      `WHATSAPP_APP_SECRET`. Local values must be **blank**, not placeholders — a
+      non-empty pair makes the adapter call Meta for real
+- [ ] **Point Meta's webhook** at `POST /webhooks/whatsapp`; the verify token is the
+      app secret
+- [ ] **Author and get two templates approved** — a payment receipt and an assignment
+      notice, both **utility** category
+- [ ] **Business verification**, which the planned pool of 5–6 numbers depends on: an
+      unverified portfolio is capped at two
+
+Still to build, later:
+
+- [ ] **The number pool and allocation.** Conversations already key on the number, so
+      this needs no migration — just the allocation rule and a numbers table
+- [ ] **Media.** Inbound images and documents are stored whole but not rendered
+- [ ] **Sockets.** Polling at 15 seconds is fine for now
+
 ## Explicitly deferred to Phase 2
 
 Not forgotten, deliberately out of scope. The seams are built: the outbox takes a new
 subscriber without touching emitting code, E.164 phone and messaging consent are
 captured at registration, and the order has somewhere for a conversation to attach.
 
-- WhatsApp bot contacting the client after payment
-- Connecting the professional into the same thread
+- ~~WhatsApp bot contacting the client after payment~~ — built
+- ~~Connecting the professional into the same thread~~ — built, as a shared thread with
+  assignment. Meta's Groups API would put all three in one chat but needs an Official
+  Business Account, which is months away
 - Consultation time slots. 49 of the 259 services are `talk-*` consultations and the
   PRD has no calendar. If slots are added, `btree_gist` is installed and the overlap
   exclusion constraint is already written and proven in `test/integration/schema.test.ts`

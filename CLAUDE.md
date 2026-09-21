@@ -44,7 +44,7 @@ from it.
 | Route                                                       | Who          | Colour     | Shell                       |
 | ----------------------------------------------------------- | ------------ | ---------- | --------------------------- |
 | `/dashboard`, `/services`, `/checkout`, `/orders`, `/apply` | Client       | light blue | `components/Shell.tsx`      |
-| `/pro/*`                                                    | Professional | teal       | `app/pro/layout.tsx`        |
+| `/pro/*` (dashboard, `/pro/chat`, `/pro/application`)       | Professional | teal       | `app/pro/layout.tsx`        |
 | `/admin/*`                                                  | Operations   | dark       | `components/AdminShell.tsx` |
 
 Somebody can hold more than one role, so "which side am I on" must never be a question
@@ -77,6 +77,12 @@ are. Everything after applying sits under `/pro`, by which point the role exists
   for input happens on a digits-only string, never via float arithmetic.
 - **Auto-rotating anything must pause on hover and focus and respect
   `prefers-reduced-motion`** (WCAG 2.2.2). See `components/FeaturedRow.tsx`.
+- **Never call setState synchronously in an effect body.** React 19's lint refuses it
+  and is right — polling is a subscription to an external system, so the first fetch is
+  scheduled with a `setTimeout(run, 0)` alongside the interval rather than called
+  directly. See `components/Chat.tsx`.
+- **Components shared between shells use theme variables**, never a shell's palette.
+  `Chat`, `ConversationList` and `SendWhatsapp` all render in both blue and teal.
 
 ---
 
@@ -98,6 +104,21 @@ The full list is `docs/backlog.md`. The ones that bite here:
   Checkout will need explicit allowances when one is added.
 
 ---
+
+## WhatsApp in the portal
+
+Three shared components, all working against `/admin/whatsapp` or `/pro/whatsapp` —
+the API decides what each role may see, the `basePath` only decides who is asking.
+
+- `components/Chat.tsx` — one thread. The **24-hour window** is its whole design: a
+  live countdown in the header, and when the window closes the composer is replaced by
+  a sentence explaining why and pointing at the template route. Never a dead textbox.
+- `components/ConversationList.tsx` — the thread list beside the open one.
+- `components/SendWhatsapp.tsx` — fires an approved template at the client on an order.
+  `deduplicated` is shown as success; `delivery_unknown` says it may have arrived.
+
+Admin also has `/admin/whatsapp` (template authoring, with a check-before-submit that
+exists because a rejected template name cannot be reused) and `/admin/conversations`.
 
 ## Mistakes already made here
 
