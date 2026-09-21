@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { API_ORIGIN, MATTER_LABELS, type ApiResult, type Matter } from "@/lib/api";
+import { SendWhatsapp } from "@/components/SendWhatsapp";
 import styles from "./pro.module.css";
 
 /**
@@ -109,6 +110,13 @@ export function MatterCard({ matter, overdue }: { matter: Matter; overdue: boole
             </div>
           )}
         </div>
+      )}
+
+      {/* Acknowledged means the matter is genuinely theirs, which is also when the
+          server will let them message the client. Offering it earlier would show a
+          control that is refused. */}
+      {matter.status !== "assigned" && (
+        <SendWhatsapp orderReference={matter.reference} basePath="/pro/whatsapp" />
       )}
 
       <div className={styles.matterActions}>

@@ -449,3 +449,50 @@ export const PROFESSIONAL_KINDS = [
   { value: "company_secretary", label: "Company Secretary" },
   { value: "advocate", label: "Advocate" },
 ] as const;
+
+/** A WhatsApp template, as Meta currently has it. */
+export type WhatsappTemplate = {
+  name: string;
+  language: string;
+  category: "utility" | "authentication" | "marketing";
+  status: "draft" | "pending" | "approved" | "rejected" | "paused" | "disabled";
+  /** What each `{{1}}`, `{{2}}` means, in order. */
+  variables: string[];
+  reviewNote: string | null;
+  syncedAt: string | null;
+  bodyPreview: string | null;
+};
+
+export type TemplateIssue = { field: string; message: string };
+
+export type WhatsappSendOutcome = {
+  status: "accepted" | "deduplicated" | "in_progress" | "delivery_unknown" | "failed";
+  attemptId: string;
+  metaMessageId?: string | null;
+  retryable?: boolean;
+  reason?: string;
+};
+
+/** One attempted send, for the per-order history. */
+export type WhatsappMessage = {
+  id: string;
+  templateName: string | null;
+  status: string;
+  source: string;
+  failureKind: string | null;
+  lastError: string | null;
+  createdAt: string;
+};
+
+/**
+ * Roughly what a message costs, in paise, by category.
+ *
+ * Shown in the composer so the difference is visible at the moment somebody chooses a
+ * category — a marketing template costs about seven and a half times a utility one,
+ * and Meta's classification lasts the life of the template.
+ */
+export const WHATSAPP_RATE_PAISE = {
+  utility: 12,
+  authentication: 12,
+  marketing: 86,
+} as const;

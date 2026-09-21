@@ -3,6 +3,7 @@ import { api, formatPrice, type AdminOrder, type Page } from "@/lib/api";
 import { forwardedCookie } from "@/lib/session";
 import { ReassignButton } from "./ReassignButton";
 import { RefundButton } from "./RefundButton";
+import { SendWhatsapp } from "@/components/SendWhatsapp";
 import styles from "../admin.module.css";
 
 export const dynamic = "force-dynamic";
@@ -121,6 +122,7 @@ export default async function AdminOrdersPage({
                   </td>
                   <td>
                     {order.professionalName && <ReassignButton reference={order.reference} />}
+                    <SendWhatsapp orderReference={order.reference} basePath="/admin/whatsapp" />
                     {REFUNDABLE.has(order.status) && (
                       <RefundButton
                         reference={order.reference}

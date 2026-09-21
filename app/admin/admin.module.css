@@ -306,3 +306,51 @@
   font-size: 13.5px;
   line-height: 1.5;
 }
+
+/* ------------------------------------------------- whatsapp template composer */
+
+.composer {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 18px 20px;
+  margin: 12px 0 8px;
+  max-width: 760px;
+}
+
+.field {
+  display: block;
+  margin-bottom: 14px;
+}
+
+.label {
+  display: block;
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-bottom: 4px;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: 8px 11px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.textarea {
+  resize: vertical;
+  line-height: 1.55;
+}
+
+.help {
+  display: block;
+  font-size: 12px;
+  color: var(--ink-faint);
+  margin-top: 5px;
+  line-height: 1.5;
+}
