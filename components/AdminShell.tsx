@@ -28,7 +28,8 @@ export function AdminShell({
     { href: "/admin/professionals", label: "Professionals", badge: pending },
     { href: "/admin/orders", label: "Orders", badge: escalated },
     { href: "/admin/payouts", label: "Payouts", badge: 0 },
-    { href: "/admin/whatsapp", label: "WhatsApp", badge: 0 },
+    { href: "/admin/conversations", label: "Conversations", badge: 0 },
+    { href: "/admin/whatsapp", label: "Templates", badge: 0 },
     { href: "/admin/reconciliation", label: "Reconciliation", badge: 0 },
   ];
 

@@ -25,6 +25,9 @@ export default async function ProLayout({ children }: { children: React.ReactNod
           <span className={styles.roleBadge}>Professional</span>
         </Link>
         <div className={styles.spacer} />
+        <Link href="/pro/chat" className={styles.exit}>
+          Messages
+        </Link>
         <Link href="/pro/application" className={styles.exit}>
           My application
         </Link>

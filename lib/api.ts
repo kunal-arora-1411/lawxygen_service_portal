@@ -496,3 +496,47 @@ export const WHATSAPP_RATE_PAISE = {
   authentication: 12,
   marketing: 86,
 } as const;
+
+/** A WhatsApp thread. */
+export type WhatsappConversation = {
+  id: string;
+  contactPhone: string;
+  contactName: string | null;
+  clientName: string | null;
+  status: "open" | "resolved";
+  assignedUserId: string | null;
+  assignedName: string | null;
+  unreadCount: number;
+  lastMessageAt: string;
+  /** When free-form replies stop being possible. Null if the client never wrote. */
+  replyWindowExpiresAt: string | null;
+  /**
+   * Whether a plain reply is allowed right now. Only the client writing opens the
+   * window; a template we send does not. The composer switches on this.
+   */
+  windowOpen: boolean;
+};
+
+export type WhatsappChatMessage = {
+  id: string;
+  direction: "inbound" | "outbound";
+  body: string | null;
+  type: string;
+  status: string | null;
+  failedReason: string | null;
+  sentByName: string | null;
+  occurredAt: string;
+};
+
+export type AssignableMember = { id: string; name: string | null; role: string };
+
+/** How long is left on a reply window, in plain words. */
+export function windowRemaining(expiresAt: string | null): string | null {
+  if (!expiresAt) return null;
+  const ms = new Date(expiresAt).getTime() - Date.now();
+  if (ms <= 0) return null;
+  const hours = Math.floor(ms / 3_600_000);
+  const minutes = Math.floor((ms % 3_600_000) / 60_000);
+  if (hours > 0) return `${String(hours)}h ${String(minutes)}m left`;
+  return `${String(minutes)}m left`;
+}

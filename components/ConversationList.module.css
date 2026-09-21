@@ -1,0 +1,98 @@
+.split {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+/* Stacks on a phone: the list first, then whatever is open. */
+@media (max-width: 860px) {
+  .split {
+    grid-template-columns: 1fr;
+  }
+}
+
+.list {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  overflow: hidden;
+  max-height: 560px;
+  overflow-y: auto;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 100%;
+  text-align: left;
+  padding: 11px 13px;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+  cursor: pointer;
+}
+
+.row:hover {
+  background: var(--canvas);
+}
+
+.row[aria-current="true"] {
+  background: var(--canvas);
+  box-shadow: inset 3px 0 0 var(--brand, #1c5dd8);
+}
+
+.rowTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.rowName {
+  font-size: 13.5px;
+  font-weight: 550;
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.unread {
+  background: var(--brand, #1c5dd8);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  padding: 0 5px;
+}
+
+.rowMeta {
+  font-size: 11.5px;
+  color: var(--ink-faint);
+}
+
+.pane {
+  min-width: 0;
+}
+
+.loading,
+.empty {
+  padding: 30px 18px;
+  color: var(--ink-soft);
+  font-size: 13.5px;
+  text-align: center;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+}
+
+.empty strong {
+  display: block;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
