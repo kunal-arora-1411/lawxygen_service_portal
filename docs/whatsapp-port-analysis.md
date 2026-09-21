@@ -3,8 +3,10 @@
 Analysis, 21 September 2026. Written after reading the PingMe source at
 `E:\lawxygen\whatsapp\Campaign-Backend` and `Campaign-Frontend`.
 
-**The brief:** take features from PingMe's code into Lawxygen. Not call PingMe as a
-service. Specifically — chat in the professional dashboard, conversation assignment and
+**The brief:** take features from PingMe's code into Lawxygen. **PingMe is not used at
+all** — not as a service, not as a console, not for authoring. It was built for a
+client; only the code is reusable. Every WhatsApp operation happens in Lawxygen,
+against Lawxygen's own WhatsApp Business Account. Specifically — chat in the professional dashboard, conversation assignment and
 chat visibility in admin, template management in admin, and the ability to fire a
 template from either dashboard.
 
@@ -235,9 +237,9 @@ assignment notices. That alone delivers most of the original Phase 2 promise.
 - Template CRUD, submission to Meta, approval-status sync
 - Port `TemplateBuilderForm` and `TemplateList` as the starting point
 
-Phase E can move earlier if you would rather create templates in Lawxygen than in
-PingMe. Until then, create them in PingMe's UI and reference them by name — the names
-are just strings to Meta.
+**Phase E moved into Phase A.** The original note here suggested authoring templates in
+PingMe's console as an interim. That is not available — Lawxygen authors its own,
+validates them locally and submits them to Meta itself.
 
 ---
 
@@ -263,13 +265,16 @@ PingMe's tenants use.** Two systems writing to one thread would be a genuine mes
 - **Postgres only.** No MongoDB, no Redis. Queueing rides the existing outbox.
 - **Conversations key on (number, client)**, ready for the number pool.
 - **A pool of 5–6 numbers**, a number per active matter, once verification allows it.
-- **PingMe's code, never PingMe's service.** PingMe was built for a client, so depending
-  on it as a running service is not available; reusing the code is. This closes off the
-  FireReach-integration option rather than leaving it open.
+- **PingMe's code, never PingMe itself.** It was built for a client. Not its service,
+  not its console, not its account — nothing operational runs through it. This closes
+  off the FireReach-integration option rather than leaving it open, and it moved
+  template authoring from Phase E into Phase A, since there is no other console.
 
 ## Still open
 
-1. **Which phase to start with.** Recommendation: A. It delivers the original Phase 2
-   promise, and nothing in it is wasted by the later phases.
-2. **Where templates get authored** — PingMe's UI for now and reference them by name, or
-   build Phase E early and author them inside Lawxygen.
+1. **The template wording.** Two are needed to switch Phase A on: a payment receipt and
+   an assignment notice. Both must read as unambiguously transactional to stay in the
+   ₹0.115 utility band rather than the ₹0.86 marketing one, and Meta's classification is
+   permanent for the life of the template.
+2. **The WhatsApp credentials**, once the number is linked — phone number id, WABA id
+   and access token.
