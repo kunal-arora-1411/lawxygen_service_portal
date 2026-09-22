@@ -1,6 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
 import { ReactNode, useEffect, useMemo, useState } from "react";
 import { PortalIcon, PortalIconName } from "./PortalIcons";
+import { useUserId } from "@/hooks/useUserId";
+import { getServiceMatter } from "@/services/serviceApi";
+import { getAdminServiceMatterStats } from "@/services/adminApi";
 import styles from "./PortalShell.module.css";
 
 type NavItem = { href: string; label: string; icon: PortalIconName; badge?: string };
@@ -10,27 +13,6 @@ type Props = {
   children: ReactNode;
 };
 
-const userNav: NavItem[] = [
-  { href: "/dashboard", label: "Overview", icon: "overview" },
-  { href: "/dashboard/services", label: "My services", icon: "services", badge: "3" },
-  { href: "/dashboard/compliance", label: "Compliance", icon: "compliance", badge: "2" },
-  { href: "/dashboard/appointments", label: "Appointments", icon: "appointments" },
-  { href: "/dashboard/documents", label: "Documents", icon: "documents" },
-  { href: "/dashboard/messages", label: "Messages", icon: "messages", badge: "4" },
-  { href: "/dashboard/profile", label: "Profile", icon: "profile" },
-];
-
-const adminNav: NavItem[] = [
-  { href: "/admin", label: "Overview", icon: "overview" },
-  { href: "/admin/requests", label: "Service requests", icon: "requests", badge: "18" },
-  { href: "/admin/users", label: "Users", icon: "users" },
-  { href: "/admin/appointments", label: "Appointments", icon: "appointments", badge: "7" },
-  { href: "/admin/professionals", label: "Professionals", icon: "professionals" },
-  { href: "/admin/services", label: "Service catalogue", icon: "services" },
-  { href: "/admin/support", label: "Support queue", icon: "support", badge: "5" },
-  { href: "/admin/settings", label: "Settings", icon: "settings" },
-];
-
 function isRouteActive(pathname: string, href: string) {
   if (href === "/dashboard" || href === "/admin") return pathname === href;
   return pathname === href || pathname.startsWith(`${href}/`);
@@ -38,14 +20,67 @@ function isRouteActive(pathname: string, href: string) {
 
 export function PortalShell({ mode, children }: Props) {
   const pathname = useLocation().pathname;
+  const userId = useUserId();
+  // Every route ends in an optional "/:userId" segment; strip it back off so
+  // active-state checks match against the page's base path.
+  const basePathname = userId && pathname.endsWith(`/${userId}`)
+    ? pathname.slice(0, -`/${userId}`.length) || "/"
+    : pathname;
+  const withUserId = (href: string) => (userId ? `${href}/${userId}` : href);
   const [mobileNav, setMobileNav] = useState(false);
+  const [activeServicesCount, setActiveServicesCount] = useState<number | null>(null);
+  const [unassignedRequestsCount, setUnassignedRequestsCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (mode !== "user" || !userId) return;
+
+    getServiceMatter()
+      .then((matters) => setActiveServicesCount(matters?.length ?? 0))
+      .catch((error) => console.error("Failed to load services count:", error));
+  }, [mode, userId]);
+
+  useEffect(() => {
+    if (mode !== "admin") return;
+
+    getAdminServiceMatterStats()
+      .then((stats) => setUnassignedRequestsCount(stats.unassigned))
+      .catch((error) => console.error("Failed to load service request stats:", error));
+  }, [mode]);
+
+  const userNav: NavItem[] = useMemo(
+    () => [
+      { href: "/dashboard", label: "Overview", icon: "overview" },
+      { href: "/dashboard/services", label: "My services", icon: "services", badge: activeServicesCount != null ? String(activeServicesCount) : undefined },
+      { href: "/dashboard/compliance", label: "Compliance", icon: "compliance", badge: "2" },
+      { href: "/dashboard/appointments", label: "Appointments", icon: "appointments" },
+      { href: "/dashboard/documents", label: "Documents", icon: "documents" },
+      { href: "/dashboard/messages", label: "Messages", icon: "messages", badge: "4" },
+      { href: "/dashboard/profile", label: "Profile", icon: "profile" },
+    ],
+    [activeServicesCount],
+  );
+
+  const adminNav: NavItem[] = useMemo(
+    () => [
+      { href: "/admin", label: "Overview", icon: "overview" },
+      { href: "/admin/requests", label: "Service requests", icon: "requests", badge: unassignedRequestsCount != null ? String(unassignedRequestsCount) : undefined },
+      { href: "/admin/users", label: "Users", icon: "users" },
+      { href: "/admin/appointments", label: "Appointments", icon: "appointments", badge: "7" },
+      { href: "/admin/professionals", label: "Professionals", icon: "professionals" },
+      { href: "/admin/services", label: "Service catalogue", icon: "services" },
+      { href: "/admin/support", label: "Support queue", icon: "support", badge: "5" },
+      { href: "/admin/settings", label: "Settings", icon: "settings" },
+    ],
+    [unassignedRequestsCount],
+  );
+
   const nav = mode === "admin" ? adminNav : userNav;
   const title = mode === "admin" ? "LAWXYGEN Control" : "Client workspace";
   const profileLabel = mode === "admin" ? "Admin workspace" : "My account";
 
   const activeLabel = useMemo(
-    () => nav.find((item) => isRouteActive(pathname, item.href))?.label ?? "Overview",
-    [nav, pathname],
+    () => nav.find((item) => isRouteActive(basePathname, item.href))?.label ?? "Overview",
+    [nav, basePathname],
   );
 
   useEffect(() => {
@@ -74,9 +109,9 @@ export function PortalShell({ mode, children }: Props) {
 
         <nav className={styles.nav} aria-label={`${mode} portal navigation`}>
           {nav.map((item) => {
-            const active = isRouteActive(pathname, item.href);
+            const active = isRouteActive(basePathname, item.href);
             return (
-              <Link key={item.href} to={item.href} className={`${styles.navItem} ${active ? styles.navItemActive : ""}`}>
+              <Link key={item.href} to={withUserId(item.href)} className={`${styles.navItem} ${active ? styles.navItemActive : ""}`}>
                 <i><PortalIcon name={item.icon} /></i>
                 <span>{item.label}</span>
                 {item.badge ? <b>{item.badge}</b> : null}

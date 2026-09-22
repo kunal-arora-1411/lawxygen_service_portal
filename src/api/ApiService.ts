@@ -3,6 +3,7 @@ import axios, {
   AxiosRequestConfig,
   AxiosResponse,
 } from "axios";
+import Cookies from "js-cookie";
 import {
   API_OPERATIONS,
   getApiOperation,
@@ -16,8 +17,30 @@ export interface ApiResponse<T = any> {
   success: boolean;
 }
 
+interface RetryableRequestConfig extends AxiosRequestConfig {
+  _retry?: boolean;
+}
+
+// Requests to these endpoints must never trigger a refresh-and-retry cycle,
+// otherwise a genuinely expired/invalid refresh token would recurse forever.
+const AUTH_ENDPOINTS_EXEMPT_FROM_REFRESH = new Set<string>([
+  API_OPERATIONS.refreshToken.endpoint,
+  API_OPERATIONS.googleAuth.endpoint,
+  API_OPERATIONS.facebookAuth.endpoint,
+  API_OPERATIONS.emailAuth.endpoint,
+  API_OPERATIONS.sendPhoneOtp.endpoint,
+  API_OPERATIONS.verifyPhoneOtp.endpoint,
+  API_OPERATIONS.logout.endpoint,
+  API_OPERATIONS.adminLogin.endpoint,
+  API_OPERATIONS.adminRefreshToken.endpoint,
+  API_OPERATIONS.adminLogout.endpoint,
+]);
+
+const ADMIN_PATH_PREFIX = "/api/admin";
+
 class ApiService {
   private client: AxiosInstance;
+  private refreshPromise: Promise<void> | null = null;
 
   constructor() {
     this.client = axios.create({
@@ -27,6 +50,68 @@ class ApiService {
       },
       withCredentials: true,
     });
+
+    this.client.interceptors.response.use(
+      (response) => response,
+      (error) => this.handleResponseError(error)
+    );
+  }
+
+  private handleSessionExpired(isAdmin: boolean) {
+    if (isAdmin) {
+      // Admin sessions aren't tracked by a client-side marker cookie; just
+      // send the visitor back to the admin login.
+      if (typeof window !== "undefined") {
+        window.location.href = "/admin";
+      }
+      return;
+    }
+
+    // The backend-issued auth cookies are gone/invalid; drop the client-side
+    // marker cookie too and send the visitor back to log in again.
+    Cookies.remove("userId");
+    if (typeof window !== "undefined") {
+      window.location.href = "/";
+    }
+  }
+
+  private async handleResponseError(error: any) {
+    const originalRequest = error?.config as
+      | RetryableRequestConfig
+      | undefined;
+
+    const isUnauthorized = error?.response?.status === 401;
+    const isExemptEndpoint =
+      !!originalRequest?.url &&
+      AUTH_ENDPOINTS_EXEMPT_FROM_REFRESH.has(originalRequest.url);
+
+    if (!isUnauthorized || !originalRequest || originalRequest._retry || isExemptEndpoint) {
+      return Promise.reject(error);
+    }
+
+    originalRequest._retry = true;
+    const isAdminRequest = !!originalRequest.url?.startsWith(ADMIN_PATH_PREFIX);
+    const refreshEndpoint = isAdminRequest
+      ? API_OPERATIONS.adminRefreshToken.endpoint
+      : API_OPERATIONS.refreshToken.endpoint;
+
+    try {
+      if (!this.refreshPromise) {
+        this.refreshPromise = this.client
+          .post(refreshEndpoint)
+          .then(() => undefined)
+          .finally(() => {
+            this.refreshPromise = null;
+          });
+      }
+
+      await this.refreshPromise;
+
+      return this.client(originalRequest);
+    } catch (refreshError) {
+      this.handleSessionExpired(isAdminRequest);
+      return Promise.reject(error);
+    }
   }
 
   async call<T = any>(

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { PortalIcon, PortalIconName } from "./PortalIcons";
+import { PortalEmptyState } from "./PortalEmptyState";
 import styles from "./PortalSectionPage.module.css";
 
 type Metric = { label: string; value: string; note: string; icon: PortalIconName };
@@ -13,9 +14,12 @@ type Props = {
   rows: Row[];
   primaryLabel?: string;
   primaryHref?: string;
+  emptyIcon?: PortalIconName;
+  emptyTitle?: string;
+  emptyNote?: string;
 };
 
-export function PortalSectionPage({ eyebrow, title, description, metrics, rows, primaryLabel, primaryHref }: Props) {
+export function PortalSectionPage({ eyebrow, title, description, metrics, rows, primaryLabel, primaryHref, emptyIcon, emptyTitle, emptyNote }: Props) {
   return <div className={styles.page}>
     <section className={styles.head}>
       <div><span>{eyebrow}</span><h1>{title}</h1><p>{description}</p></div>
@@ -24,7 +28,11 @@ export function PortalSectionPage({ eyebrow, title, description, metrics, rows, 
     <section className={styles.metrics}>{metrics.map((item)=><article key={item.label}><i><PortalIcon name={item.icon}/></i><div><strong>{item.value}</strong><span>{item.label}</span><small>{item.note}</small></div></article>)}</section>
     <section className={styles.panel}>
       <div className={styles.panelHead}><div><strong>Workspace</strong><span>Everything relevant to this section.</span></div><label><PortalIcon name="search" size={15}/><input placeholder="Search" /></label></div>
-      <div className={styles.rows}>{rows.map((row,index)=><div className={styles.row} key={`${row.title}-${index}`}><span className={styles.index}>{String(index+1).padStart(2,"0")}</span><div className={styles.copy}><strong>{row.title}</strong><span>{row.subtitle}</span></div><span className={styles.meta}>{row.meta}</span><span className={`${styles.status} ${row.tone === "warn" ? styles.warn : row.tone === "good" ? styles.good : ""}`}>{row.status}</span><button aria-label={`Open ${row.title}`}><PortalIcon name="arrow" size={15}/></button></div>)}</div>
+      <div className={styles.rows}>
+        {rows.length > 0
+          ? rows.map((row,index)=><div className={styles.row} key={`${row.title}-${index}`}><span className={styles.index}>{String(index+1).padStart(2,"0")}</span><div className={styles.copy}><strong>{row.title}</strong><span>{row.subtitle}</span></div><span className={styles.meta}>{row.meta}</span><span className={`${styles.status} ${row.tone === "warn" ? styles.warn : row.tone === "good" ? styles.good : ""}`}>{row.status}</span><button aria-label={`Open ${row.title}`}><PortalIcon name="arrow" size={15}/></button></div>)
+          : <PortalEmptyState icon={emptyIcon} title={emptyTitle} note={emptyNote} />}
+      </div>
     </section>
   </div>;
 }

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { ServiceMegaMenu } from "./ServiceMegaMenu";
 import { Link } from "react-router-dom";
 import { LoginModal } from "@/components/auth/LoginModal";
+import { useUserId } from "@/hooks/useUserId";
 
 type MobileIconName =
   | "services"
@@ -85,6 +86,25 @@ function MobileIcon({ name }: { name: MobileIconName }) {
   );
 }
 
+function ProfileIcon() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="8" r="4" />
+      <path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6" />
+    </svg>
+  );
+}
+
 function SearchIcon() {
   return (
     <svg
@@ -109,6 +129,7 @@ export function Header() {
   const [serviceQuery, setServiceQuery] = useState("");
   const [scrolled, setScrolled] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
+  const userId = useUserId();
 
   const closeServices = useCallback(() => {
     setServicesOpen(false);
@@ -180,13 +201,23 @@ export function Header() {
               <SearchIcon />
             </button>
 
-            <button
-              type="button"
-              className="lawx-final-login"
-              onClick={() => setLoginOpen(true)}
-            >
-              Login
-            </button>
+            {userId ? (
+              <Link
+                to={`/dashboard/${userId}`}
+                className="lawx-final-login lawx-final-profile"
+                aria-label="My account"
+              >
+                <ProfileIcon />
+              </Link>
+            ) : (
+              <button
+                type="button"
+                className="lawx-final-login"
+                onClick={() => setLoginOpen(true)}
+              >
+                Login
+              </button>
+            )}
 
             <Link to="/services/talk-lawyer/online-lawyer-consultation" className="lawx-final-consult">
               Consult <span>↗</span>
@@ -222,16 +253,27 @@ export function Header() {
             />
           </a>
 
-          <button
-            type="button"
-            className="lawx-mobile-login"
-            onClick={() => {
-              setMobileOpen(false);
-              setLoginOpen(true);
-            }}
-          >
-            Login
-          </button>
+          {userId ? (
+            <Link
+              to={`/dashboard/${userId}`}
+              className="lawx-mobile-login lawx-final-profile"
+              aria-label="My account"
+              onClick={() => setMobileOpen(false)}
+            >
+              <ProfileIcon />
+            </Link>
+          ) : (
+            <button
+              type="button"
+              className="lawx-mobile-login"
+              onClick={() => {
+                setMobileOpen(false);
+                setLoginOpen(true);
+              }}
+            >
+              Login
+            </button>
+          )}
 
           <button
             type="button"

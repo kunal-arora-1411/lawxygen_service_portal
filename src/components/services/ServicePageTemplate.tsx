@@ -1,7 +1,10 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import Cookies from "js-cookie";
+import { useUserId } from "@/hooks/useUserId";
+import { assignService } from "@/services/serviceApi";
 
 type Props = { data: any; styles: Record<string, string> };
 const sectionTypes = [
@@ -242,10 +245,28 @@ function Section({
 }
 
 export function ServicePageTemplate({ data, styles }: Props) {
-  console.log("🚀  ~ data:", data);
-  const userId = Cookies.get("userId");
+  const userId = useUserId();
+  const isLoggedIn = Boolean(userId);
+  const navigate = useNavigate();
+  const [isAssigning, setIsAssigning] = useState(false);
 
-  console.log("cookie userId", userId);
+  const handleStartService = async (e: React.MouseEvent) => {
+    if (!isLoggedIn || isAssigning) return;
+    e.preventDefault();
+    setIsAssigning(true);
+    try {
+      await assignService(data._id);
+      window.alert("Service allotted to user");
+      navigate(`/dashboard/${userId}`);
+    } catch (error) {
+      const message =
+        (axios.isAxiosError(error) && error.response?.data?.message) ||
+        "Failed to assign service. Please try again.";
+      window.alert(message);
+    } finally {
+      setIsAssigning(false);
+    }
+  };
 
   const order = [
     [
@@ -584,8 +605,13 @@ export function ServicePageTemplate({ data, styles }: Props) {
             <h1>{data.title}</h1>
             <p>{data.summary}</p>
             <div className={styles.heroActions}>
-              <Link to="/login" className={styles.primary}>
-                {data.cta}
+              <Link
+                to={isLoggedIn ? `/dashboard/${userId}` : "/login"}
+                className={styles.primary}
+                onClick={handleStartService}
+                aria-disabled={isAssigning}
+              >
+                {isAssigning ? "Starting…" : data.cta}
                 <span>↗</span>
               </Link>
               <a href="#expert" className={styles.secondary}>
@@ -622,9 +648,11 @@ export function ServicePageTemplate({ data, styles }: Props) {
                 <strong>Review requirements</strong>
               </div>
             </div>
-            <Link to="/login" className={styles.dashButton}>
-              Login / Sign up <span>→</span>
-            </Link>
+            {!isLoggedIn && (
+              <Link to="/login" className={styles.dashButton}>
+                Login / Sign up <span>→</span>
+              </Link>
+            )}
           </aside>
         </section>
         <nav className={styles.index}>

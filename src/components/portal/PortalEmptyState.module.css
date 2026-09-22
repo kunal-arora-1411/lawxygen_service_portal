@@ -1,0 +1,27 @@
+.emptyState {
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  padding: 34px 20px;
+  text-align: center;
+  color: #8a9bad;
+}
+.emptyIcon {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: #f1f6fa;
+  color: #9fb2c4;
+  display: grid;
+  place-items: center;
+}
+.emptyState strong {
+  color: #5c7186;
+  font-size: 10.5px;
+  font-weight: 700;
+}
+.emptyState span {
+  font-size: 9px;
+  max-width: 260px;
+  line-height: 1.5;
+}

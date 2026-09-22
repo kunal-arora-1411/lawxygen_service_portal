@@ -116,6 +116,15 @@ html.lawx-mobile-nav-open body {
   cursor: pointer;
 }
 
+.lawx-final-profile {
+  min-width: 39px;
+  width: 39px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .lawx-final-consult {
   min-height: 41px;
   padding: 0 18px;

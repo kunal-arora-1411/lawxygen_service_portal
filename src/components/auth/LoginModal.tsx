@@ -2,6 +2,8 @@ import { FormEvent, useEffect, useState } from "react";
 import apiService from "@/api/ApiService";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { GoogleLogin } from "@react-oauth/google";
+import { initializeFacebook } from "@/utils/facebook";
 
 type Props = {
   open: boolean;
@@ -180,55 +182,117 @@ export function LoginModal({ open, onClose }: Props) {
   // new email      -> create account
   // -----------------------------------------
 
-const handleEmailAuth = async () => {
-  setFormError(null);
+  const handleEmailAuth = async () => {
+    setFormError(null);
 
-  const normalizedEmail = email.trim().toLowerCase();
+    const normalizedEmail = email.trim().toLowerCase();
 
-  if (!normalizedEmail) {
-    setFormError("Please enter your email address.");
-    return;
-  }
+    if (!normalizedEmail) {
+      setFormError("Please enter your email address.");
+      return;
+    }
 
-  if (!password) {
-    setFormError("Please enter your password.");
-    return;
-  }
+    if (!password) {
+      setFormError("Please enter your password.");
+      return;
+    }
 
-  if (password.length < 6) {
-    setFormError("Password must be at least 6 characters.");
-    return;
-  }
+    if (password.length < 6) {
+      setFormError("Password must be at least 6 characters.");
+      return;
+    }
 
-  setIsSubmitting(true);
+    setIsSubmitting(true);
 
+    try {
+      const response = await apiService.call("emailAuth", {
+        email: normalizedEmail,
+        password,
+      });
+
+      console.log("Authentication successful:", response.data);
+
+      // Get userId from backend response
+      const userId = response.data.user._id;
+
+      // Store userId in cookie
+      Cookies.set("userId", userId, {
+        expires: 7,
+        sameSite: "lax",
+        secure: import.meta.env.PROD,
+      });
+
+      console.log("User ID stored:", Cookies.get("userId"));
+
+      onClose();
+
+      navigate(`/dashboard/${userId}`);
+    } catch (error) {
+      setFormError(extractErrorMessage(error));
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleFacebookLogin = async () => {
   try {
-    const response = await apiService.call("emailAuth", {
-      email: normalizedEmail,
-      password,
-    });
+    setIsSubmitting(true);
+    setFormError(null);
 
-    console.log("Authentication successful:", response.data);
+    await initializeFacebook();
 
-    // Get userId from backend response
-    const userId = response.data.user._id;
+    window.FB.login(
+      async (response: any) => {
+        try {
+          if (!response.authResponse?.accessToken) {
+            throw new Error(
+              "Facebook authentication was cancelled."
+            );
+          }
 
-    // Store userId in cookie
-    Cookies.set("userId", userId, {
-      expires: 7,
-      sameSite: "lax",
-      secure: import.meta.env.PROD,
-    });
+          const accessToken =
+            response.authResponse.accessToken;
 
-    console.log("User ID stored:", Cookies.get("userId"));
+          const result = await apiService.call(
+            "facebookAuth",
+            {
+              accessToken,
+            }
+          );
 
-    onClose();
+          console.log(
+            "Facebook authentication:",
+            result.data
+          );
 
-    navigate(`/dashboard/${userId}`);
+          const userId = result.data.user._id;
+
+          Cookies.set("userId", userId, {
+            expires: 7,
+            sameSite: "lax",
+            secure: import.meta.env.PROD,
+          });
+
+          onClose();
+
+          navigate(`/dashboard/${userId}`);
+        } catch (error) {
+          setFormError(
+            extractErrorMessage(error)
+          );
+        } finally {
+          setIsSubmitting(false);
+        }
+      },
+      {
+        scope: "public_profile,email",
+      }
+    );
   } catch (error) {
-    setFormError(extractErrorMessage(error));
-  } finally {
     setIsSubmitting(false);
+    setFormError(
+      extractErrorMessage(error)
+    );
   }
 };
 
@@ -302,11 +366,17 @@ const handleEmailAuth = async () => {
       // response.data.isNewUser tells you whether
       // this was a newly created account.
 
+      const userId = response.data.user._id;
+
+      Cookies.set("userId", userId, {
+        expires: 7,
+        sameSite: "lax",
+        secure: import.meta.env.PROD,
+      });
+
       onClose();
 
-      // TODO:
-      // navigate("/app");
-      // or update AuthContext.
+      navigate(`/dashboard/${userId}`);
     } catch (error) {
       setFormError(extractErrorMessage(error));
     } finally {
@@ -408,7 +478,7 @@ const handleEmailAuth = async () => {
 
         {/* Social Login */}
         <div className="lawx-auth-socials">
-          <button
+          {/* <button
             type="button"
             className="lawx-auth-social-button"
             onClick={() => {
@@ -417,25 +487,51 @@ const handleEmailAuth = async () => {
           >
             <GoogleMark />
             <span>Continue with Google</span>
-          </button>
+          </button> */}
+
+          <GoogleLogin
+            onSuccess={async (credentialResponse) => {
+              try {
+                setIsSubmitting(true);
+                setFormError(null);
+
+                if (!credentialResponse.credential) {
+                  throw new Error("Google credential was not received.");
+                }
+
+                const response = await apiService.call("googleAuth", {
+                  credential: credentialResponse.credential,
+                });
+
+                console.log("Google authentication:", response.data);
+
+                const userId = response.data.user._id;
+
+                // If you're storing userId in your frontend cookie
+                Cookies.set("userId", userId, {
+                  expires: 7,
+                  sameSite: "lax",
+                  secure: import.meta.env.PROD,
+                });
+
+                onClose();
+
+                navigate(`/dashboard/${userId}`);
+              } catch (error) {
+                setFormError(extractErrorMessage(error));
+              } finally {
+                setIsSubmitting(false);
+              }
+            }}
+            onError={() => {
+              setFormError("Google authentication failed.");
+            }}
+          />
 
           <button
             type="button"
             className="lawx-auth-social-button"
-            onClick={() => {
-              // TODO: Apple authentication
-            }}
-          >
-            <AppleMark />
-            <span>Continue with Apple</span>
-          </button>
-
-          <button
-            type="button"
-            className="lawx-auth-social-button"
-            onClick={() => {
-              // TODO: Facebook authentication
-            }}
+            onClick={handleFacebookLogin}
           >
             <FacebookMark />
             <span>Continue with Facebook</span>
@@ -468,9 +564,6 @@ const handleEmailAuth = async () => {
 
         {/* Form */}
         <form className="lawx-auth-form" onSubmit={submit}>
-          {/* ================================
-              EMAIL
-          ================================= */}
           {method === "email" && (
             <>
               <label>
