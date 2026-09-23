@@ -331,13 +331,49 @@ export async function getAdminUsers(params?: {
   return response.data;
 }
 
-export async function getAdminUserById(
-  userId: string
-): Promise<AdminUserListItem & { matters: ServiceMatterRecord[]; matterCount: number }> {
-  const response = await apiService.request<
-    AdminUserListItem & { matters: ServiceMatterRecord[]; matterCount: number }
-  >(HttpType.GET, `/api/admin/users/${encodeURIComponent(userId)}`);
+export interface AdminUserDetail extends AdminUserListItem {
+  email?: string;
+  phone?: string;
+  role?: string;
+  matters: ServiceMatterRecord[];
+  matterCount: number;
+}
+
+export async function getAdminUserById(userId: string): Promise<AdminUserDetail> {
+  const response = await apiService.request<AdminUserDetail>(
+    HttpType.GET,
+    `/api/admin/users/${encodeURIComponent(userId)}`
+  );
   return response.data;
+}
+
+// NOTE: PATCH/DELETE on a single user are not yet documented in
+// API_REFERENCE.md (only GET /stats, GET /, GET /:id are) — this follows the
+// same REST convention already used for services/professionals/documents.
+// Verify/add these routes on the backend.
+export async function updateAdminUser(
+  userId: string,
+  payload: { name?: string; phone?: string; status?: "active" | "inactive"; role?: string }
+): Promise<AdminUserDetail> {
+  const response = await apiService.request<AdminUserDetail>(
+    HttpType.PATCH,
+    `/api/admin/users/${encodeURIComponent(userId)}`,
+    payload
+  );
+  return response.data;
+}
+
+export async function deleteAdminUser(userId: string): Promise<void> {
+  await apiService.request(
+    HttpType.DELETE,
+    `/api/admin/users/${encodeURIComponent(userId)}`
+  );
+}
+
+// Professionals are backed by User accounts with role: "professional" (see
+// API_REFERENCE.md §18), so promoting a user is just this role update.
+export async function promoteAdminUserToProfessional(userId: string): Promise<AdminUserDetail> {
+  return updateAdminUser(userId, { role: "professional" });
 }
 
 // =========================
@@ -432,6 +468,7 @@ export async function getAdminServiceStats(): Promise<{
 
 export async function getAdminServices(params?: {
   category?: string;
+  search?: string;
   page?: number;
   limit?: number;
 }): Promise<PagedResult<ServiceRecord>> {
@@ -471,6 +508,16 @@ export async function publishAdminService(
     { isActive }
   );
   return response.data;
+}
+
+// NOTE: not in API_REFERENCE.md (only GET/POST/PATCH are documented for
+// service catalogue) — this follows the same DELETE /:id convention already
+// confirmed for documents. Verify/add this route on the backend.
+export async function deleteAdminService(serviceId: string): Promise<void> {
+  await apiService.request(
+    HttpType.DELETE,
+    `/api/admin/services/${encodeURIComponent(serviceId)}`
+  );
 }
 
 // =========================

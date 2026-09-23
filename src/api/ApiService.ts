@@ -31,6 +31,9 @@ const AUTH_ENDPOINTS_EXEMPT_FROM_REFRESH = new Set<string>([
   API_OPERATIONS.sendPhoneOtp.endpoint,
   API_OPERATIONS.verifyPhoneOtp.endpoint,
   API_OPERATIONS.logout.endpoint,
+  API_OPERATIONS.forgotPassword.endpoint,
+  API_OPERATIONS.verifyResetOtp.endpoint,
+  API_OPERATIONS.resetPassword.endpoint,
   API_OPERATIONS.adminLogin.endpoint,
   API_OPERATIONS.adminRefreshToken.endpoint,
   API_OPERATIONS.adminLogout.endpoint,
@@ -41,6 +44,7 @@ const ADMIN_PATH_PREFIX = "/api/admin";
 class ApiService {
   private client: AxiosInstance;
   private refreshPromise: Promise<void> | null = null;
+  private sessionExpiredHandled = false;
 
   constructor() {
     this.client = axios.create({
@@ -58,12 +62,24 @@ class ApiService {
   }
 
   private handleSessionExpired(isAdmin: boolean) {
+    // A batch of concurrent 401s all await the same shared refreshPromise,
+    // so if it rejects, every one of them lands here in the same tick —
+    // without this guard each would independently redirect/clear cookies.
+    if (this.sessionExpiredHandled) return;
+    this.sessionExpiredHandled = true;
+
     if (isAdmin) {
-      // Admin sessions aren't tracked by a client-side marker cookie; just
-      // send the visitor back to the admin login.
-      if (typeof window !== "undefined") {
-        window.location.href = "/admin";
-      }
+      // There is no unauthenticated /admin/login route in this app yet, and
+      // every /admin page fires its own authenticated requests on mount —
+      // redirecting to "/admin" here would just reload straight back into
+      // another 401 -> refresh-fails -> redirect loop (this is what was
+      // hammering the backend with hundreds of requests). Until a real
+      // admin login page exists, leave the user on the current page; every
+      // admin view already renders a "Not available" empty state when its
+      // own fetch fails, so the UI still degrades gracefully.
+      console.warn(
+        "Admin session expired or invalid, and no admin login page exists yet — not redirecting to avoid a reload loop."
+      );
       return;
     }
 

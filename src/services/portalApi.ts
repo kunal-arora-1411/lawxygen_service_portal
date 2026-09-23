@@ -5,10 +5,82 @@ import { HttpType } from "@/constant/HttpMethods";
 // CLIENT PROFILE
 // =========================
 
+export interface ProfileAddress {
+  line1?: string;
+  line2?: string;
+  city?: string;
+  state?: string;
+  postalCode?: string;
+  country?: string;
+}
+
+export interface ProfileBusiness {
+  companyName?: string;
+  businessType?: string;
+  designation?: string;
+  industry?: string;
+  gstin?: string;
+  pan?: string;
+  website?: string;
+}
+
+export interface ProfilePreferences {
+  language?: string;
+  emailNotifications?: boolean;
+  smsNotifications?: boolean;
+  whatsappNotifications?: boolean;
+  marketingEmails?: boolean;
+}
+
+export interface ProfileAuthProviders {
+  password?: boolean;
+  google?: boolean;
+  facebook?: boolean;
+}
+
+/**
+ * Shape returned by GET /api/client/users/me.
+ *
+ * NOTE: `dateOfBirth`, `gender`, `address`, `business`, `preferences` and
+ * `authProviders` are not in the current backend User schema yet — see
+ * docs/USER_PROFILE_SCHEMA.md. They're all optional, so the profile page
+ * renders correctly (just with a lower completion score) until they exist.
+ */
+export interface UserProfile {
+  _id: string;
+  name?: string;
+  email?: string;
+  phone?: string;
+  profileImage?: string;
+  role?: string;
+  isVerified?: boolean;
+  isActive?: boolean;
+  lastLoginAt?: string;
+  createdAt?: string;
+  updatedAt?: string;
+
+  dateOfBirth?: string;
+  gender?: string;
+  address?: ProfileAddress;
+  business?: ProfileBusiness;
+  preferences?: ProfilePreferences;
+  authProviders?: ProfileAuthProviders;
+}
+
 export interface UpdateProfilePayload {
   name?: string;
   phone?: string;
   profileImage?: string;
+  dateOfBirth?: string;
+  gender?: string;
+  address?: ProfileAddress;
+  business?: ProfileBusiness;
+  preferences?: ProfilePreferences;
+}
+
+export async function getCurrentUserProfile(): Promise<UserProfile> {
+  const response = await apiService.call<any>("getCurrentUser");
+  return (response.data?.user ?? response.data) as UserProfile;
 }
 
 export async function updateCurrentUser(payload: UpdateProfilePayload) {

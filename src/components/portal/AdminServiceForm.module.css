@@ -1,0 +1,55 @@
+.form { border: 1px solid rgba(14,64,106,.09); border-radius: 20px; background: rgba(255,255,255,.82); overflow: hidden; }
+.formHead { min-height: 74px; padding: 16px 22px; border-bottom: 1px solid rgba(14,64,106,.08); display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; background: rgba(241,247,251,.5); }
+.formHead > div { display: grid; gap: 2px; }
+.formHead strong { font-family: var(--v3-display), sans-serif; font-size: 16px; color: #0c2c4c; }
+.formHead span { color: #8b9bac; font-size: 9px; }
+.formHeadActions { display: flex; gap: 8px; }
+.primaryButton, .ghostButton { min-height: 38px; padding: 0 16px; border-radius: 999px; font-size: 9.5px; font-weight: 700; }
+.primaryButton { border: 0; background: #0a335f; color: #fff; }
+.primaryButton:disabled { opacity: .6; cursor: not-allowed; }
+.ghostButton { border: 1px solid rgba(15,66,107,.14); background: #fff; color: #3d5a75; }
+
+.formError { margin: 14px 22px 0; padding: 10px 14px; border-radius: 10px; background: rgba(214,80,80,.08); color: #b4453f; font-size: 9.5px; font-weight: 600; }
+
+.section { padding: 18px 22px; border-bottom: 1px solid rgba(14,64,106,.06); display: grid; gap: 12px; }
+.section:last-child { border-bottom: 0; }
+.section h2 { margin: 0; color: #173d62; font-size: 11px; font-weight: 750; letter-spacing: -.01em; }
+
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
+.grid2 label, .fullField, .section > label {
+  display: grid; gap: 5px; color: #5c7186; font-size: 9px; font-weight: 650;
+}
+.grid2 input, .fullField input, .section textarea {
+  min-height: 38px; padding: 0 12px; border: 1px solid rgba(16,66,108,.12); border-radius: 10px;
+  background: #f8fbfd; color: #16324f; font-size: 10px; font-family: inherit;
+}
+.section textarea { padding: 10px 12px; min-height: 76px; resize: vertical; }
+.fullField { margin-top: 2px; }
+
+.toggleField { display: flex !important; flex-direction: row; align-items: center; justify-content: space-between; padding: 0 12px; min-height: 38px; border: 1px solid rgba(16,66,108,.12); border-radius: 10px; background: #f8fbfd; }
+.toggleField input { width: 16px; height: 16px; }
+
+.fieldGroup { display: grid; gap: 8px; }
+.emptyHint { margin: 0; color: #9fb0c1; font-size: 8.5px; }
+.listRow, .pairRow { display: grid; gap: 8px; align-items: center; }
+.listRow { grid-template-columns: 1fr 30px; }
+.pairRow { grid-template-columns: 1fr 1fr 30px; }
+.listRow input, .pairRow input {
+  min-height: 36px; padding: 0 11px; border: 1px solid rgba(16,66,108,.12); border-radius: 9px;
+  background: #f8fbfd; color: #16324f; font-size: 9.5px;
+}
+.listRow button, .pairRow button {
+  width: 30px; height: 30px; border: 1px solid rgba(214,80,80,.18); border-radius: 8px;
+  background: rgba(214,80,80,.06); color: #c15a54; display: grid; place-items: center;
+}
+.addRow {
+  justify-self: start; min-height: 32px; padding: 0 12px; border: 1px dashed rgba(38,128,201,.35);
+  border-radius: 9px; background: rgba(38,128,201,.05); color: #2680c9; font-size: 9px; font-weight: 700;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+
+@media (max-width: 720px) {
+  .grid2 { grid-template-columns: 1fr; }
+  .pairRow { grid-template-columns: 1fr; }
+  .pairRow button { justify-self: start; }
+}

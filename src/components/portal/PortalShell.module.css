@@ -68,12 +68,21 @@
 .searchBox kbd { padding: 3px 5px; border: 1px solid #dce6ee; border-radius: 5px; background: #f6f9fb; color: #8ca0b5; font: 8px var(--v3-body); }
 .iconButton { position: relative; width: 42px; height: 42px; padding: 0; border: 1px solid rgba(18, 66, 105, .1); border-radius: 12px; background: rgba(255, 255, 255, .76); color: #294f73; display: grid; place-items: center; }
 .iconButton span { position: absolute; top: 10px; right: 10px; width: 6px; height: 6px; border: 2px solid white; border-radius: 50%; background: #2b86d1; }
+.profileMenu { position: relative; }
 .profileButton { height: 46px; padding: 0 10px 0 6px; border: 1px solid rgba(18, 66, 105, .1); border-radius: 13px; background: rgba(255, 255, 255, .78); display: flex; align-items: center; gap: 9px; color: #1e466d; }
 .avatar { width: 34px; height: 34px; border-radius: 10px; background: linear-gradient(135deg, #0b3867, #2987d0); color: white; display: grid; place-items: center; font-size: 10px; font-weight: 750; }
 .profileText { display: grid; gap: 2px; text-align: left; }
 .profileText strong { font-size: 10px; }
 .profileText small { color: #93a3b4; font-size: 8px; }
 .chevron { color: #8ca0b2; font-size: 12px; }
+.profileDropdown { position: absolute; top: calc(100% + 10px); right: 0; width: 236px; padding: 8px; border: 1px solid rgba(18, 66, 105, .1); border-radius: 15px; background: #ffffff; box-shadow: 0 20px 48px rgba(8, 35, 64, .16); display: grid; gap: 3px; z-index: 50; }
+.profileDropdownHead { padding: 9px 11px 12px; margin-bottom: 3px; border-bottom: 1px solid rgba(16, 62, 103, .08); display: grid; gap: 2px; }
+.profileDropdownHead strong { font-size: 12px; color: var(--portal-ink); }
+.profileDropdownHead span { color: var(--portal-muted); font-size: 9.5px; word-break: break-all; }
+.profileDropdownItem { width: 100%; display: flex; align-items: center; gap: 9px; padding: 9px 11px; border-radius: 10px; color: #40597a; font-size: 12px; font-weight: 600; text-align: left; }
+.profileDropdownItem:hover { background: rgba(233, 244, 253, .75); color: #163e67; }
+.profileDropdownLogout { color: #b3341f; }
+.profileDropdownLogout:hover { background: rgba(255, 235, 230, .6); color: #922712; }
 .content { padding: 30px; }
 .mobileBackdrop { display: none; }
 

@@ -1,10 +1,22 @@
-import { Link, useLocation } from "react-router-dom";
-import { ReactNode, useEffect, useMemo, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
+import Cookies from "js-cookie";
 import { PortalIcon, PortalIconName } from "./PortalIcons";
 import { useUserId } from "@/hooks/useUserId";
 import { getServiceMatter } from "@/services/serviceApi";
-import { getAdminServiceMatterStats } from "@/services/adminApi";
+import { getAdminServiceMatterStats, getCurrentAdmin } from "@/services/adminApi";
+import apiService from "@/api/ApiService";
+import { AccountSettingsModal } from "@/components/auth/AccountSettingsModal";
 import styles from "./PortalShell.module.css";
+
+type CurrentAccount = { name?: string; email?: string } | null;
+
+function getInitials(name?: string, fallback = "U") {
+  const parts = (name ?? "").trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return fallback;
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
 
 type NavItem = { href: string; label: string; icon: PortalIconName; badge?: string };
 
@@ -20,6 +32,7 @@ function isRouteActive(pathname: string, href: string) {
 
 export function PortalShell({ mode, children }: Props) {
   const pathname = useLocation().pathname;
+  const navigate = useNavigate();
   const userId = useUserId();
   // Every route ends in an optional "/:userId" segment; strip it back off so
   // active-state checks match against the page's base path.
@@ -30,6 +43,55 @@ export function PortalShell({ mode, children }: Props) {
   const [mobileNav, setMobileNav] = useState(false);
   const [activeServicesCount, setActiveServicesCount] = useState<number | null>(null);
   const [unassignedRequestsCount, setUnassignedRequestsCount] = useState<number | null>(null);
+  const [currentAccount, setCurrentAccount] = useState<CurrentAccount>(null);
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const profileMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (mode === "user") {
+      if (!userId) {
+        setCurrentAccount(null);
+        return;
+      }
+
+      apiService
+        .call("getCurrentUser")
+        .then((response) => setCurrentAccount(response.data?.user ?? response.data))
+        .catch((error) => console.error("Failed to load current user:", error));
+    } else {
+      getCurrentAdmin()
+        .then((admin) => setCurrentAccount(admin))
+        .catch((error) => console.error("Failed to load current admin:", error));
+    }
+  }, [mode, userId]);
+
+  useEffect(() => {
+    if (!profileMenuOpen) return;
+
+    const onClickOutside = (event: MouseEvent) => {
+      if (profileMenuRef.current && !profileMenuRef.current.contains(event.target as Node)) {
+        setProfileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", onClickOutside);
+    return () => document.removeEventListener("mousedown", onClickOutside);
+  }, [profileMenuOpen]);
+
+  const handleLogout = async () => {
+    setProfileMenuOpen(false);
+
+    try {
+      await apiService.call(mode === "admin" ? "adminLogout" : "logout");
+    } catch (error) {
+      console.error("Logout request failed:", error);
+    } finally {
+      Cookies.remove("userId");
+      setCurrentAccount(null);
+      navigate("/");
+    }
+  };
 
   useEffect(() => {
     if (mode !== "user" || !userId) return;
@@ -152,15 +214,59 @@ export function PortalShell({ mode, children }: Props) {
               <kbd>⌘ K</kbd>
             </label>
             <button type="button" className={styles.iconButton} aria-label="Notifications"><PortalIcon name="bell" /><span /></button>
-            <button type="button" className={styles.profileButton}>
-              <span className={styles.avatar}>{mode === "admin" ? "A" : "YK"}</span>
-              <span className={styles.profileText}><strong>{profileLabel}</strong><small>{mode === "admin" ? "Administrator" : "LAWXYGEN client"}</small></span>
-              <span className={styles.chevron}>⌄</span>
-            </button>
+            <div className={styles.profileMenu} ref={profileMenuRef}>
+              <button
+                type="button"
+                className={styles.profileButton}
+                aria-haspopup="menu"
+                aria-expanded={profileMenuOpen}
+                onClick={() => setProfileMenuOpen((value) => !value)}
+              >
+                <span className={styles.avatar}>{getInitials(currentAccount?.name, mode === "admin" ? "A" : "U")}</span>
+                <span className={styles.profileText}><strong>{currentAccount?.name || profileLabel}</strong><small>{mode === "admin" ? "Administrator" : "LAWXYGEN client"}</small></span>
+                <span className={styles.chevron}>⌄</span>
+              </button>
+
+              {profileMenuOpen && (
+                <div className={styles.profileDropdown} role="menu">
+                  <div className={styles.profileDropdownHead}>
+                    <strong>{currentAccount?.name || profileLabel}</strong>
+                    {currentAccount?.email && <span>{currentAccount.email}</span>}
+                  </div>
+
+                  {mode === "user" && (
+                    <button
+                      type="button"
+                      role="menuitem"
+                      className={styles.profileDropdownItem}
+                      onClick={() => {
+                        setProfileMenuOpen(false);
+                        setSettingsOpen(true);
+                      }}
+                    >
+                      <PortalIcon name="settings" size={16} />
+                      <span>Settings</span>
+                    </button>
+                  )}
+
+                  <button
+                    type="button"
+                    role="menuitem"
+                    className={`${styles.profileDropdownItem} ${styles.profileDropdownLogout}`}
+                    onClick={handleLogout}
+                  >
+                    <PortalIcon name="logout" size={16} />
+                    <span>Log out</span>
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </header>
         <main className={styles.content}>{children}</main>
       </section>
+
+      {mode === "user" && <AccountSettingsModal open={settingsOpen} onClose={() => setSettingsOpen(false)} />}
     </div>
   );
 }

@@ -8,8 +8,19 @@ import styles from "./ServiceCategoryPage.module.css";
 
 type Status = "loading" | "success" | "error";
 
+function titleCaseFromSlug(slug: string) {
+  return slug
+    .split("-")
+    .filter(Boolean)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
 export function ServiceCategoryPage({ slug }: { slug: string }) {
-  const fallbackGroup = serviceCatalog.find((x) => x.slug === slug) ?? serviceCatalog[0];
+  // Only used as a same-category loading-state label — a category with no
+  // static entry here (e.g. one created via the admin catalogue) falls back
+  // to a title-cased version of its own slug instead of an unrelated one.
+  const fallbackGroup = serviceCatalog.find((x) => x.slug === slug);
   const [services, setServices] = useState<ServiceRecord[]>([]);
   const [status, setStatus] = useState<Status>("loading");
 
@@ -32,7 +43,7 @@ export function ServiceCategoryPage({ slug }: { slug: string }) {
     };
   }, [slug]);
 
-  const label = services[0]?.category ?? fallbackGroup.label;
+  const label = services[0]?.category ?? fallbackGroup?.label ?? titleCaseFromSlug(slug);
 
   return (
     <>

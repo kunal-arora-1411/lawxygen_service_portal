@@ -10,8 +10,6 @@ type Props = {
   onClose: () => void;
 };
 
-type LoginMethod = "email" | "mobile";
-
 function GoogleMark() {
   return (
     <svg
@@ -54,6 +52,37 @@ function AppleMark() {
   );
 }
 
+function EyeIcon({ open }: { open: boolean }) {
+  if (open) {
+    return (
+      <svg viewBox="0 0 24 24" width={18} height={18} aria-hidden="true">
+        <path
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={1.8}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"
+        />
+        <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" strokeWidth={1.8} />
+      </svg>
+    );
+  }
+
+  return (
+    <svg viewBox="0 0 24 24" width={18} height={18} aria-hidden="true">
+      <path
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={1.8}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M3 3l18 18M10.6 10.6a3 3 0 0 0 4.24 4.24M6.5 6.7C4 8.3 2 12 2 12s3.6 7 10 7c1.8 0 3.4-.5 4.7-1.3M9.9 4.2A9.7 9.7 0 0 1 12 4c6.4 0 10 8 10 8a17 17 0 0 1-2.9 4.1"
+      />
+    </svg>
+  );
+}
+
 function FacebookMark() {
   return (
     <svg
@@ -70,20 +99,30 @@ function FacebookMark() {
   );
 }
 
-export function LoginModal({ open, onClose }: Props) {
-  const [method, setMethod] = useState<LoginMethod>("email");
+type ForgotStep = "email" | "otp" | "reset";
 
+export function LoginModal({ open, onClose }: Props) {
   // Email authentication
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  // Mobile authentication
-  const [phone, setPhone] = useState("");
-  const [otp, setOtp] = useState("");
-  const [otpSent, setOtpSent] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
+  const [loginNotice, setLoginNotice] = useState<string | null>(null);
+
+  // Forgot password
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [forgotStep, setForgotStep] = useState<ForgotStep>("email");
+  const [resetEmail, setResetEmail] = useState("");
+  const [resetOtp, setResetOtp] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [forgotSubmitting, setForgotSubmitting] = useState(false);
+  const [forgotError, setForgotError] = useState<string | null>(null);
 
   const navigate = useNavigate();
   // -----------------------------------------
@@ -148,17 +187,25 @@ export function LoginModal({ open, onClose }: Props) {
 
   useEffect(() => {
     if (!open) {
-      setMethod("email");
-
+      setName("");
       setEmail("");
       setPassword("");
-
-      setPhone("");
-      setOtp("");
-      setOtpSent(false);
+      setShowPassword(false);
 
       setFormError(null);
+      setLoginNotice(null);
       setIsSubmitting(false);
+
+      setShowForgotPassword(false);
+      setForgotStep("email");
+      setResetEmail("");
+      setResetOtp("");
+      setNewPassword("");
+      setConfirmPassword("");
+      setShowNewPassword(false);
+      setShowConfirmPassword(false);
+      setForgotSubmitting(false);
+      setForgotError(null);
     }
   }, [open]);
 
@@ -185,7 +232,13 @@ export function LoginModal({ open, onClose }: Props) {
   const handleEmailAuth = async () => {
     setFormError(null);
 
+    const normalizedName = name.trim();
     const normalizedEmail = email.trim().toLowerCase();
+
+    if (!normalizedName) {
+      setFormError("Please enter your name.");
+      return;
+    }
 
     if (!normalizedEmail) {
       setFormError("Please enter your email address.");
@@ -206,6 +259,7 @@ export function LoginModal({ open, onClose }: Props) {
 
     try {
       const response = await apiService.call("emailAuth", {
+        name: normalizedName,
         email: normalizedEmail,
         password,
       });
@@ -226,11 +280,133 @@ export function LoginModal({ open, onClose }: Props) {
 
       onClose();
 
-      navigate(`/dashboard/${userId}`);
+      if (normalizedEmail === "admin@lawxygen.local") {
+        navigate("/admin");
+      } else {
+        navigate(`/dashboard/${userId}`);
+      }
     } catch (error) {
       setFormError(extractErrorMessage(error));
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  // -----------------------------------------
+  // Forgot password
+  // -----------------------------------------
+
+  const openForgotPassword = () => {
+    setShowForgotPassword(true);
+    setForgotStep("email");
+    setResetEmail(email.trim());
+    setResetOtp("");
+    setNewPassword("");
+    setConfirmPassword("");
+    setShowNewPassword(false);
+    setShowConfirmPassword(false);
+    setForgotError(null);
+  };
+
+  const backToLogin = () => {
+    setShowForgotPassword(false);
+    setForgotStep("email");
+    setForgotError(null);
+  };
+
+  const handleRequestResetOtp = async () => {
+    setForgotError(null);
+
+    const normalizedEmail = resetEmail.trim().toLowerCase();
+
+    if (!normalizedEmail) {
+      setForgotError("Please enter your email address.");
+      return;
+    }
+
+    setForgotSubmitting(true);
+
+    try {
+      await apiService.call("forgotPassword", { email: normalizedEmail });
+
+      setResetEmail(normalizedEmail);
+      setForgotStep("otp");
+    } catch (error) {
+      setForgotError(extractErrorMessage(error));
+    } finally {
+      setForgotSubmitting(false);
+    }
+  };
+
+  const handleVerifyResetOtp = async () => {
+    setForgotError(null);
+
+    if (!resetOtp) {
+      setForgotError("Please enter the OTP.");
+      return;
+    }
+
+    if (!/^\d{6}$/.test(resetOtp)) {
+      setForgotError("Please enter a valid 6-digit OTP.");
+      return;
+    }
+
+    setForgotSubmitting(true);
+
+    try {
+      await apiService.call("verifyResetOtp", {
+        email: resetEmail,
+        otp: resetOtp,
+      });
+
+      setForgotStep("reset");
+    } catch (error) {
+      window.alert(
+        "Verification failed. Try again — the OTP you entered was not correct."
+      );
+      setForgotStep("email");
+      setResetOtp("");
+    } finally {
+      setForgotSubmitting(false);
+    }
+  };
+
+  const handleResetPassword = async () => {
+    setForgotError(null);
+
+    if (!newPassword || !confirmPassword) {
+      setForgotError("Please enter and confirm your new password.");
+      return;
+    }
+
+    if (newPassword.length < 8) {
+      setForgotError("Password must be at least 8 characters.");
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      setForgotError("Passwords do not match.");
+      return;
+    }
+
+    setForgotSubmitting(true);
+
+    try {
+      await apiService.call("resetPassword", {
+        email: resetEmail,
+        otp: resetOtp,
+        newPassword,
+      });
+
+      setEmail(resetEmail);
+      setPassword("");
+      setLoginNotice("Password reset. Please log in with your new password.");
+      setShowForgotPassword(false);
+      setForgotStep("email");
+    } catch (error) {
+      setForgotError(extractErrorMessage(error));
+    } finally {
+      setForgotSubmitting(false);
     }
   };
 
@@ -297,125 +473,12 @@ export function LoginModal({ open, onClose }: Props) {
 };
 
   // -----------------------------------------
-  // Send phone OTP
-  // -----------------------------------------
-
-  const handleSendOtp = async () => {
-    setFormError(null);
-
-    const normalizedPhone = phone.replace(/\D/g, "");
-
-    if (!normalizedPhone) {
-      setFormError("Please enter your mobile number.");
-      return;
-    }
-
-    if (normalizedPhone.length !== 10) {
-      setFormError("Please enter a valid 10-digit mobile number.");
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    try {
-      await apiService.call("sendPhoneOtp", {
-        phone: normalizedPhone,
-      });
-
-      setOtpSent(true);
-    } catch (error) {
-      setFormError(extractErrorMessage(error));
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  // -----------------------------------------
-  // Verify phone OTP
-  //
-  // Backend decides:
-  // existing phone -> login
-  // new phone      -> create account
-  // -----------------------------------------
-
-  const handleVerifyOtp = async () => {
-    setFormError(null);
-
-    if (!otp) {
-      setFormError("Please enter the OTP.");
-      return;
-    }
-
-    if (!/^\d{6}$/.test(otp)) {
-      setFormError("Please enter a valid 6-digit OTP.");
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    try {
-      const normalizedPhone = phone.replace(/\D/g, "");
-
-      const response = await apiService.call("verifyPhoneOtp", {
-        phone: normalizedPhone,
-        otp,
-      });
-
-      console.log("Phone authentication successful:", response.data);
-
-      // response.data.isNewUser tells you whether
-      // this was a newly created account.
-
-      const userId = response.data.user._id;
-
-      Cookies.set("userId", userId, {
-        expires: 7,
-        sameSite: "lax",
-        secure: import.meta.env.PROD,
-      });
-
-      onClose();
-
-      navigate(`/dashboard/${userId}`);
-    } catch (error) {
-      setFormError(extractErrorMessage(error));
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  // -----------------------------------------
   // Form submit
   // -----------------------------------------
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    if (method === "email") {
-      await handleEmailAuth();
-      return;
-    }
-
-    if (!otpSent) {
-      await handleSendOtp();
-      return;
-    }
-
-    await handleVerifyOtp();
-  };
-
-  // -----------------------------------------
-  // Switch authentication method
-  // -----------------------------------------
-
-  const switchMethod = (nextMethod: LoginMethod) => {
-    setMethod(nextMethod);
-    setFormError(null);
-
-    if (nextMethod === "email") {
-      setOtpSent(false);
-      setOtp("");
-    }
+    await handleEmailAuth();
   };
 
   if (!open) {
@@ -466,17 +529,49 @@ export function LoginModal({ open, onClose }: Props) {
         </div>
 
         {/* Heading */}
-        <div className="lawx-auth-title-block">
-          <span>SECURE CLIENT ACCESS</span>
+        {showForgotPassword ? (
+          <div className="lawx-auth-title-block">
+            <span>ACCOUNT RECOVERY</span>
 
-          <h2 id="lawx-login-title">Log in or sign up</h2>
+            {forgotStep === "email" && (
+              <>
+                <h2 id="lawx-login-title">Reset your password</h2>
+                <p>
+                  Enter the email linked to your account and we&rsquo;ll send you a one-time code.
+                </p>
+              </>
+            )}
 
-          <p>
-            Access consultations, appointments and your LAWXYGEN client account.
-          </p>
-        </div>
+            {forgotStep === "otp" && (
+              <>
+                <h2 id="lawx-login-title">Enter the OTP</h2>
+                <p>
+                  OTP sent to <b>{resetEmail}</b>. It&rsquo;s valid for 10 minutes.
+                </p>
+              </>
+            )}
+
+            {forgotStep === "reset" && (
+              <>
+                <h2 id="lawx-login-title">Set a new password</h2>
+                <p>Choose a new password for {resetEmail}.</p>
+              </>
+            )}
+          </div>
+        ) : (
+          <div className="lawx-auth-title-block">
+            <span>SECURE CLIENT ACCESS</span>
+
+            <h2 id="lawx-login-title">Log in or sign up</h2>
+
+            <p>
+              Access consultations, appointments and your LAWXYGEN client account.
+            </p>
+          </div>
+        )}
 
         {/* Social Login */}
+        {!showForgotPassword && (
         <div className="lawx-auth-socials">
           {/* <button
             type="button"
@@ -490,6 +585,9 @@ export function LoginModal({ open, onClose }: Props) {
           </button> */}
 
           <GoogleLogin
+            shape="pill"
+            logo_alignment="center"
+            text="continue_with"
             onSuccess={async (credentialResponse) => {
               try {
                 setIsSubmitting(true);
@@ -537,161 +635,92 @@ export function LoginModal({ open, onClose }: Props) {
             <span>Continue with Facebook</span>
           </button>
         </div>
+        )}
 
         {/* Divider */}
+        {!showForgotPassword && (
         <div className="lawx-auth-divider">
           <span>OR</span>
         </div>
+        )}
 
-        {/* Email / Mobile tabs */}
-        <div className="lawx-auth-method" aria-label="Authentication method">
-          <button
-            type="button"
-            className={method === "email" ? "active" : ""}
-            onClick={() => switchMethod("email")}
-          >
-            Email
-          </button>
-
-          <button
-            type="button"
-            className={method === "mobile" ? "active" : ""}
-            onClick={() => switchMethod("mobile")}
-          >
-            Mobile + OTP
-          </button>
-        </div>
-
-        {/* Form */}
+        {/* Login form */}
+        {!showForgotPassword && (
         <form className="lawx-auth-form" onSubmit={submit}>
-          {method === "email" && (
-            <>
-              <label>
-                <span>Email address</span>
+          {loginNotice && <p className="lawx-auth-notice">{loginNotice}</p>}
 
-                <input
-                  type="email"
-                  placeholder="you@example.com"
-                  autoComplete="email"
-                  value={email}
-                  onChange={(event) => {
-                    setEmail(event.target.value);
-                    setFormError(null);
-                  }}
-                  required
-                />
-              </label>
+          <label>
+            <span>Full name</span>
 
-              <label>
-                <span>Password</span>
+            <input
+              type="text"
+              placeholder="Your full name"
+              autoComplete="name"
+              value={name}
+              onChange={(event) => {
+                setName(event.target.value);
+                setFormError(null);
+                setLoginNotice(null);
+              }}
+              required
+            />
+          </label>
 
-                <input
-                  type="password"
-                  placeholder="Enter your password"
-                  autoComplete="current-password"
-                  value={password}
-                  onChange={(event) => {
-                    setPassword(event.target.value);
-                    setFormError(null);
-                  }}
-                  required
-                />
-              </label>
+          <label>
+            <span>Email address</span>
 
-              <div className="lawx-auth-meta">
-                <label>
-                  <input type="checkbox" />
-                  <span>Remember me</span>
-                </label>
+            <input
+              type="email"
+              placeholder="you@example.com"
+              autoComplete="email"
+              value={email}
+              onChange={(event) => {
+                setEmail(event.target.value);
+                setFormError(null);
+                setLoginNotice(null);
+              }}
+              required
+            />
+          </label>
 
-                <button
-                  type="button"
-                  onClick={() => {
-                    // TODO: forgot password
-                  }}
-                >
-                  Forgot password?
-                </button>
-              </div>
-            </>
-          )}
+          <label>
+            <span>Password</span>
 
-          {/* ================================
-              MOBILE
-          ================================= */}
-          {method === "mobile" && (
-            <>
-              {!otpSent ? (
-                <label>
-                  <span>Mobile number</span>
+            <div className="lawx-auth-password-field">
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter your password"
+                autoComplete="current-password"
+                value={password}
+                onChange={(event) => {
+                  setPassword(event.target.value);
+                  setFormError(null);
+                }}
+                required
+              />
 
-                  <div className="lawx-auth-phone-field">
-                    <b>+91</b>
+              <button
+                type="button"
+                className="lawx-auth-password-toggle"
+                onClick={() => setShowPassword((value) => !value)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+                aria-pressed={showPassword}
+              >
+                <EyeIcon open={showPassword} />
+              </button>
+            </div>
+          </label>
 
-                    <input
-                      type="tel"
-                      placeholder="98765 43210"
-                      autoComplete="tel"
-                      value={phone}
-                      onChange={(event) => {
-                        const value = event.target.value
-                          .replace(/\D/g, "")
-                          .slice(0, 10);
+          <div className="lawx-auth-meta">
+            <label>
+              <input type="checkbox" />
+              <span>Remember me</span>
+            </label>
 
-                        setPhone(value);
-                        setFormError(null);
-                      }}
-                      required
-                    />
-                  </div>
-                </label>
-              ) : (
-                <>
-                  <label>
-                    <span>Mobile number</span>
-
-                    <div className="lawx-auth-phone-field">
-                      <b>+91</b>
-
-                      <input type="tel" value={phone} disabled />
-                    </div>
-                  </label>
-
-                  <label>
-                    <span>Enter 6-digit OTP</span>
-
-                    <input
-                      type="text"
-                      inputMode="numeric"
-                      maxLength={6}
-                      placeholder="• • • • • •"
-                      autoComplete="one-time-code"
-                      className="lawx-auth-otp"
-                      value={otp}
-                      onChange={(event) => {
-                        const value = event.target.value
-                          .replace(/\D/g, "")
-                          .slice(0, 6);
-
-                        setOtp(value);
-                        setFormError(null);
-                      }}
-                      required
-                    />
-                  </label>
-
-                  <button
-                    type="button"
-                    className="lawx-auth-resend"
-                    onClick={handleSendOtp}
-                    disabled={isSubmitting}
-                  >
-                    Resend OTP
-                  </button>
-                </>
-              )}
-            </>
-          )}
+            <button type="button" onClick={openForgotPassword}>
+              Forgot password?
+            </button>
+          </div>
 
           {/* Error */}
           {formError && <p className="lawx-auth-error">{formError}</p>}
@@ -702,23 +731,179 @@ export function LoginModal({ open, onClose }: Props) {
             className="lawx-auth-submit"
             disabled={isSubmitting}
           >
-            {isSubmitting
-              ? method === "mobile"
-                ? otpSent
-                  ? "Verifying…"
-                  : "Sending OTP…"
-                : "Please wait…"
-              : method === "mobile"
-                ? otpSent
-                  ? "Verify OTP"
-                  : "Send OTP"
-                : "Continue"}
+            {isSubmitting ? "Please wait…" : "Continue"}
 
             <span>→</span>
           </button>
         </form>
+        )}
+
+        {/* Forgot password: step 1 — request OTP */}
+        {showForgotPassword && forgotStep === "email" && (
+          <form
+            className="lawx-auth-form"
+            onSubmit={(event) => {
+              event.preventDefault();
+              handleRequestResetOtp();
+            }}
+          >
+            <label>
+              <span>Email address</span>
+
+              <input
+                type="email"
+                placeholder="you@example.com"
+                autoComplete="email"
+                value={resetEmail}
+                onChange={(event) => {
+                  setResetEmail(event.target.value);
+                  setForgotError(null);
+                }}
+                required
+              />
+            </label>
+
+            {forgotError && <p className="lawx-auth-error">{forgotError}</p>}
+
+            <button type="submit" className="lawx-auth-submit" disabled={forgotSubmitting}>
+              {forgotSubmitting ? "Sending…" : "Send OTP"}
+              <span>→</span>
+            </button>
+
+            <button type="button" className="lawx-auth-back" onClick={backToLogin}>
+              ← Back to log in
+            </button>
+          </form>
+        )}
+
+        {/* Forgot password: step 2 — verify OTP */}
+        {showForgotPassword && forgotStep === "otp" && (
+          <form
+            className="lawx-auth-form"
+            onSubmit={(event) => {
+              event.preventDefault();
+              handleVerifyResetOtp();
+            }}
+          >
+            <label>
+              <span>Enter 6-digit OTP</span>
+
+              <input
+                type="text"
+                inputMode="numeric"
+                maxLength={6}
+                placeholder="• • • • • •"
+                autoComplete="one-time-code"
+                className="lawx-auth-otp"
+                value={resetOtp}
+                onChange={(event) => {
+                  const value = event.target.value.replace(/\D/g, "").slice(0, 6);
+                  setResetOtp(value);
+                  setForgotError(null);
+                }}
+                required
+              />
+            </label>
+
+            {forgotError && <p className="lawx-auth-error">{forgotError}</p>}
+
+            <button type="submit" className="lawx-auth-submit" disabled={forgotSubmitting}>
+              {forgotSubmitting ? "Verifying…" : "Verify"}
+              <span>→</span>
+            </button>
+
+            <div className="lawx-auth-meta">
+              <button type="button" onClick={handleRequestResetOtp} disabled={forgotSubmitting}>
+                Resend OTP
+              </button>
+
+              <button type="button" onClick={backToLogin}>
+                ← Back to log in
+              </button>
+            </div>
+          </form>
+        )}
+
+        {/* Forgot password: step 3 — set new password */}
+        {showForgotPassword && forgotStep === "reset" && (
+          <form
+            className="lawx-auth-form"
+            onSubmit={(event) => {
+              event.preventDefault();
+              handleResetPassword();
+            }}
+          >
+            <label>
+              <span>New password</span>
+
+              <div className="lawx-auth-password-field">
+                <input
+                  type={showNewPassword ? "text" : "password"}
+                  placeholder="At least 8 characters"
+                  autoComplete="new-password"
+                  value={newPassword}
+                  onChange={(event) => {
+                    setNewPassword(event.target.value);
+                    setForgotError(null);
+                  }}
+                  required
+                />
+
+                <button
+                  type="button"
+                  className="lawx-auth-password-toggle"
+                  onClick={() => setShowNewPassword((value) => !value)}
+                  aria-label={showNewPassword ? "Hide password" : "Show password"}
+                  aria-pressed={showNewPassword}
+                >
+                  <EyeIcon open={showNewPassword} />
+                </button>
+              </div>
+            </label>
+
+            <label>
+              <span>Confirm new password</span>
+
+              <div className="lawx-auth-password-field">
+                <input
+                  type={showConfirmPassword ? "text" : "password"}
+                  placeholder="Re-enter your new password"
+                  autoComplete="new-password"
+                  value={confirmPassword}
+                  onChange={(event) => {
+                    setConfirmPassword(event.target.value);
+                    setForgotError(null);
+                  }}
+                  required
+                />
+
+                <button
+                  type="button"
+                  className="lawx-auth-password-toggle"
+                  onClick={() => setShowConfirmPassword((value) => !value)}
+                  aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                  aria-pressed={showConfirmPassword}
+                >
+                  <EyeIcon open={showConfirmPassword} />
+                </button>
+              </div>
+            </label>
+
+            {forgotError && <p className="lawx-auth-error">{forgotError}</p>}
+
+            <button type="submit" className="lawx-auth-submit" disabled={forgotSubmitting}>
+              {forgotSubmitting ? "Saving…" : "Reset password"}
+              <span>→</span>
+            </button>
+
+            <button type="button" className="lawx-auth-back" onClick={backToLogin}>
+              ← Back to log in
+            </button>
+          </form>
+        )}
 
         {/* Consent */}
+        {!showForgotPassword && (
         <label className="lawx-auth-consent">
           <input type="checkbox" defaultChecked />
 
@@ -727,6 +912,7 @@ export function LoginModal({ open, onClose }: Props) {
             <button type="button">Privacy Policy</button>
           </span>
         </label>
+        )}
       </section>
     </>
   );

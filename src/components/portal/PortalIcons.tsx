@@ -23,7 +23,13 @@ export type PortalIconName =
   | "activity"
   | "plus"
   | "menu"
-  | "logout";
+  | "logout"
+  | "edit"
+  | "trash"
+  | "close"
+  | "eye"
+  | "eyeOff"
+  | "location";
 
 export function PortalIcon({ name, size = 18 }: { name: PortalIconName; size?: number }) {
   const common = {
@@ -86,6 +92,18 @@ export function PortalIcon({ name, size = 18 }: { name: PortalIconName; size?: n
       return <svg {...common}><path d="M4 7h16M4 12h16M4 17h16"/></svg>;
     case "logout":
       return <svg {...common}><path d="M10 5H5v14h5M14 8l4 4-4 4M8 12h10"/></svg>;
+    case "edit":
+      return <svg {...common}><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>;
+    case "trash":
+      return <svg {...common}><path d="M4 7h16"/><path d="M9 7V4h6v3M6 7l1 13h10l1-13"/><path d="M10 11v6M14 11v6"/></svg>;
+    case "close":
+      return <svg {...common}><path d="M6 6l12 12M18 6 6 18"/></svg>;
+    case "eye":
+      return <svg {...common}><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>;
+    case "eyeOff":
+      return <svg {...common}><path d="M3 3l18 18M10.6 10.6a3 3 0 0 0 4.24 4.24M6.5 6.7C4 8.3 2 12 2 12s3.6 7 10 7c1.8 0 3.4-.5 4.7-1.3M9.9 4.2A9.7 9.7 0 0 1 12 4c6.4 0 10 8 10 8a17 17 0 0 1-2.9 4.1"/></svg>;
+    case "location":
+      return <svg {...common}><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>;
     default:
       return null;
   }

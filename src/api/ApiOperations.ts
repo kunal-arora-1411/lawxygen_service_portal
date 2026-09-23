@@ -40,6 +40,21 @@ export const API_OPERATIONS = {
     method: HttpType.POST,
   },
 
+  forgotPassword: {
+    endpoint: "/api/client/auth/forgot-password",
+    method: HttpType.POST,
+  },
+
+  verifyResetOtp: {
+    endpoint: "/api/client/auth/verify-reset-otp",
+    method: HttpType.POST,
+  },
+
+  resetPassword: {
+    endpoint: "/api/client/auth/reset-password",
+    method: HttpType.POST,
+  },
+
   getCurrentUser: {
     endpoint: "/api/client/users/me",
     method: HttpType.GET,

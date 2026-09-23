@@ -211,35 +211,6 @@ html.lawx-auth-open body {
   font-weight: 650;
 }
 
-.lawx-auth-method {
-  padding: 3px;
-  border: 1px solid rgba(20, 66, 107, .10);
-  border-radius: 12px;
-  background: rgba(226, 239, 250, .68);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3px;
-}
-
-.lawx-auth-method button {
-  min-height: 35px;
-  padding: 0 9px;
-  border: 0;
-  border-radius: 9px;
-  background: transparent;
-  color: #7a8c9f;
-  font: inherit;
-  font-size: 10.5px;
-  font-weight: 650;
-  cursor: pointer;
-}
-
-.lawx-auth-method button.active {
-  background: rgba(255,255,255,.98);
-  color: #0b345d;
-  box-shadow: 0 5px 16px rgba(28, 75, 115, .07);
-}
-
 .lawx-auth-form {
   margin-top: 11px;
   display: grid;
@@ -282,39 +253,43 @@ html.lawx-auth-open body {
 
 .lawx-auth-form input::placeholder { color: #9caaba; }
 
-.lawx-auth-phone-field {
-  height: 43px;
-  border: 1px solid rgba(22, 72, 114, .13);
-  border-radius: 11px;
-  background: rgba(255,255,255,.82);
-  display: grid;
-  grid-template-columns: 52px 1fr;
-  align-items: center;
-  overflow: hidden;
+.lawx-auth-form input:disabled {
+  background: rgba(241, 247, 251, .7);
+  color: #7c8ea1;
+  cursor: not-allowed;
 }
 
-.lawx-auth-phone-field b {
-  height: 100%;
-  border-right: 1px solid rgba(22, 72, 114, .09);
-  color: #315979;
+.lawx-auth-password-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.lawx-auth-password-field input[type="password"],
+.lawx-auth-password-field input[type="text"] {
+  padding-right: 42px;
+}
+
+.lawx-auth-password-toggle {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #7c8ea1;
   display: grid;
   place-items: center;
-  font-size: 10.5px;
-  font-weight: 680;
+  cursor: pointer;
+  transition: color .16s ease, background .16s ease;
 }
 
-.lawx-auth-phone-field input[type="tel"] {
-  height: 41px;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none !important;
-}
-
-.lawx-auth-otp {
-  letter-spacing: .3em;
-  text-align: center;
-  font-size: 13px !important;
+.lawx-auth-password-toggle:hover {
+  color: #2d6cc2;
+  background: rgba(45, 124, 210, .08);
 }
 
 .lawx-auth-meta {
@@ -331,6 +306,36 @@ html.lawx-auth-open body {
   font-size: 10.5px;
   font-weight: 600;
 }
+
+.lawx-auth-notice {
+  margin: -2px 0 0;
+  padding: 8px 11px;
+  border-radius: 9px;
+  background: rgba(38, 178, 126, .09);
+  color: #1c9b6a;
+  font-size: 10px;
+  font-weight: 650;
+}
+
+.lawx-auth-otp {
+  letter-spacing: .3em;
+  text-align: center;
+  font-size: 13px !important;
+}
+
+.lawx-auth-back {
+  justify-self: start;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: #718398;
+  font: inherit;
+  font-size: 9.5px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.lawx-auth-back:hover { color: #3478bd; }
 
 .lawx-auth-meta label {
   display: flex;
@@ -415,7 +420,6 @@ html.lawx-auth-open body {
   .lawx-auth-title-block h2 { font-size: 28px; }
   .lawx-auth-title-block p { font-size: 10px; }
   .lawx-auth-social-button { min-height: 42px; font-size: 11.5px; }
-  .lawx-auth-method button { min-height: 34px; }
   .lawx-auth-form input[type="email"],
   .lawx-auth-form input[type="tel"],
   .lawx-auth-form input[type="text"],
@@ -435,7 +439,6 @@ html.lawx-auth-open body {
   .lawx-auth-socials { margin-top: 11px; gap: 6px; }
   .lawx-auth-social-button { min-height: 38px; }
   .lawx-auth-divider { margin: 9px 0 8px; }
-  .lawx-auth-method button { min-height: 31px; }
   .lawx-auth-form { margin-top: 8px; gap: 7px; }
   .lawx-auth-form input[type="email"],
   .lawx-auth-form input[type="tel"],

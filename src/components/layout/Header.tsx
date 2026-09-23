@@ -1,7 +1,11 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ServiceMegaMenu } from "./ServiceMegaMenu";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import apiService from "@/api/ApiService";
 import { LoginModal } from "@/components/auth/LoginModal";
+import { AccountSettingsModal } from "@/components/auth/AccountSettingsModal";
+import { PortalIcon } from "@/components/portal/PortalIcons";
 import { useUserId } from "@/hooks/useUserId";
 
 type MobileIconName =
@@ -86,22 +90,102 @@ function MobileIcon({ name }: { name: MobileIconName }) {
   );
 }
 
-function ProfileIcon() {
+function getInitials(name?: string) {
+  const parts = (name ?? "").trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "U";
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+
+type MinimalUser = { name?: string; email?: string } | null;
+
+function ProfileMenu({
+  currentUser,
+  onOpenSettings,
+  onLogout,
+  className,
+  compact = false,
+}: {
+  currentUser: MinimalUser;
+  onOpenSettings: () => void;
+  onLogout: () => void;
+  className?: string;
+  compact?: boolean;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const onClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", onClickOutside);
+    return () => document.removeEventListener("mousedown", onClickOutside);
+  }, [open]);
+
   return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <circle cx="12" cy="8" r="4" />
-      <path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6" />
-    </svg>
+    <div className={`lawx-final-profile-menu ${className ?? ""}`} ref={ref}>
+      <button
+        type="button"
+        className={`lawx-final-profile-button ${compact ? "lawx-final-profile-button-compact" : ""}`}
+        aria-label="Account menu"
+        aria-haspopup="menu"
+        aria-expanded={open}
+        onClick={() => setOpen((value) => !value)}
+      >
+        <span className="lawx-final-profile-avatar">{getInitials(currentUser?.name)}</span>
+
+        {!compact && (
+          <>
+            <span className="lawx-final-profile-text">
+              <strong>{currentUser?.name || "My account"}</strong>
+              <small>LAWXYGEN client</small>
+            </span>
+            <span className="lawx-final-profile-chevron">⌄</span>
+          </>
+        )}
+      </button>
+
+      {open && (
+        <div className="lawx-final-profile-dropdown" role="menu">
+          <div className="lawx-final-profile-dropdown-head">
+            <strong>{currentUser?.name || "My account"}</strong>
+            {currentUser?.email && <span>{currentUser.email}</span>}
+          </div>
+
+          <button
+            type="button"
+            role="menuitem"
+            className="lawx-final-profile-dropdown-item"
+            onClick={() => {
+              setOpen(false);
+              onOpenSettings();
+            }}
+          >
+            <PortalIcon name="settings" size={16} />
+            <span>Settings</span>
+          </button>
+
+          <button
+            type="button"
+            role="menuitem"
+            className="lawx-final-profile-dropdown-item lawx-final-profile-logout"
+            onClick={() => {
+              setOpen(false);
+              onLogout();
+            }}
+          >
+            <PortalIcon name="logout" size={16} />
+            <span>Log out</span>
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -129,7 +213,34 @@ export function Header() {
   const [serviceQuery, setServiceQuery] = useState("");
   const [scrolled, setScrolled] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState<MinimalUser>(null);
   const userId = useUserId();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!userId) {
+      setCurrentUser(null);
+      return;
+    }
+
+    apiService
+      .call("getCurrentUser")
+      .then((response) => setCurrentUser(response.data?.user ?? response.data))
+      .catch((error) => console.error("Failed to load current user:", error));
+  }, [userId]);
+
+  const handleLogout = async () => {
+    try {
+      await apiService.call("logout");
+    } catch (error) {
+      console.error("Logout request failed:", error);
+    } finally {
+      Cookies.remove("userId");
+      setCurrentUser(null);
+      navigate("/");
+    }
+  };
 
   const closeServices = useCallback(() => {
     setServicesOpen(false);
@@ -202,13 +313,11 @@ export function Header() {
             </button>
 
             {userId ? (
-              <Link
-                to={`/dashboard/${userId}`}
-                className="lawx-final-login lawx-final-profile"
-                aria-label="My account"
-              >
-                <ProfileIcon />
-              </Link>
+              <ProfileMenu
+                currentUser={currentUser}
+                onOpenSettings={() => setSettingsOpen(true)}
+                onLogout={handleLogout}
+              />
             ) : (
               <button
                 type="button"
@@ -254,14 +363,19 @@ export function Header() {
           </a>
 
           {userId ? (
-            <Link
-              to={`/dashboard/${userId}`}
-              className="lawx-mobile-login lawx-final-profile"
-              aria-label="My account"
-              onClick={() => setMobileOpen(false)}
-            >
-              <ProfileIcon />
-            </Link>
+            <ProfileMenu
+              currentUser={currentUser}
+              className="lawx-mobile-profile-menu"
+              compact
+              onOpenSettings={() => {
+                setMobileOpen(false);
+                setSettingsOpen(true);
+              }}
+              onLogout={() => {
+                setMobileOpen(false);
+                handleLogout();
+              }}
+            />
           ) : (
             <button
               type="button"
@@ -369,6 +483,11 @@ export function Header() {
       <LoginModal
         open={loginOpen}
         onClose={() => setLoginOpen(false)}
+      />
+
+      <AccountSettingsModal
+        open={settingsOpen}
+        onClose={() => setSettingsOpen(false)}
       />
     </>
   );
