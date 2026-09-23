@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { useUserId } from "@/hooks/useUserId";
+import { useAuth } from "@/context/AuthContext";
 import { assignService } from "@/services/serviceApi";
 
 type Props = { data: any; styles: Record<string, string> };
@@ -245,8 +245,7 @@ function Section({
 }
 
 export function ServicePageTemplate({ data, styles }: Props) {
-  const userId = useUserId();
-  const isLoggedIn = Boolean(userId);
+  const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
   const [isAssigning, setIsAssigning] = useState(false);
 
@@ -257,7 +256,7 @@ export function ServicePageTemplate({ data, styles }: Props) {
     try {
       await assignService(data._id);
       window.alert("Service allotted to user");
-      navigate(`/dashboard/${userId}`);
+      navigate("/dashboard");
     } catch (error) {
       const message =
         (axios.isAxiosError(error) && error.response?.data?.message) ||
@@ -606,7 +605,7 @@ export function ServicePageTemplate({ data, styles }: Props) {
             <p>{data.summary}</p>
             <div className={styles.heroActions}>
               <Link
-                to={isLoggedIn ? `/dashboard/${userId}` : "/login"}
+                to={isLoggedIn ? "/dashboard" : "/login"}
                 className={styles.primary}
                 onClick={handleStartService}
                 aria-disabled={isAssigning}

@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
+import { Link } from "react-router-dom";
 import { PortalIcon } from "./PortalIcons";
 import { PortalEmptyState } from "./PortalEmptyState";
 import styles from "./PortalOverview.module.css";
-import apiService from "@/api/ApiService";
-import { useUserId } from "@/hooks/useUserId";
+import { useAuth } from "@/context/AuthContext";
 import { getServiceMatter, ServiceMatterRecord } from "@/services/serviceApi";
 import {
   getClientDashboardStats,
@@ -44,9 +42,9 @@ function activityIcon(type: DashboardActivityItem["type"]) {
 }
 
 export function UserDashboardOverview() {
-  const userId = useUserId();
-  const navigate = useNavigate();
-  const [currentUser, setCurrentUser] = useState<any>(null);
+  // ProtectedRoute has already confirmed the session before this renders, so
+  // the user is simply read from context rather than fetched again here.
+  const { user: currentUser } = useAuth();
 
   const [matters, setMatters] = useState<ServiceMatterRecord[] | null>(null);
   const [mattersUnavailable, setMattersUnavailable] = useState(false);
@@ -64,27 +62,6 @@ export function UserDashboardOverview() {
   const [activityUnavailable, setActivityUnavailable] = useState(false);
 
   useEffect(() => {
-    if (!userId) return;
-
-    apiService
-      .call("getCurrentUser")
-      .then((response) => setCurrentUser(response.data?.user ?? response.data))
-      .catch((error) => {
-        if (error?.response?.status === 401) {
-          // Stale/invalid session: the "userId" cookie doesn't match a real
-          // backend session, so drop it and send the visitor back to log in.
-          Cookies.remove("userId");
-          navigate("/");
-          return;
-        }
-
-        console.error("Failed to load current user:", error);
-      });
-  }, [userId, navigate]);
-
-  useEffect(() => {
-    if (!userId) return;
-
     getServiceMatter()
       .then((data) => setMatters(data ?? []))
       .catch((error) => {
@@ -130,7 +107,7 @@ export function UserDashboardOverview() {
         console.error("Failed to load recent activity:", error);
         setActivityUnavailable(true);
       });
-  }, [userId]);
+  }, []);
 
   const statCards = [
     {

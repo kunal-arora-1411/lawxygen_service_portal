@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 
 import { App } from "./App";
+import { AuthProvider } from "./context/AuthContext";
 
 import "./app/globals.css";
 import "./app/lawxygen-v3.css";
@@ -21,7 +22,9 @@ createRoot(document.getElementById("root")!).render(
   <GoogleOAuthProvider clientId={googleClientId}>
     <StrictMode>
       <BrowserRouter>
-        <App />
+        <AuthProvider>
+          <App />
+        </AuthProvider>
       </BrowserRouter>
     </StrictMode>
   </GoogleOAuthProvider>,

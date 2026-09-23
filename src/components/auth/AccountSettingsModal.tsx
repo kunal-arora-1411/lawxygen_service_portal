@@ -1,6 +1,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import apiService from "@/api/ApiService";
 import { updateCurrentUser, updateCurrentUserPassword } from "@/services/portalApi";
+import { useAuth } from "@/context/AuthContext";
 
 type Props = {
   open: boolean;
@@ -57,6 +58,7 @@ function formatDate(iso?: string) {
 }
 
 export function AccountSettingsModal({ open, onClose }: Props) {
+  const { refresh: refreshSession } = useAuth();
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<CurrentUser | null>(null);
   const [name, setName] = useState("");
@@ -133,6 +135,9 @@ export function AccountSettingsModal({ open, onClose }: Props) {
 
     try {
       await updateCurrentUser({ name: trimmedName, phone: phone.trim() || undefined });
+      // Keep the shared session copy in step, so the header and portal shell
+      // pick up the new name instead of showing the one loaded at boot.
+      await refreshSession();
       setNotice("Your details have been updated.");
     } catch (err: any) {
       setError(err?.response?.data?.message || "Couldn't save your changes. Please try again.");

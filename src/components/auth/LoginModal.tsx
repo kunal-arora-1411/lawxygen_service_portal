@@ -1,8 +1,8 @@
 import { FormEvent, useEffect, useState } from "react";
 import apiService from "@/api/ApiService";
 import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
 import { GoogleLogin } from "@react-oauth/google";
+import { useAuth } from "@/context/AuthContext";
 import { initializeFacebook } from "@/utils/facebook";
 
 type Props = {
@@ -125,6 +125,7 @@ export function LoginModal({ open, onClose }: Props) {
   const [forgotError, setForgotError] = useState<string | null>(null);
 
   const navigate = useNavigate();
+  const { setUser } = useAuth();
   // -----------------------------------------
   // Modal body scroll handling
   // -----------------------------------------
@@ -264,26 +265,17 @@ export function LoginModal({ open, onClose }: Props) {
         password,
       });
 
-      console.log("Authentication successful:", response.data);
-
-      // Get userId from backend response
-      const userId = response.data.user._id;
-
-      // Store userId in cookie
-      Cookies.set("userId", userId, {
-        expires: 7,
-        sameSite: "lax",
-        secure: import.meta.env.PROD,
-      });
-
-      console.log("User ID stored:", Cookies.get("userId"));
+      // The session itself is in the httpOnly cookies the backend just set;
+      // this only seeds the in-memory user so the UI doesn't need a second
+      // round trip to /me before it can render as logged in.
+      setUser(response.data.user);
 
       onClose();
 
       if (normalizedEmail === "admin@lawxygen.local") {
         navigate("/admin");
       } else {
-        navigate(`/dashboard/${userId}`);
+        navigate("/dashboard");
       }
     } catch (error) {
       setFormError(extractErrorMessage(error));
@@ -436,22 +428,11 @@ export function LoginModal({ open, onClose }: Props) {
             }
           );
 
-          console.log(
-            "Facebook authentication:",
-            result.data
-          );
-
-          const userId = result.data.user._id;
-
-          Cookies.set("userId", userId, {
-            expires: 7,
-            sameSite: "lax",
-            secure: import.meta.env.PROD,
-          });
+          setUser(result.data.user);
 
           onClose();
 
-          navigate(`/dashboard/${userId}`);
+          navigate("/dashboard");
         } catch (error) {
           setFormError(
             extractErrorMessage(error)
@@ -601,20 +582,11 @@ export function LoginModal({ open, onClose }: Props) {
                   credential: credentialResponse.credential,
                 });
 
-                console.log("Google authentication:", response.data);
-
-                const userId = response.data.user._id;
-
-                // If you're storing userId in your frontend cookie
-                Cookies.set("userId", userId, {
-                  expires: 7,
-                  sameSite: "lax",
-                  secure: import.meta.env.PROD,
-                });
+                setUser(response.data.user);
 
                 onClose();
 
-                navigate(`/dashboard/${userId}`);
+                navigate("/dashboard");
               } catch (error) {
                 setFormError(extractErrorMessage(error));
               } finally {

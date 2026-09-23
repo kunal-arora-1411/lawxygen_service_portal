@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { PortalShell } from "@/components/portal/PortalShell";
-import { UserIdSync } from "@/components/routing/UserIdSync";
+import { ProtectedRoute } from "@/components/routing/ProtectedRoute";
 
 type PageModule = { default: ComponentType };
 
@@ -17,32 +17,11 @@ function toRoutePath(filePath: string) {
   return withParams === "" ? "/" : withParams;
 }
 
-// Every page gets an optional trailing "/:userId" segment so that, once a
-// user logs in (see LoginModal), useParams().userId resolves on any route.
-function withUserIdSegment(path: string) {
-  return path === "/" ? "/:userId?" : `${path}/:userId?`;
-}
-
-// Service category listing pages ("/services/<category>") don't read a
-// userId param, and an optional trailing segment there would be ambiguous
-// with the dynamic "/services/:categorySlug/:slug" detail route (both can
-// match a 3-segment URL). Skip the suffix — and the resulting auto-redirect
-// — only for these, so the detail route is the sole match for a service URL.
-function isServiceCategoryListing(path: string) {
-  const segments = path.split("/").filter(Boolean);
-  return segments.length === 2 && segments[0] === "services";
-}
-
 const routes = Object.entries(pageModules)
-  .map(([filePath, mod]) => {
-    const basePath = toRoutePath(filePath);
-    const skipUserIdSync = isServiceCategoryListing(basePath);
-    return {
-      path: skipUserIdSync ? basePath : withUserIdSegment(basePath),
-      Component: mod.default,
-      skipUserIdSync,
-    };
-  })
+  .map(([filePath, mod]) => ({
+    path: toRoutePath(filePath),
+    Component: mod.default,
+  }))
   .filter((route) => Boolean(route.Component));
 
 function NotFound() {
@@ -61,21 +40,25 @@ export function App() {
     <>
       <SmoothScroll />
       <Routes>
-        {routes.map(({ path, Component, skipUserIdSync }) => {
-          const page =
+        {routes.map(({ path, Component }) => {
+          // /admin is deliberately left ungated here: admin sessions use a
+          // separate cookie/refresh pair (see adminApi) and the app has no
+          // admin login page to redirect to yet, so each admin view degrades
+          // to its own "Not available" state instead.
+          const element =
             path.startsWith("/admin") ? (
               <PortalShell mode="admin">
                 <Component />
               </PortalShell>
             ) : path.startsWith("/dashboard") ? (
-              <PortalShell mode="user">
-                <Component />
-              </PortalShell>
+              <ProtectedRoute>
+                <PortalShell mode="user">
+                  <Component />
+                </PortalShell>
+              </ProtectedRoute>
             ) : (
               <Component />
             );
-
-          const element = skipUserIdSync ? page : <UserIdSync>{page}</UserIdSync>;
 
           return <Route key={path} path={path} element={element} />;
         })}

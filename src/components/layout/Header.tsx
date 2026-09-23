@@ -1,12 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ServiceMegaMenu } from "./ServiceMegaMenu";
 import { Link, useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
-import apiService from "@/api/ApiService";
 import { LoginModal } from "@/components/auth/LoginModal";
 import { AccountSettingsModal } from "@/components/auth/AccountSettingsModal";
 import { PortalIcon } from "@/components/portal/PortalIcons";
-import { useUserId } from "@/hooks/useUserId";
+import { useAuth } from "@/context/AuthContext";
 
 type MobileIconName =
   | "services"
@@ -214,32 +212,12 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState<MinimalUser>(null);
-  const userId = useUserId();
+  const { user, isLoggedIn, logout } = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!userId) {
-      setCurrentUser(null);
-      return;
-    }
-
-    apiService
-      .call("getCurrentUser")
-      .then((response) => setCurrentUser(response.data?.user ?? response.data))
-      .catch((error) => console.error("Failed to load current user:", error));
-  }, [userId]);
-
   const handleLogout = async () => {
-    try {
-      await apiService.call("logout");
-    } catch (error) {
-      console.error("Logout request failed:", error);
-    } finally {
-      Cookies.remove("userId");
-      setCurrentUser(null);
-      navigate("/");
-    }
+    await logout();
+    navigate("/");
   };
 
   const closeServices = useCallback(() => {
@@ -312,9 +290,9 @@ export function Header() {
               <SearchIcon />
             </button>
 
-            {userId ? (
+            {isLoggedIn ? (
               <ProfileMenu
-                currentUser={currentUser}
+                currentUser={user}
                 onOpenSettings={() => setSettingsOpen(true)}
                 onLogout={handleLogout}
               />
@@ -362,9 +340,9 @@ export function Header() {
             />
           </a>
 
-          {userId ? (
+          {isLoggedIn ? (
             <ProfileMenu
-              currentUser={currentUser}
+              currentUser={user}
               className="lawx-mobile-profile-menu"
               compact
               onOpenSettings={() => {

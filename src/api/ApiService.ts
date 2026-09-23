@@ -3,7 +3,6 @@ import axios, {
   AxiosRequestConfig,
   AxiosResponse,
 } from "axios";
-import Cookies from "js-cookie";
 import {
   API_OPERATIONS,
   getApiOperation,
@@ -17,7 +16,17 @@ export interface ApiResponse<T = any> {
   success: boolean;
 }
 
-interface RetryableRequestConfig extends AxiosRequestConfig {
+export interface AppRequestConfig extends AxiosRequestConfig {
+  /**
+   * Opt this request out of the global "session expired -> send the visitor
+   * home" handling. Set it on calls whose 401 is a legitimate answer rather
+   * than a failure — most importantly the boot-time session probe in
+   * AuthContext, where a logged-out visitor is *supposed* to get a 401.
+   */
+  skipSessionExpiredRedirect?: boolean;
+}
+
+interface RetryableRequestConfig extends AppRequestConfig {
   _retry?: boolean;
 }
 
@@ -83,9 +92,9 @@ class ApiService {
       return;
     }
 
-    // The backend-issued auth cookies are gone/invalid; drop the client-side
-    // marker cookie too and send the visitor back to log in again.
-    Cookies.remove("userId");
+    // The backend-issued auth cookies are gone/invalid; send the visitor back
+    // to the public site so they can log in again. AuthContext re-probes the
+    // session on the next boot and will land on "unauthenticated".
     if (typeof window !== "undefined") {
       window.location.href = "/";
     }
@@ -125,7 +134,9 @@ class ApiService {
 
       return this.client(originalRequest);
     } catch (refreshError) {
-      this.handleSessionExpired(isAdminRequest);
+      if (!originalRequest.skipSessionExpiredRedirect) {
+        this.handleSessionExpired(isAdminRequest);
+      }
       return Promise.reject(error);
     }
   }
@@ -133,7 +144,7 @@ class ApiService {
   async call<T = any>(
     operationName: keyof typeof API_OPERATIONS,
     params: Record<string, any> = {},
-    config?: AxiosRequestConfig
+    config?: AppRequestConfig
   ): Promise<ApiResponse<T>> {
     const operation = getApiOperation(operationName);
 
@@ -151,7 +162,7 @@ class ApiService {
     method: string,
     endpoint: string,
     params: Record<string, any> = {},
-    config?: AxiosRequestConfig
+    config?: AppRequestConfig
   ): Promise<ApiResponse<T>> {
     let response: AxiosResponse<ApiResponse<T>>;
 

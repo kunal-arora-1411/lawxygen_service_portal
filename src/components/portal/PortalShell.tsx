@@ -1,8 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
-import Cookies from "js-cookie";
 import { PortalIcon, PortalIconName } from "./PortalIcons";
-import { useUserId } from "@/hooks/useUserId";
+import { useAuth } from "@/context/AuthContext";
 import { getServiceMatter } from "@/services/serviceApi";
 import { getAdminServiceMatterStats, getCurrentAdmin } from "@/services/adminApi";
 import apiService from "@/api/ApiService";
@@ -33,38 +32,26 @@ function isRouteActive(pathname: string, href: string) {
 export function PortalShell({ mode, children }: Props) {
   const pathname = useLocation().pathname;
   const navigate = useNavigate();
-  const userId = useUserId();
-  // Every route ends in an optional "/:userId" segment; strip it back off so
-  // active-state checks match against the page's base path.
-  const basePathname = userId && pathname.endsWith(`/${userId}`)
-    ? pathname.slice(0, -`/${userId}`.length) || "/"
-    : pathname;
-  const withUserId = (href: string) => (userId ? `${href}/${userId}` : href);
+  const { user, logout } = useAuth();
   const [mobileNav, setMobileNav] = useState(false);
   const [activeServicesCount, setActiveServicesCount] = useState<number | null>(null);
   const [unassignedRequestsCount, setUnassignedRequestsCount] = useState<number | null>(null);
-  const [currentAccount, setCurrentAccount] = useState<CurrentAccount>(null);
+  const [adminAccount, setAdminAccount] = useState<CurrentAccount>(null);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const profileMenuRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (mode === "user") {
-      if (!userId) {
-        setCurrentAccount(null);
-        return;
-      }
+  // Client sessions already live in AuthContext; only the admin portal needs
+  // its own lookup, since it authenticates against a separate cookie pair.
+  const currentAccount: CurrentAccount = mode === "admin" ? adminAccount : user;
 
-      apiService
-        .call("getCurrentUser")
-        .then((response) => setCurrentAccount(response.data?.user ?? response.data))
-        .catch((error) => console.error("Failed to load current user:", error));
-    } else {
-      getCurrentAdmin()
-        .then((admin) => setCurrentAccount(admin))
-        .catch((error) => console.error("Failed to load current admin:", error));
-    }
-  }, [mode, userId]);
+  useEffect(() => {
+    if (mode !== "admin") return;
+
+    getCurrentAdmin()
+      .then((admin) => setAdminAccount(admin))
+      .catch((error) => console.error("Failed to load current admin:", error));
+  }, [mode]);
 
   useEffect(() => {
     if (!profileMenuOpen) return;
@@ -82,24 +69,29 @@ export function PortalShell({ mode, children }: Props) {
   const handleLogout = async () => {
     setProfileMenuOpen(false);
 
-    try {
-      await apiService.call(mode === "admin" ? "adminLogout" : "logout");
-    } catch (error) {
-      console.error("Logout request failed:", error);
-    } finally {
-      Cookies.remove("userId");
-      setCurrentAccount(null);
-      navigate("/");
+    if (mode === "admin") {
+      try {
+        await apiService.call("adminLogout");
+      } catch (error) {
+        console.error("Logout request failed:", error);
+      } finally {
+        setAdminAccount(null);
+        navigate("/");
+      }
+      return;
     }
+
+    await logout();
+    navigate("/");
   };
 
   useEffect(() => {
-    if (mode !== "user" || !userId) return;
+    if (mode !== "user") return;
 
     getServiceMatter()
       .then((matters) => setActiveServicesCount(matters?.length ?? 0))
       .catch((error) => console.error("Failed to load services count:", error));
-  }, [mode, userId]);
+  }, [mode]);
 
   useEffect(() => {
     if (mode !== "admin") return;
@@ -141,8 +133,8 @@ export function PortalShell({ mode, children }: Props) {
   const profileLabel = mode === "admin" ? "Admin workspace" : "My account";
 
   const activeLabel = useMemo(
-    () => nav.find((item) => isRouteActive(basePathname, item.href))?.label ?? "Overview",
-    [nav, basePathname],
+    () => nav.find((item) => isRouteActive(pathname, item.href))?.label ?? "Overview",
+    [nav, pathname],
   );
 
   useEffect(() => {
@@ -171,9 +163,9 @@ export function PortalShell({ mode, children }: Props) {
 
         <nav className={styles.nav} aria-label={`${mode} portal navigation`}>
           {nav.map((item) => {
-            const active = isRouteActive(basePathname, item.href);
+            const active = isRouteActive(pathname, item.href);
             return (
-              <Link key={item.href} to={withUserId(item.href)} className={`${styles.navItem} ${active ? styles.navItemActive : ""}`}>
+              <Link key={item.href} to={item.href} className={`${styles.navItem} ${active ? styles.navItemActive : ""}`}>
                 <i><PortalIcon name={item.icon} /></i>
                 <span>{item.label}</span>
                 {item.badge ? <b>{item.badge}</b> : null}

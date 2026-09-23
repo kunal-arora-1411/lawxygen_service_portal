@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { PortalSectionPage } from "@/components/portal/PortalSectionPage";
-import { useUserId } from "@/hooks/useUserId";
 import { getServiceMatter, ServiceMatterRecord } from "@/services/serviceApi";
 import { formatStatusLabel, formatRelativeTime } from "@/utils/portalFormat";
 
@@ -12,20 +11,17 @@ function professionalId(professional: unknown): string | null {
 }
 
 export default function Page() {
-  const userId = useUserId();
   const [matters, setMatters] = useState<ServiceMatterRecord[] | null>(null);
   const [unavailable, setUnavailable] = useState(false);
 
   useEffect(() => {
-    if (!userId) return;
-
     getServiceMatter()
       .then((data) => setMatters(data ?? []))
       .catch((error) => {
         console.error("Failed to load service matters:", error);
         setUnavailable(true);
       });
-  }, [userId]);
+  }, []);
 
   const loaded = matters !== null;
   const needsAction = matters?.filter((matter) => matter.actionRequired) ?? [];

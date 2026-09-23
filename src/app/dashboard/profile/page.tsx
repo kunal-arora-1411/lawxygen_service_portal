@@ -1,7 +1,6 @@
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { PortalIcon, PortalIconName } from "@/components/portal/PortalIcons";
 import { PortalEmptyState } from "@/components/portal/PortalEmptyState";
-import { useUserId } from "@/hooks/useUserId";
 import {
   getCurrentUserProfile,
   updateCurrentUser,
@@ -192,8 +191,6 @@ function extractErrorMessage(error: any, fallback: string) {
 // =========================================================================
 
 export default function Page() {
-  const userId = useUserId();
-
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [loadFailed, setLoadFailed] = useState(false);
@@ -212,8 +209,6 @@ export default function Page() {
   const [showConfirm, setShowConfirm] = useState(false);
 
   useEffect(() => {
-    if (!userId) return;
-
     setLoading(true);
 
     getCurrentUserProfile()
@@ -226,7 +221,7 @@ export default function Page() {
         setLoadFailed(true);
       })
       .finally(() => setLoading(false));
-  }, [userId]);
+  }, []);
 
   // --- completion --------------------------------------------------------
 
